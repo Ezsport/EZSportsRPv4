@@ -1,0 +1,976 @@
+generator client {
+  provider        = "prisma-client-js"
+//  output          = "./generated/prisma"
+//  previewFeatures = ["fullTextSearchPostgres", "metrics"]
+//  binaryTargets   = ["native", "windows"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model BaseCompetition {
+  id          Decimal   @id(map: "base_competitions_pkey") @db.Decimal(20, 0)
+  name        String    @db.VarChar(100)
+  abbr        String?   @db.VarChar(100)
+  sportId     Decimal?  @db.Decimal(20, 0)
+  note        String?
+  status      String    @db.VarChar(255)
+  startDate   DateTime? @db.Date
+  endDate     DateTime? @db.Date
+  ord         Int?
+  createdAt   DateTime? @db.Timestamp(6)
+  updatedAt   DateTime? @updatedAt
+
+  @@index([sportId], map: "base_competitions_sport_id_foreign")
+}
+
+model BaseCountry {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  abbr      String?
+  code      String?
+  note      String?
+  isActive  Boolean  @default(true)
+  ord       Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BaseField {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  abbr      String?
+  note      String?
+  isActive  Boolean  @default(true)
+  sportIds  Int[]
+  countryId Int?
+  ord       Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BaseGroupLevel {
+  id         Decimal   @id(map: "base_group_levels_pkey") @db.Decimal(20, 0)
+  name       String    @db.VarChar(100)
+  abbr       String?   @db.VarChar(100)
+  note       String?
+  minAge     Int?
+  maxAge     Int?
+  skillLevel String?   @db.VarChar(100)
+  ord        Int?
+  createdAt  DateTime? @db.Timestamp(6)
+  updatedAt  DateTime? @updatedAt @db.Timestamp(6)
+}
+
+model BaseSport {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  abbr      String?
+  note      String?
+  isActive  Boolean  @default(true)
+  ord       Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @db.Timestamp(6)
+}
+
+model GameEvent {
+  id            Decimal   @id(map: "game_events_pkey") @db.Decimal(20, 0)
+  sportId       Decimal   @db.Decimal(20, 0)
+  competitionId Decimal?  @db.Decimal(20, 0)
+  eventDate     DateTime  @db.Date
+  venue         String?   @db.VarChar(100)
+  status        String    @db.VarChar(255)
+  createdAt     DateTime? @db.Timestamp(6)
+  updatedAt     DateTime? @updatedAt @db.Timestamp(6)
+
+  @@index([competitionId], map: "game_events_competition_id_foreign")
+  @@index([sportId], map: "game_events_sport_id_foreign")
+}
+
+model GameMatche {
+  id            Decimal   @id(map: "game_matches_pkey") @db.Decimal(20, 0)
+  eventId       Decimal   @db.Decimal(20, 0)
+  homeTeamId    Decimal   @db.Decimal(20, 0)
+  awayTeamId    Decimal   @db.Decimal(20, 0)
+  homeTeamScore Int?
+  awayTeamScore Int?
+  status        String    @db.VarChar(255)
+  createdAt     DateTime? @db.Timestamp(6)
+  updatedAt     DateTime? @updatedAt @db.Timestamp(6)
+
+  @@index([awayTeamId], map: "game_matches_away_team_id_foreign")
+  @@index([eventId], map: "game_matches_event_id_foreign")
+  @@index([homeTeamId], map: "game_matches_home_team_id_foreign")
+}
+
+model MatchEvent {
+  id          Decimal   @id(map: "match_events_pkey") @db.Decimal(20, 0)
+  matchId     Decimal   @db.Decimal(20, 0)
+  playerId    Decimal?  @db.Decimal(20, 0)
+  teamId      Decimal?  @db.Decimal(20, 0)
+  eventType   String    @db.VarChar(255)
+  minute      Int
+  second      Int
+  note        String?
+  eventData   String?
+  fieldX      Decimal?  @db.Decimal(5, 2)
+  fieldY      Decimal?  @db.Decimal(5, 2)
+  isConfirmed Int       @db.SmallInt
+  createdBy   Decimal?  @db.Decimal(20, 0)
+  notes       String?
+  ord         Int
+  createdAt   DateTime? @db.Timestamp(6)
+  updatedAt   DateTime? @db.Timestamp(6)
+
+  @@index([createdBy, createdAt], map: "match_events_created_by_created_at_index")
+  @@index([matchId, eventType], map: "match_events_match_id_event_type_index")
+  @@index([matchId, isConfirmed], map: "match_events_match_id_is_confirmed_index")
+  @@index([matchId, minute], map: "match_events_match_id_minute_index")
+  @@index([playerId, matchId], map: "match_events_player_id_match_id_index")
+  @@index([teamId, matchId], map: "match_events_team_id_match_id_index")
+}
+
+model MatchLineup {
+  id          Decimal   @id(map: "match_lineups_pkey") @db.Decimal(20, 0)
+  matchId     Decimal   @db.Decimal(20, 0)
+  teamId      Decimal   @db.Decimal(20, 0)
+  formation   String?   @db.VarChar(100)
+  lineupData  String?
+  announcedAt DateTime? @db.Timestamp(6)
+  isConfirmed Int       @db.SmallInt
+  createdBy   Decimal?  @db.Decimal(20, 0)
+  notes       String?
+  ord         Int
+  createdAt   DateTime? @db.Timestamp(6)
+  updatedAt   DateTime? @db.Timestamp(6)
+
+  @@unique([matchId, teamId], map: "match_lineups_match_id_team_id_unique")
+  @@index([createdBy, createdAt], map: "match_lineups_created_by_created_at_index")
+  @@index([formation], map: "match_lineups_formation_index")
+  @@index([matchId, isConfirmed], map: "match_lineups_match_id_is_confirmed_index")
+  @@index([teamId, matchId], map: "match_lineups_team_id_match_id_index")
+}
+
+model MatchMedia {
+  id          Decimal   @id(map: "match_media_pkey") @db.Decimal(20, 0)
+  matchId     Decimal   @db.Decimal(20, 0)
+  mediaType   String    @db.VarChar(255)
+  fileName    String    @db.VarChar(100)
+  filePath    String    @db.VarChar(100)
+  fileSize    BigInt?
+  mimeType    String?   @db.VarChar(100)
+  note        String?
+  category    String?   @db.VarChar(100)
+  isPublic    Int       @db.SmallInt
+  uploadedBy  Decimal?  @db.Decimal(20, 0)
+  uploadedAt  DateTime  @db.Timestamp(6)
+  notes       String?
+  ord         Int
+  createdAt   DateTime? @db.Timestamp(6)
+  updatedAt   DateTime? @db.Timestamp(6)
+
+  @@index([isPublic, uploadedAt], map: "match_media_is_public_uploaded_at_index")
+  @@index([matchId, category], map: "match_media_match_id_category_index")
+  @@index([matchId, mediaType], map: "match_media_match_id_media_type_index")
+  @@index([mediaType, isPublic], map: "match_media_media_type_is_public_index")
+  @@index([uploadedBy, uploadedAt], map: "match_media_uploaded_by_uploaded_at_index")
+}
+
+model MatchRoster {
+  id                    Decimal   @id(map: "match_roster_pkey") @db.Decimal(20, 0)
+  matchId               Decimal   @db.Decimal(20, 0)
+  playerId              Decimal   @db.Decimal(20, 0)
+  teamId                Decimal   @db.Decimal(20, 0)
+  isStarting            Int       @db.SmallInt
+  isSubstitute          Int       @db.SmallInt
+  position              String?   @db.VarChar(100)
+  jerseyNumber          String?   @db.VarChar(100)
+  substitutionInMinute  Int?
+  substitutionOutMinute Int?
+  substitutionReason    String?   @db.VarChar(255)
+  minutesPlayed         Int?
+  status                String    @db.VarChar(255)
+  notes                 String?
+  ord                   Int
+  createdAt             DateTime? @db.Timestamp(6)
+  updatedAt             DateTime? @db.Timestamp(6)
+
+  @@unique([matchId, playerId], map: "match_roster_match_id_player_id_unique")
+  @@index([matchId, isStarting], map: "match_roster_match_id_is_starting_index")
+  @@index([matchId, isSubstitute], map: "match_roster_match_id_is_substitute_index")
+  @@index([matchId, teamId], map: "match_roster_match_id_team_id_index")
+  @@index([playerId, matchId], map: "match_roster_player_id_match_id_index")
+  @@index([teamId, matchId, status], map: "match_roster_team_id_match_id_status_index")
+}
+
+model MatchStatistic {
+  id              Decimal   @id(map: "match_statistics_pkey") @db.Decimal(20, 0)
+  matchId         Decimal   @db.Decimal(20, 0)
+  playerId        Decimal   @db.Decimal(20, 0)
+  teamId          Decimal   @db.Decimal(20, 0)
+  minutesPlayed   Int
+  goals           Int
+  assists         Int
+  shots           Int
+  shots_on_target Int
+  passes          Int
+  passesCompleted Int
+  passAccuracy    Decimal   @db.Decimal(5, 2)
+  tackles         Int
+  interceptions   Int
+  clearances      Int
+  blocks          Int
+  yellowCards     Int
+  redCards        Int
+  foulsCommitted  Int
+  foulsWon        Int
+  saves           Int
+  goalsConceded   Int
+  cleanSheets     Int
+  rating          Decimal?  @db.Decimal(3, 1)
+  notes           String?
+  ord             Int
+  createdAt       DateTime? @db.Timestamp(6)
+  updatedAt       DateTime? @db.Timestamp(6)
+
+  @@unique([matchId, playerId], map: "match_statistics_match_id_player_id_unique")
+  @@index([goals, assists], map: "match_statistics_goals_assists_index")
+  @@index([matchId, teamId], map: "match_statistics_match_id_team_id_index")
+  @@index([playerId, matchId], map: "match_statistics_player_id_match_id_index")
+  @@index([rating], map: "match_statistics_rating_index")
+  @@index([teamId, matchId], map: "match_statistics_team_id_match_id_index")
+}
+
+model MemberClubAdmin {
+  id                    Decimal   @id(map: "member_club_admins_pkey") @db.Decimal(20, 0)
+  personId              Decimal   @db.Decimal(20, 0)
+  clubId                Decimal   @db.Decimal(20, 0)
+  emergencyContactName  String?   @db.VarChar(100)
+  emergencyContactPhone String?   @db.VarChar(100)
+  status                String    @db.VarChar(255)
+  bio                   String?
+  ord                   Int
+  createdAt             DateTime? @db.Timestamp(6)
+  updatedAt             DateTime? @db.Timestamp(6)
+
+  @@index([status], map: "member_club_admins_admin_role_status_index")
+  @@index([clubId], map: "member_club_admins_club_id_admin_role_index")
+  @@index([ord], map: "member_club_admins_ord_index")
+  @@index([personId], map: "member_club_admins_person_id_index")
+}
+
+model MemberCoache {
+  id                    Decimal   @id(map: "member_coaches_pkey") @db.Decimal(20, 0)
+  personId              Decimal   @db.Decimal(20, 0)
+  licenseNumber         String?   @db.VarChar(100)
+  certification         String?   @db.VarChar(100)
+  specialization        String?   @db.VarChar(100)
+  emergencyContactName  String?   @db.VarChar(100)
+  emergencyContactPhone String?   @db.VarChar(100)
+  status                String    @db.VarChar(255)
+  bio                   String?
+  ord                   Int?
+  createdAt             DateTime? @db.Timestamp(6)
+  updatedAt             DateTime? @db.Timestamp(6)
+
+  @@index([personId], map: "member_coaches_person_id_foreign")
+}
+
+model MemberParent {
+  id        Decimal   @id(map: "member_parents_pkey") @db.Decimal(20, 0)
+  personId  Decimal   @db.Decimal(20, 0)
+  status    String    @db.VarChar(255)
+  notes     String?
+  ord       Int
+  createdAt DateTime? @db.Timestamp(6)
+  updatedAt DateTime? @db.Timestamp(6)
+
+  @@index([ord], map: "member_parents_ord_index")
+  @@index([personId], map: "member_parents_person_id_index")
+}
+
+model MemberPerson {
+  id        Decimal   @id(map: "member_persons_pkey") @db.Decimal(20, 0)
+  firstName String    @db.VarChar(100)
+  lastName  String    @db.VarChar(100)
+  email     String?   @unique(map: "member_persons_email_unique") @db.VarChar(100)
+  phone     String?   @db.VarChar(100)
+  dob       DateTime? @db.Date
+  gender    String?   @db.VarChar(255)
+  address   String?   @db.VarChar(100)
+  city      String?   @db.VarChar(100)
+  state     String?   @db.VarChar(100)
+  zipCode   String?   @db.VarChar(100)
+  countryId Decimal?  @db.Decimal(20, 0)
+  photoPath String?   @db.VarChar(100)
+  status    String    @db.VarChar(255)
+  createdAt DateTime? @db.Timestamp(6)
+  updatedAt DateTime? @db.Timestamp(6)
+
+  @@index([countryId], map: "member_persons_country_id_foreign")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model MemberPlayer {
+  id                    Decimal   @id(map: "member_players_pkey") @db.Decimal(20, 0)
+  personId              Decimal   @db.Decimal(20, 0)
+  height                Decimal?  @db.Decimal(5, 2)
+  weight                Decimal?  @db.Decimal(5, 2)
+  preferredFoot         String?   @db.VarChar(255)
+  contractStart         DateTime? @db.Date
+  contractEnd           DateTime? @db.Date
+  emergencyContactName  String?   @db.VarChar(100)
+  emergencyContactPhone String?   @db.VarChar(100)
+  status                String    @db.VarChar(255)
+  bio                   String?
+  ord                   Int
+  createdAt             DateTime? @db.Timestamp(6)
+  updatedAt             DateTime? @db.Timestamp(6)
+
+  @@index([status], map: "member_players_base_sport_id_status_index")
+  @@index([ord], map: "member_players_ord_index")
+  @@index([personId], map: "member_players_person_id_index")
+}
+
+model MemberReferee {
+  id                    Decimal   @id(map: "member_referees_pkey") @db.Decimal(20, 0)
+  personId              Decimal   @db.Decimal(20, 0)
+  licenseNumber         String    @unique(map: "member_referees_license_number_unique") @db.VarChar(100)
+  licenseLevel          String?   @db.VarChar(100)
+  certification         String?   @db.VarChar(100)
+  refereeType           String    @db.VarChar(255)
+  specialization        String?   @db.VarChar(100)
+  languages             String?
+  matchFee              Decimal?  @db.Decimal(8, 2)
+  emergencyContactName  String?   @db.VarChar(100)
+  emergencyContactPhone String?   @db.VarChar(100)
+  status                String    @db.VarChar(255)
+  bio                   String?
+  ord                   Int
+  createdAt             DateTime? @db.Timestamp(6)
+  updatedAt             DateTime? @db.Timestamp(6)
+
+  @@index([licenseNumber], map: "member_referees_license_number_index")
+  @@index([ord], map: "member_referees_ord_index")
+  @@index([personId], map: "member_referees_person_id_index")
+  @@index([refereeType, status], map: "member_referees_referee_type_status_index")
+}
+
+model MemberSponsor {
+  id                Decimal   @id(map: "member_sponsors_pkey") @db.Decimal(20, 0)
+  companyName       String    @db.VarChar(100)
+  contactPerson     String?   @db.VarChar(100)
+  email             String?   @db.VarChar(100)
+  phone             String?   @db.VarChar(100)
+  website           String?   @db.VarChar(100)
+  sponsorLevel      String?   @db.VarChar(100)
+  sponsorshipAmount Decimal?  @db.Decimal(10, 2)
+  contractStart     DateTime? @db.Date
+  contractEnd       DateTime? @db.Date
+  benefits          String?
+  logoPath          String?   @db.VarChar(100)
+  status            String    @db.VarChar(255)
+  notes             String?
+  ord               Int
+  createdAt         DateTime? @db.Timestamp(6)
+  updatedAt         DateTime? @db.Timestamp(6)
+
+  @@index([contractStart, contractEnd], map: "member_sponsors_contract_start_contract_end_index")
+  @@index([ord], map: "member_sponsors_ord_index")
+  @@index([sponsorLevel, status], map: "member_sponsors_sponsor_level_status_index")
+}
+
+model MemberTeamManager {
+  id                    Decimal   @id(map: "member_team_managers_pkey") @db.Decimal(20, 0)
+  personId              Decimal   @db.Decimal(20, 0)
+  appointedDate         DateTime? @db.Date
+  emergencyContactName  String?   @db.VarChar(100)
+  emergencyContactPhone String?   @db.VarChar(100)
+  status                String    @db.VarChar(255)
+  bio                   String?
+  ord                   Int
+  createdAt             DateTime? @db.Timestamp(6)
+  updatedAt             DateTime? @db.Timestamp(6)
+
+  @@index([status], map: "member_team_managers_manager_type_status_index")
+  @@index([ord], map: "member_team_managers_ord_index")
+  @@index([personId], map: "member_team_managers_person_id_index")
+}
+
+model OrgClub {
+  id           Int      @id(map: "org_clubs_pkey") @default(dbgenerated("nextval('\"BaseField_id_seq\"'::regclass)")) @db.Decimal(20, 0)
+  name         String    @db.VarChar(100)
+  abbr         String?   @db.VarChar(100)
+  note         String?
+  foundedDate  DateTime? @db.Date
+  address      String?   @db.VarChar(100)
+  contactEmail String?   @db.VarChar(100)
+  contactPhone String?   @db.VarChar(100)
+  website      String?   @db.VarChar(100)
+  status       String    @db.VarChar(255)
+  ord          Int?
+  createdAt    DateTime? @db.Timestamp(6)
+  updatedAt    DateTime? @db.Timestamp(6)
+}
+
+model OrgLeague {
+  id                   Int   @id(map: "org_leagues_pkey") @default(dbgenerated("nextval('\"BaseField_id_seq\"'::regclass)")) @db.Decimal(20, 0)
+  name                 String    @db.VarChar(100)
+  abbr                 String?   @db.VarChar(100)
+  note                 String?
+  gameModeId           Decimal?  @db.Decimal(20, 0)
+  groupLevelId         Decimal?  @db.Decimal(20, 0)
+  season               String?   @db.VarChar(100)
+  startDate            DateTime? @db.Date
+  endDate              DateTime? @db.Date
+  registrationDeadline DateTime? @db.Date
+  maxTeams             Int?
+  entryFee             Decimal?  @db.Decimal(10, 2)
+  subscribeEmail       String?   @db.VarChar(100)
+  rules                String?
+  status               String    @db.VarChar(255)
+  ord                  Int?
+  createdAt            DateTime? @db.Timestamp(6)
+  updatedAt            DateTime? @db.Timestamp(6)
+
+  @@index([gameModeId], map: "org_leagues_game_mode_id_foreign")
+  @@index([groupLevelId], map: "org_leagues_group_level_id_foreign")
+}
+
+model OrgTeam {
+  id         Int   @id(map: "org_teams_pkey") @default(dbgenerated("nextval('\"BaseField_id_seq\"'::regclass)")) @db.Decimal(20, 0)
+  name       String    @db.VarChar(100)
+  abbr       String?   @db.VarChar(100)
+  note       String?
+  clubId     Decimal?  @db.Decimal(20, 0)
+  sportId    Decimal?  @db.Decimal(20, 0)
+  leagueId   Decimal?  @db.Decimal(20, 0)
+  ageGroup   String?   @db.VarChar(100)
+  gender     Int?      @db.SmallInt
+  skillLevel String?   @db.VarChar(100)
+  color1     String?   @db.VarChar(100)
+  color2     String?   @db.VarChar(100)
+  maxPlayers Int?
+  status     Int       @db.SmallInt
+  ord        Int?
+  createdAt  DateTime? @db.Timestamp(6)
+  updatedAt  DateTime? @db.Timestamp(6)
+
+  @@index([clubId], map: "org_teams_club_id_foreign")
+  @@index([leagueId], map: "org_teams_league_id_foreign")
+  @@index([sportId], map: "org_teams_sport_id_foreign")
+}
+
+model PlanGame {
+  id            Decimal   @id(map: "plan_games_pkey") @db.Decimal(20, 0)
+  leagueId      Decimal?  @db.Decimal(20, 0)
+  gameName      String?   @db.VarChar(100)
+  homeTeamId    Decimal?  @db.Decimal(20, 0)
+  awayTeamId    Decimal?  @db.Decimal(20, 0)
+  startDatetime DateTime  @db.Timestamp(6)
+  endDatetime   DateTime  @db.Timestamp(6)
+  duration      Int?
+  uniform       String?   @db.VarChar(100)
+  locationId    Decimal?  @db.Decimal(20, 0)
+  isScrimmage   Int       @db.SmallInt
+  status        String    @db.VarChar(255)
+  createdBy     Decimal?  @db.Decimal(20, 0)
+  createdAt     DateTime? @db.Timestamp(6)
+  updatedAt     DateTime? @db.Timestamp(6)
+
+  @@index([awayTeamId], map: "plan_games_away_team_id_foreign")
+  @@index([createdBy], map: "plan_games_created_by_foreign")
+  @@index([homeTeamId], map: "plan_games_home_team_id_foreign")
+  @@index([leagueId], map: "plan_games_league_id_foreign")
+  @@index([locationId], map: "plan_games_location_id_foreign")
+}
+
+model PlanMeeting {
+  id              Decimal   @id(map: "plan_meetings_pkey") @db.Decimal(20, 0)
+  meetingCategory Int?      @db.SmallInt
+  teamId          Decimal?  @db.Decimal(20, 0)
+  startDatetime   DateTime  @db.Timestamp(6)
+  endDatetime     DateTime  @db.Timestamp(6)
+  title           String?
+  content         String?
+  locationId      Decimal?  @db.Decimal(20, 0)
+  status          Int?      @db.SmallInt
+  createdBy       Decimal?  @db.Decimal(20, 0)
+  createdAt       DateTime? @db.Timestamp(6)
+  updatedAt       DateTime? @db.Timestamp(6)
+
+  @@index([createdBy], map: "plan_meetings_created_by_foreign")
+  @@index([locationId], map: "plan_meetings_location_id_foreign")
+  @@index([teamId], map: "plan_meetings_team_id_foreign")
+}
+
+model PlanTraining {
+  id              Decimal   @id(map: "plan_trainings_pkey") @db.Decimal(20, 0)
+  teamId          Decimal?  @db.Decimal(20, 0)
+  startDatetime   DateTime  @db.Timestamp(6)
+  endDatetime     DateTime  @db.Timestamp(6)
+  trainingContent String?
+  isAllMembers    Int       @db.SmallInt
+  locationId      Decimal?  @db.Decimal(20, 0)
+  recurringType   Int       @db.SmallInt
+  status          String    @db.VarChar(255)
+  createdBy       Decimal?  @db.Decimal(20, 0)
+  createdAt       DateTime? @db.Timestamp(6)
+  updatedAt       DateTime? @db.Timestamp(6)
+
+  @@index([createdBy], map: "plan_trainings_created_by_foreign")
+  @@index([locationId], map: "plan_trainings_location_id_foreign")
+  @@index([teamId], map: "plan_trainings_team_id_foreign")
+}
+
+model RelClubClubAdmin {
+  id            Decimal   @id(map: "rel_club_club_admin_pkey") @db.Decimal(20, 0)
+  clubId        Decimal   @db.Decimal(20, 0)
+  adminId       Decimal   @db.Decimal(20, 0)
+  joinedAt      DateTime? @db.Timestamp(6)
+  leftAt        DateTime? @db.Timestamp(6)
+  status        String    @db.VarChar(255)
+  role          String    @db.VarChar(255)
+  salary        Decimal?  @db.Decimal(10, 2)
+  contractStart DateTime? @db.Date
+  contractEnd   DateTime? @db.Date
+  notes         String?
+  ord           Int
+  createdAt     DateTime? @db.Timestamp(6)
+  updatedAt     DateTime? @db.Timestamp(6)
+
+  @@unique([clubId, adminId], map: "rel_club_admin_club_id_admin_id_unique")
+  @@index([adminId], map: "rel_club_admin_admin_id_index")
+  @@index([adminId, status], map: "rel_club_admin_admin_id_status_index")
+  @@index([clubId], map: "rel_club_admin_club_id_index")
+  @@index([clubId, status], map: "rel_club_admin_club_id_status_index")
+  @@index([role, status], map: "rel_club_admin_role_status_index")
+}
+
+model RelCompetitionGroupLevel {
+  id            Decimal   @id(map: "rel_competition_group_level_pkey") @db.Decimal(20, 0)
+  competitionId Decimal   @db.Decimal(20, 0)
+  groupLevelId  Decimal   @db.Decimal(20, 0)
+  isPrimary     Int       @db.SmallInt
+  notes         String?
+  ord           Int
+  createdAt     DateTime? @db.Timestamp(6)
+  updatedAt     DateTime? @db.Timestamp(6)
+
+  @@unique([competitionId, groupLevelId], map: "rel_competition_group_level_competition_id_group_level_id_uniqu")
+  @@index([competitionId], map: "rel_competition_group_level_competition_id_index")
+  @@index([competitionId, isPrimary], map: "rel_competition_group_level_competition_id_is_primary_index")
+  @@index([groupLevelId], map: "rel_competition_group_level_group_level_id_index")
+}
+
+model RelFieldSport {
+  id        Decimal   @id(map: "rel_field_sport_pkey") @db.Decimal(20, 0)
+  fieldId   Decimal   @db.Decimal(20, 0)
+  sportId   Decimal   @db.Decimal(20, 0)
+  isPrimary Int       @db.SmallInt
+  notes     String?
+  ord       Int
+  createdAt DateTime? @db.Timestamp(6)
+  updatedAt DateTime? @db.Timestamp(6)
+
+  @@unique([fieldId, sportId], map: "rel_field_sport_field_id_sport_id_unique")
+  @@index([fieldId], map: "rel_field_sport_field_id_index")
+  @@index([fieldId, isPrimary], map: "rel_field_sport_field_id_is_primary_index")
+  @@index([sportId], map: "rel_field_sport_sport_id_index")
+}
+
+model RelMatchReferee {
+  id          Decimal   @id(map: "rel_match_referee_pkey") @db.Decimal(20, 0)
+  matchId     Decimal   @db.Decimal(20, 0)
+  refereeId   Decimal   @db.Decimal(20, 0)
+  assignedAt  DateTime? @db.Timestamp(6)
+  confirmedAt DateTime? @db.Timestamp(6)
+  cancelledAt DateTime? @db.Timestamp(6)
+  status      String    @db.VarChar(255)
+  matchFee    Decimal?  @db.Decimal(8, 2)
+  notes       String?
+  ord         Int
+  createdAt   DateTime? @db.Timestamp(6)
+  updatedAt   DateTime? @db.Timestamp(6)
+
+  @@unique([matchId, refereeId], map: "rel_match_referee_match_id_referee_id_unique")
+  @@index([matchId], map: "rel_match_referee_match_id_index")
+  @@index([matchId, status], map: "rel_match_referee_match_id_status_index")
+  @@index([refereeId], map: "rel_match_referee_referee_id_index")
+  @@index([refereeId, status], map: "rel_match_referee_referee_id_status_index")
+  @@index([status], map: "rel_match_referee_referee_role_status_index")
+}
+
+model RelPlayerParent {
+  id                    Decimal   @id(map: "rel_player_parents_pkey") @db.Decimal(20, 0)
+  playerId              Decimal   @db.Decimal(20, 0)
+  parentId              Decimal   @db.Decimal(20, 0)
+  assignedAt            DateTime? @db.Timestamp(6)
+  removedAt             DateTime? @db.Timestamp(6)
+  relationship          String?   @db.VarChar(100)
+  isPrimaryContact      Int       @db.SmallInt
+  canPickup             Int       @db.SmallInt
+  receivesNotifications Int       @db.SmallInt
+  occupation            String?   @db.VarChar(100)
+  employer              String?   @db.VarChar(100)
+  workPhone             String?   @db.VarChar(100)
+  status                String    @db.VarChar(255)
+  notes                 String?
+  ord                   Int
+  createdAt             DateTime? @db.Timestamp(6)
+  updatedAt             DateTime? @db.Timestamp(6)
+
+  @@unique([playerId, parentId], map: "rel_player_parents_player_id_parent_id_unique")
+  @@index([parentId], map: "rel_player_parents_parent_id_index")
+  @@index([parentId, status], map: "rel_player_parents_parent_id_status_index")
+  @@index([playerId], map: "rel_player_parents_player_id_index")
+  @@index([playerId, isPrimaryContact], map: "rel_player_parents_player_id_is_primary_contact_index")
+  @@index([relationship, status], map: "rel_player_parents_relationship_status_index")
+}
+
+model RelSponsorClub {
+  id                Decimal   @id(map: "rel_sponsor_club_pkey") @db.Decimal(20, 0)
+  sponsorId         Decimal   @db.Decimal(20, 0)
+  clubId            Decimal   @db.Decimal(20, 0)
+  startedAt         DateTime? @db.Timestamp(6)
+  endedAt           DateTime? @db.Timestamp(6)
+  status            String    @db.VarChar(255)
+  sponsorshipAmount Decimal?  @db.Decimal(10, 2)
+  benefits          String?
+  notes             String?
+  ord               Int
+  createdAt         DateTime? @db.Timestamp(6)
+  updatedAt         DateTime? @db.Timestamp(6)
+
+  @@unique([sponsorId, clubId], map: "rel_sponsor_club_sponsor_id_club_id_unique")
+  @@index([clubId], map: "rel_sponsor_club_club_id_index")
+  @@index([sponsorId], map: "rel_sponsor_club_sponsor_id_index")
+  @@index([status, startedAt], map: "rel_sponsor_club_status_started_at_index")
+}
+
+model RelSponsorLeague {
+  id                Decimal   @id(map: "rel_sponsor_league_pkey") @db.Decimal(20, 0)
+  sponsorId         Decimal   @db.Decimal(20, 0)
+  leagueId          Decimal   @db.Decimal(20, 0)
+  startedAt         DateTime? @db.Timestamp(6)
+  endedAt           DateTime? @db.Timestamp(6)
+  status            String    @db.VarChar(255)
+  sponsorshipAmount Decimal?  @db.Decimal(10, 2)
+  benefits          String?
+  notes             String?
+  ord               Int
+  createdAt         DateTime? @db.Timestamp(6)
+  updatedAt         DateTime? @db.Timestamp(6)
+
+  @@unique([sponsorId, leagueId], map: "rel_sponsor_league_sponsor_id_league_id_unique")
+  @@index([leagueId], map: "rel_sponsor_league_league_id_index")
+  @@index([sponsorId], map: "rel_sponsor_league_sponsor_id_index")
+  @@index([status, startedAt], map: "rel_sponsor_league_status_started_at_index")
+}
+
+model RelSponsorTeam {
+  id                Decimal   @id(map: "rel_sponsor_team_pkey") @db.Decimal(20, 0)
+  sponsorId         Decimal   @db.Decimal(20, 0)
+  teamId            Decimal   @db.Decimal(20, 0)
+  startedAt         DateTime? @db.Timestamp(6)
+  endedAt           DateTime? @db.Timestamp(6)
+  status            String    @db.VarChar(255)
+  sponsorshipAmount Decimal?  @db.Decimal(10, 2)
+  benefits          String?
+  notes             String?
+  ord               Int
+  createdAt         DateTime? @db.Timestamp(6)
+  updatedAt         DateTime? @db.Timestamp(6)
+
+  @@unique([sponsorId, teamId], map: "rel_sponsor_team_sponsor_id_team_id_unique")
+  @@index([sponsorId], map: "rel_sponsor_team_sponsor_id_index")
+  @@index([status, startedAt], map: "rel_sponsor_team_status_started_at_index")
+  @@index([teamId], map: "rel_sponsor_team_team_id_index")
+}
+
+model RelTeamCoach {
+  id               Decimal   @id(map: "rel_team_coach_pkey") @db.Decimal(20, 0)
+  teamId           Decimal   @db.Decimal(20, 0)
+  coachId          Decimal   @db.Decimal(20, 0)
+  joinedAt         DateTime? @db.Timestamp(6)
+  leftAt           DateTime? @db.Timestamp(6)
+  status           String    @db.VarChar(255)
+  coachTypeId      BigInt?
+  salary           Decimal?  @db.Decimal(10, 2)
+  contractStart    DateTime? @db.Date
+  contractEnd      DateTime? @db.Date
+  responsibilities String?
+  notes            String?
+  ord              Int
+  createdAt        DateTime? @db.Timestamp(6)
+  updatedAt        DateTime? @db.Timestamp(6)
+
+  @@unique([teamId, coachId], map: "rel_team_coach_team_id_coach_id_unique")
+  @@index([coachId], map: "rel_team_coach_coach_id_index")
+  @@index([coachId, status], map: "rel_team_coach_coach_id_status_index")
+  @@index([teamId], map: "rel_team_coach_team_id_index")
+  @@index([teamId, status], map: "rel_team_coach_team_id_status_index")
+}
+
+model RelTeamPlayer {
+  id           Decimal   @id(map: "rel_team_player_pkey") @db.Decimal(20, 0)
+  teamId       Decimal   @db.Decimal(20, 0)
+  playerId     Decimal   @db.Decimal(20, 0)
+  joinedAt     DateTime? @db.Timestamp(6)
+  leftAt       DateTime? @db.Timestamp(6)
+  status       String    @db.VarChar(255)
+  jerseyNumber String?   @db.VarChar(100)
+  positionId   BigInt?
+  notes        String?
+  ord          Int
+  createdAt    DateTime? @db.Timestamp(6)
+  updatedAt    DateTime? @db.Timestamp(6)
+
+  @@unique([teamId, playerId], map: "rel_team_player_team_id_player_id_unique")
+  @@index([playerId], map: "rel_team_player_player_id_index")
+  @@index([teamId], map: "rel_team_player_team_id_index")
+}
+
+model RelTeamTeamManager {
+  id               Decimal   @id(map: "rel_team_team_manager_pkey") @db.Decimal(20, 0)
+  teamId           Decimal   @db.Decimal(20, 0)
+  managerId        Decimal   @db.Decimal(20, 0)
+  joinedAt         DateTime? @db.Timestamp(6)
+  leftAt           DateTime? @db.Timestamp(6)
+  status           String    @db.VarChar(255)
+  managerTypeId    String?   @db.VarChar(255)
+  salary           Decimal?  @db.Decimal(10, 2)
+  contractStart    DateTime? @db.Date
+  contractEnd      DateTime? @db.Date
+  responsibilities String?
+  notes            String?
+  ord              Int
+  createdAt        DateTime? @db.Timestamp(6)
+  updatedAt        DateTime? @db.Timestamp(6)
+
+  @@unique([teamId, managerId], map: "rel_team_manager_team_id_manager_id_unique")
+  @@index([managerId], map: "rel_team_manager_manager_id_index")
+  @@index([managerId, status], map: "rel_team_manager_manager_id_status_index")
+  @@index([managerTypeId, status], map: "rel_team_manager_role_status_index")
+  @@index([teamId], map: "rel_team_manager_team_id_index")
+  @@index([teamId, status], map: "rel_team_manager_team_id_status_index")
+}
+
+model SportCoachType {
+  id        Decimal   @id(map: "sport_coach_types_pkey") @db.Decimal(20, 0)
+  sportId   Decimal   @db.Decimal(20, 0)
+  name      String    @db.VarChar(50)
+  abbr      String    @db.VarChar(100)
+  color     String    @db.VarChar(20)
+  note      String?
+  isActive  Boolean   @db.SmallInt
+  ord       Int
+  createdAt DateTime? @db.Timestamp(6)
+  updatedAt DateTime? @db.Timestamp(6)
+
+  @@unique([sportId, name], map: "sport_coach_types_sport_id_value_unique")
+  @@index([sportId, isActive], map: "sport_coach_types_sport_id_is_active_index")
+  @@index([sportId, ord], map: "sport_coach_types_sport_id_ord_index")
+}
+
+model SportEventType {
+  id               Decimal   @id(map: "sport_event_types_pkey") @db.Decimal(20, 0)
+  name             String    @db.VarChar(100)
+  abbr             String?   @db.VarChar(100)
+  category         Int?
+  evaluationMetric Int?
+  code             String?   @db.VarChar(100)
+  sportId          Decimal?  @db.Decimal(20, 0)
+  isVisible        Int       @db.SmallInt
+  note             String?
+  ord              Int?
+  score            Int
+  slot             Int
+  createdAt        DateTime? @db.Timestamp(6)
+  updatedAt        DateTime? @db.Timestamp(6)
+
+  @@index([sportId], map: "sport_event_types_sport_id_foreign")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model SportGamePeriod {
+  id        Decimal   @id(map: "sport_game_periods_pkey") @db.Decimal(20, 0)
+  sportId   Decimal   @db.Decimal(20, 0)
+  name      String    @db.VarChar(100)
+  ord       Int
+  duration  Int?
+  note      String?
+  createdAt DateTime? @db.Timestamp(6)
+  updatedAt DateTime? @db.Timestamp(6)
+
+  @@index([sportId], map: "sport_game_periods_sport_id_index")
+  @@index([sportId, ord], map: "sport_game_periods_sport_id_ord_index")
+}
+
+model SportManagerType {
+  id        Decimal   @id(map: "sport_manager_types_pkey") @db.Decimal(20, 0)
+  sportId   Decimal?  @db.Decimal(20, 0)
+  name      String    @db.VarChar(50)
+  abbr      String    @db.VarChar(100)
+  color     String    @db.VarChar(20)
+  note      String?
+  isActive  Int       @db.SmallInt
+  ord       Int
+  createdAt DateTime? @db.Timestamp(6)
+  updatedAt DateTime? @db.Timestamp(6)
+
+  @@unique([sportId, name], map: "sport_manager_types_sport_id_value_unique")
+  @@index([sportId, isActive], map: "sport_manager_types_sport_id_is_active_index")
+  @@index([sportId, ord], map: "sport_manager_types_sport_id_ord_index")
+}
+
+model SportPlayerPosition {
+  id        Decimal   @id(map: "sport_player_positions_pkey") @db.Decimal(20, 0)
+  name      String    @db.VarChar(100)
+  abbr      String    @db.VarChar(100)
+  note      String?
+  sportId   Decimal   @db.Decimal(20, 0)
+  ord       Int?
+  createdAt DateTime? @db.Timestamp(6)
+  updatedAt DateTime? @db.Timestamp(6)
+
+  @@index([sportId], map: "sport_player_positions_sport_id_foreign")
+}
+
+model SportRefereeType {
+  id        Decimal   @id(map: "sport_referee_types_pkey") @db.Decimal(20, 0)
+  sportId   Decimal   @db.Decimal(20, 0)
+  name      String    @db.VarChar(50)
+  abbr      String    @db.VarChar(100)
+  color     String    @db.VarChar(20)
+  note      String?
+  isActive  Int       @db.SmallInt
+  ord       Int
+  createdAt DateTime? @db.Timestamp(6)
+  updatedAt DateTime? @db.Timestamp(6)
+
+  @@unique([sportId, name], map: "sport_referee_types_sport_id_value_unique")
+  @@index([sportId, isActive], map: "sport_referee_types_sport_id_is_active_index")
+  @@index([sportId, ord], map: "sport_referee_types_sport_id_ord_index")
+}
+
+model SubFeature {
+  id          Decimal   @id(map: "subscription_features_pkey") @db.Decimal(20, 0)
+  name        String    @db.VarChar(100)
+  note        String?
+  category    String?   @db.VarChar(100)
+  icon        String?   @db.VarChar(100)
+  isActive    Int       @db.SmallInt
+  ord         Int
+  createdAt   DateTime? @db.Timestamp(6)
+  updatedAt   DateTime? @db.Timestamp(6)
+
+  @@index([category, isActive], map: "subscription_features_category_is_active_index")
+  @@index([isActive], map: "subscription_features_is_active_index")
+  @@index([ord], map: "subscription_features_ord_index")
+}
+
+model SubForTeam {
+  id            Decimal   @id(map: "subscription_for_team_pkey") @db.Decimal(20, 0)
+  teamId        Decimal   @db.Decimal(20, 0)
+  planId        Decimal   @db.Decimal(20, 0)
+  status        String    @db.VarChar(255)
+  startedAt     DateTime  @db.Timestamp(6)
+  expiresAt     DateTime? @db.Timestamp(6)
+  autoRenew     Int       @db.SmallInt
+  paymentMethod String?   @db.VarChar(100)
+  lastPaymentAt DateTime? @db.Timestamp(6)
+  nextPaymentAt DateTime? @db.Timestamp(6)
+  notes         String?
+  ord           Int
+  createdAt     DateTime? @db.Timestamp(6)
+  updatedAt     DateTime? @db.Timestamp(6)
+
+  @@index([expiresAt], map: "rel_sub_for_team_expires_at_index")
+  @@index([planId, status], map: "rel_sub_for_team_plan_id_status_index")
+  @@index([status, expiresAt], map: "rel_sub_for_team_status_expires_at_index")
+  @@index([teamId, status], map: "rel_sub_for_team_team_id_status_index")
+}
+
+model SubForUser {
+  id            Decimal   @id(map: "subscription_for_user_pkey") @db.Decimal(20, 0)
+  userId        Decimal   @db.Decimal(20, 0)
+  planId        Decimal   @db.Decimal(20, 0)
+  status        String    @db.VarChar(255)
+  startedAt     DateTime  @db.Timestamp(6)
+  expiresAt     DateTime? @db.Timestamp(6)
+  autoRenew     Int       @db.SmallInt
+  paymentMethod String?   @db.VarChar(100)
+  lastPaymentAt DateTime? @db.Timestamp(6)
+  nextPaymentAt DateTime? @db.Timestamp(6)
+  notes         String?
+  ord           Int
+  createdAt     DateTime? @db.Timestamp(6)
+  updatedAt     DateTime? @db.Timestamp(6)
+
+  @@index([expiresAt], map: "rel_sub_for_user_expires_at_index")
+  @@index([planId, status], map: "rel_sub_for_user_plan_id_status_index")
+  @@index([status, expiresAt], map: "rel_sub_for_user_status_expires_at_index")
+  @@index([userId, status], map: "rel_sub_for_user_user_id_status_index")
+}
+
+model SubPlan {
+  id             Decimal   @id(map: "subscription_plans_pkey") @db.Decimal(20, 0)
+  name           String    @db.VarChar(100)
+  planType       String    @db.VarChar(255)
+  price          Decimal   @db.Decimal(10, 2)
+  isPopular      Int       @db.SmallInt
+  note           String?
+  features       String?
+  maxTeams       Int?
+  maxPlayers     Int?
+  maxCoaches     Int?
+  maxReferees    Int?
+  storageLimitGb Int?
+  isActive       Int       @db.SmallInt
+  ord            Int
+  createdAt      DateTime? @db.Timestamp(6)
+  updatedAt      DateTime? @db.Timestamp(6)
+
+  @@index([isPopular], map: "subscription_plans_is_popular_index")
+  @@index([planType, isActive], map: "subscription_plans_plan_type_is_active_index")
+  @@index([price], map: "subscription_plans_price_index")
+}
+
+model SubPlanFeature {
+  id         Decimal   @id(map: "sub_plan_features_pkey") @db.Decimal(20, 0)
+  planId     Decimal   @db.Decimal(20, 0)
+  featureId  Decimal   @db.Decimal(20, 0)
+  isIncluded Int       @db.SmallInt
+  notes      String?
+  ord        Int
+  createdAt  DateTime? @db.Timestamp(6)
+  updatedAt  DateTime? @db.Timestamp(6)
+
+  @@unique([planId, featureId], map: "rel_sub_features_plan_id_feature_id_unique")
+  @@index([featureId, isIncluded], map: "rel_sub_features_feature_id_is_included_index")
+  @@index([planId, isIncluded], map: "rel_sub_features_plan_id_is_included_index")
+}
+
+model SysUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  firstName String?
+  lastName  String?
+  role      SysUserRole
+  isActive  Boolean  @default(true)
+  lastLogin DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum SysUserRole {
+  ADMIN
+  COACH
+  TEAM_MANAGER
+  REFEREE
+  PLAYER
+}

@@ -1,0 +1,6549 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/sys/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponseDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "User already exists"
+          }
+        },
+        "summary": "Register a new user",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/sys/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials"
+          }
+        },
+        "summary": "Login user",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/sys/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Logout successful"
+          }
+        },
+        "summary": "Logout user",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/sys/auth/refresh-token": {
+      "post": {
+        "operationId": "AuthController_refreshToken",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Token refreshed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Refresh authentication token",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/admin/base/competitions": {
+      "post": {
+        "operationId": "BaseCompetitionsAdminController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseCompetitionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BaseCompetitionsAdmin"
+        ]
+      },
+      "get": {
+        "operationId": "BaseCompetitionsAdminController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BaseCompetitionsAdmin"
+        ]
+      }
+    },
+    "/admin/base/competitions/{id}": {
+      "get": {
+        "operationId": "BaseCompetitionsAdminController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BaseCompetitionsAdmin"
+        ]
+      },
+      "patch": {
+        "operationId": "BaseCompetitionsAdminController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseCompetitionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BaseCompetitionsAdmin"
+        ]
+      },
+      "delete": {
+        "operationId": "BaseCompetitionsAdminController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BaseCompetitionsAdmin"
+        ]
+      }
+    },
+    "/admin/base/competitions/reorder": {
+      "post": {
+        "operationId": "BaseCompetitionsAdminController_reorder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BaseCompetitionsAdmin"
+        ]
+      }
+    },
+    "/admin/base/competitions/bulk": {
+      "delete": {
+        "operationId": "BaseCompetitionsAdminController_removeMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BaseCompetitionsAdmin"
+        ]
+      }
+    },
+    "/home/base/competitions": {
+      "get": {
+        "operationId": "BaseCompetitionsHomeController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BaseCompetitionsHome"
+        ]
+      }
+    },
+    "/home/base/competitions/{id}": {
+      "get": {
+        "operationId": "BaseCompetitionsHomeController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BaseCompetitionsHome"
+        ]
+      }
+    },
+    "/admin/sports": {
+      "post": {
+        "operationId": "AdminSportsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseSportDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminSports"
+        ]
+      },
+      "get": {
+        "operationId": "AdminSportsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminSports"
+        ]
+      }
+    },
+    "/admin/sports/{id}": {
+      "get": {
+        "operationId": "AdminSportsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminSports"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminSportsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseSportDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminSports"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminSportsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminSports"
+        ]
+      }
+    },
+    "/admin/sports/bulk": {
+      "delete": {
+        "operationId": "AdminSportsController_removeBulk",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminSports"
+        ]
+      }
+    },
+    "/admin/sports/reorder": {
+      "post": {
+        "operationId": "AdminSportsController_reorder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminSports"
+        ]
+      }
+    },
+    "/sports": {
+      "get": {
+        "operationId": "HomeSportsController_findAll",
+        "parameters": [
+          {
+            "name": "active",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of sports"
+          }
+        },
+        "summary": "Get all sports",
+        "tags": [
+          "HomeSports"
+        ]
+      }
+    },
+    "/sports/{id}": {
+      "get": {
+        "operationId": "HomeSportsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeSports"
+        ]
+      }
+    },
+    "/admin/countries": {
+      "post": {
+        "operationId": "AdminCountriesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseCountryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCountries"
+        ]
+      },
+      "get": {
+        "operationId": "AdminCountriesController_findAll",
+        "parameters": [
+          {
+            "name": "active",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCountries"
+        ]
+      }
+    },
+    "/admin/countries/{id}": {
+      "get": {
+        "operationId": "AdminCountriesController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCountries"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminCountriesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseCountryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCountries"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminCountriesController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCountries"
+        ]
+      }
+    },
+    "/admin/countries/bulk": {
+      "delete": {
+        "operationId": "AdminCountriesController_removeMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCountries"
+        ]
+      }
+    },
+    "/admin/countries/reorder": {
+      "post": {
+        "operationId": "AdminCountriesController_reorder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCountries"
+        ]
+      }
+    },
+    "/countries": {
+      "get": {
+        "operationId": "HomeCountriesController_findAll",
+        "parameters": [
+          {
+            "name": "active",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of countries"
+          }
+        },
+        "summary": "Get all countries",
+        "tags": [
+          "HomeCountries"
+        ]
+      }
+    },
+    "/countries/{id}": {
+      "get": {
+        "operationId": "HomeCountriesController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeCountries"
+        ]
+      }
+    },
+    "/admin/fields": {
+      "post": {
+        "operationId": "AdminFieldsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseFieldDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminFields"
+        ]
+      },
+      "get": {
+        "operationId": "AdminFieldsController_findAll",
+        "parameters": [
+          {
+            "name": "active",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sportId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminFields"
+        ]
+      }
+    },
+    "/admin/fields/{id}": {
+      "get": {
+        "operationId": "AdminFieldsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminFields"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminFieldsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseFieldDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminFields"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminFieldsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminFields"
+        ]
+      }
+    },
+    "/admin/fields/bulk": {
+      "delete": {
+        "operationId": "AdminFieldsController_removeMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminFields"
+        ]
+      }
+    },
+    "/admin/fields/reorder": {
+      "post": {
+        "operationId": "AdminFieldsController_reorder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminFields"
+        ]
+      }
+    },
+    "/home/fields": {
+      "get": {
+        "operationId": "HomeFieldsController_findAll",
+        "parameters": [
+          {
+            "name": "active",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sportIds",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          {
+            "name": "countryId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of fields"
+          }
+        },
+        "summary": "Get all fields",
+        "tags": [
+          "HomeFields"
+        ]
+      }
+    },
+    "/home/fields/country/{countryId}": {
+      "get": {
+        "operationId": "HomeFieldsController_findByCountryId",
+        "parameters": [
+          {
+            "name": "countryId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of fields by country"
+          }
+        },
+        "summary": "Get fields by country ID",
+        "tags": [
+          "HomeFields"
+        ]
+      }
+    },
+    "/admin/group-levels": {
+      "post": {
+        "operationId": "AdminGroupLevelsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseGroupLevelDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminGroupLevels"
+        ]
+      },
+      "get": {
+        "operationId": "AdminGroupLevelsController_findAll",
+        "parameters": [
+          {
+            "name": "active",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "skip",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "take",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminGroupLevels"
+        ]
+      }
+    },
+    "/admin/group-levels/{id}": {
+      "get": {
+        "operationId": "AdminGroupLevelsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminGroupLevels"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminGroupLevelsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseGroupLevelDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminGroupLevels"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminGroupLevelsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminGroupLevels"
+        ]
+      }
+    },
+    "/home/group-levels": {
+      "get": {
+        "operationId": "HomeGroupLevelsController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of group levels"
+          }
+        },
+        "summary": "Get all group levels",
+        "tags": [
+          "HomeGroupLevels"
+        ]
+      }
+    },
+    "/home/group-levels/{id}": {
+      "get": {
+        "operationId": "HomeGroupLevelsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of a specific group level"
+          }
+        },
+        "summary": "Get group level by ID",
+        "tags": [
+          "HomeGroupLevels"
+        ]
+      }
+    },
+    "/admin/persons": {
+      "post": {
+        "operationId": "AdminPersonController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberPersonDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPerson"
+        ]
+      },
+      "get": {
+        "operationId": "AdminPersonController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPerson"
+        ]
+      }
+    },
+    "/admin/persons/{id}": {
+      "get": {
+        "operationId": "AdminPersonController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPerson"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminPersonController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberPersonDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPerson"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminPersonController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPerson"
+        ]
+      }
+    },
+    "/admin/persons/bulk": {
+      "delete": {
+        "operationId": "AdminPersonController_removeMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPerson"
+        ]
+      }
+    },
+    "/persons": {
+      "get": {
+        "operationId": "HomePersonController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomePerson"
+        ]
+      }
+    },
+    "/persons/{id}": {
+      "get": {
+        "operationId": "HomePersonController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomePerson"
+        ]
+      }
+    },
+    "/admin/club-admins": {
+      "post": {
+        "operationId": "AdminClubAdminController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberClubAdminDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminClubAdmin"
+        ]
+      },
+      "get": {
+        "operationId": "AdminClubAdminController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminClubAdmin"
+        ]
+      }
+    },
+    "/admin/club-admins/{id}": {
+      "get": {
+        "operationId": "AdminClubAdminController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminClubAdmin"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminClubAdminController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberClubAdminDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminClubAdmin"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminClubAdminController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminClubAdmin"
+        ]
+      }
+    },
+    "/admin/club-admins/bulk": {
+      "delete": {
+        "operationId": "AdminClubAdminController_removeBulk",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminClubAdmin"
+        ]
+      }
+    },
+    "/admin/club-admins/reorder": {
+      "post": {
+        "operationId": "AdminClubAdminController_reorder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminClubAdmin"
+        ]
+      }
+    },
+    "/club-admins": {
+      "get": {
+        "operationId": "HomeClubAdminController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeClubAdmin"
+        ]
+      }
+    },
+    "/club-admins/{id}": {
+      "get": {
+        "operationId": "HomeClubAdminController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeClubAdmin"
+        ]
+      }
+    },
+    "/admin/coaches": {
+      "post": {
+        "operationId": "AdminCoachController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberCoachDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCoach"
+        ]
+      },
+      "get": {
+        "operationId": "AdminCoachController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCoach"
+        ]
+      }
+    },
+    "/admin/coaches/{id}": {
+      "get": {
+        "operationId": "AdminCoachController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCoach"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminCoachController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberCoachDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCoach"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminCoachController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCoach"
+        ]
+      }
+    },
+    "/admin/coaches/bulk": {
+      "delete": {
+        "operationId": "AdminCoachController_removeBulk",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCoach"
+        ]
+      }
+    },
+    "/admin/coaches/reorder": {
+      "post": {
+        "operationId": "AdminCoachController_reorder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCoach"
+        ]
+      }
+    },
+    "/coaches": {
+      "get": {
+        "operationId": "HomeCoachController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeCoach"
+        ]
+      }
+    },
+    "/coaches/{id}": {
+      "get": {
+        "operationId": "HomeCoachController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeCoach"
+        ]
+      }
+    },
+    "/admin/parents": {
+      "post": {
+        "operationId": "AdminParentController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberParentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminParent"
+        ]
+      },
+      "get": {
+        "operationId": "AdminParentController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminParent"
+        ]
+      }
+    },
+    "/admin/parents/{id}": {
+      "get": {
+        "operationId": "AdminParentController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminParent"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminParentController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberParentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminParent"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminParentController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminParent"
+        ]
+      }
+    },
+    "/admin/parents/bulk": {
+      "delete": {
+        "operationId": "AdminParentController_removeBulk",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminParent"
+        ]
+      }
+    },
+    "/admin/parents/reorder": {
+      "post": {
+        "operationId": "AdminParentController_reorder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminParent"
+        ]
+      }
+    },
+    "/parents": {
+      "get": {
+        "operationId": "HomeParentController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeParent"
+        ]
+      }
+    },
+    "/parents/{id}": {
+      "get": {
+        "operationId": "HomeParentController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeParent"
+        ]
+      }
+    },
+    "/admin/team-managers": {
+      "post": {
+        "operationId": "AdminTeamManagerController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberTeamManagerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminTeamManager"
+        ]
+      },
+      "get": {
+        "operationId": "AdminTeamManagerController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminTeamManager"
+        ]
+      }
+    },
+    "/admin/team-managers/{id}": {
+      "get": {
+        "operationId": "AdminTeamManagerController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminTeamManager"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminTeamManagerController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberTeamManagerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminTeamManager"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminTeamManagerController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminTeamManager"
+        ]
+      }
+    },
+    "/admin/team-managers/bulk": {
+      "delete": {
+        "operationId": "AdminTeamManagerController_removeBulk",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminTeamManager"
+        ]
+      }
+    },
+    "/admin/team-managers/reorder": {
+      "post": {
+        "operationId": "AdminTeamManagerController_reorder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminTeamManager"
+        ]
+      }
+    },
+    "/team-managers": {
+      "get": {
+        "operationId": "HomeTeamManagerController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeTeamManager"
+        ]
+      }
+    },
+    "/team-managers/{id}": {
+      "get": {
+        "operationId": "HomeTeamManagerController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeTeamManager"
+        ]
+      }
+    },
+    "/admin/players": {
+      "post": {
+        "operationId": "AdminPlayerController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberPlayerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlayer"
+        ]
+      },
+      "get": {
+        "operationId": "AdminPlayerController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlayer"
+        ]
+      }
+    },
+    "/admin/players/{id}": {
+      "get": {
+        "operationId": "AdminPlayerController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlayer"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminPlayerController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberPlayerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlayer"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminPlayerController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlayer"
+        ]
+      }
+    },
+    "/admin/players/bulk": {
+      "delete": {
+        "operationId": "AdminPlayerController_removeBulk",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlayer"
+        ]
+      }
+    },
+    "/admin/players/reorder": {
+      "post": {
+        "operationId": "AdminPlayerController_reorder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlayer"
+        ]
+      }
+    },
+    "/players": {
+      "get": {
+        "operationId": "HomePlayerController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomePlayer"
+        ]
+      }
+    },
+    "/players/{id}": {
+      "get": {
+        "operationId": "HomePlayerController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomePlayer"
+        ]
+      }
+    },
+    "/admin/referees": {
+      "post": {
+        "operationId": "AdminRefereeController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberRefereeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminReferee"
+        ]
+      },
+      "get": {
+        "operationId": "AdminRefereeController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "refereeType",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminReferee"
+        ]
+      }
+    },
+    "/admin/referees/{id}": {
+      "get": {
+        "operationId": "AdminRefereeController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminReferee"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminRefereeController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberRefereeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminReferee"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminRefereeController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminReferee"
+        ]
+      }
+    },
+    "/admin/referees/bulk": {
+      "delete": {
+        "operationId": "AdminRefereeController_removeBulk",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminReferee"
+        ]
+      }
+    },
+    "/admin/referees/reorder": {
+      "post": {
+        "operationId": "AdminRefereeController_reorder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminReferee"
+        ]
+      }
+    },
+    "/referees": {
+      "get": {
+        "operationId": "HomeRefereeController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "refereeType",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeReferee"
+        ]
+      }
+    },
+    "/referees/{id}": {
+      "get": {
+        "operationId": "HomeRefereeController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeReferee"
+        ]
+      }
+    },
+    "/admin/sponsors": {
+      "post": {
+        "operationId": "AdminSponsorController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberSponsorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminSponsor"
+        ]
+      },
+      "get": {
+        "operationId": "AdminSponsorController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sponsorLevel",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminSponsor"
+        ]
+      }
+    },
+    "/admin/sponsors/{id}": {
+      "get": {
+        "operationId": "AdminSponsorController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminSponsor"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminSponsorController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberSponsorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminSponsor"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminSponsorController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminSponsor"
+        ]
+      }
+    },
+    "/admin/sponsors/bulk": {
+      "delete": {
+        "operationId": "AdminSponsorController_removeBulk",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminSponsor"
+        ]
+      }
+    },
+    "/admin/sponsors/reorder": {
+      "post": {
+        "operationId": "AdminSponsorController_reorder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminSponsor"
+        ]
+      }
+    },
+    "/sponsors": {
+      "get": {
+        "operationId": "HomeSponsorController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sponsorLevel",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeSponsor"
+        ]
+      }
+    },
+    "/sponsors/{id}": {
+      "get": {
+        "operationId": "HomeSponsorController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeSponsor"
+        ]
+      }
+    },
+    "/admin/clubs": {
+      "post": {
+        "operationId": "AdminClubsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrgClubDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminClubs"
+        ]
+      },
+      "get": {
+        "operationId": "AdminClubsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminClubs"
+        ]
+      }
+    },
+    "/admin/clubs/{id}": {
+      "get": {
+        "operationId": "AdminClubsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminClubs"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminClubsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrgClubDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminClubs"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminClubsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminClubs"
+        ]
+      }
+    },
+    "/home/clubs": {
+      "get": {
+        "operationId": "HomeClubsController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of clubs"
+          }
+        },
+        "summary": "Get all clubs",
+        "tags": [
+          "HomeClubs"
+        ]
+      }
+    },
+    "/home/clubs/{id}": {
+      "get": {
+        "operationId": "HomeClubsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of a specific club"
+          }
+        },
+        "summary": "Get club by ID",
+        "tags": [
+          "HomeClubs"
+        ]
+      }
+    },
+    "/admin/leagues": {
+      "post": {
+        "operationId": "AdminLeaguesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrgLeagueDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminLeagues"
+        ]
+      },
+      "get": {
+        "operationId": "AdminLeaguesController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "skip",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "take",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "season",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminLeagues"
+        ]
+      }
+    },
+    "/admin/leagues/{id}": {
+      "get": {
+        "operationId": "AdminLeaguesController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminLeagues"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminLeaguesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrgLeagueDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminLeagues"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminLeaguesController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminLeagues"
+        ]
+      }
+    },
+    "/home/leagues": {
+      "get": {
+        "operationId": "HomeLeaguesController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "season",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of leagues"
+          }
+        },
+        "summary": "Get all leagues",
+        "tags": [
+          "HomeLeagues"
+        ]
+      }
+    },
+    "/home/leagues/{id}": {
+      "get": {
+        "operationId": "HomeLeaguesController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of a specific league"
+          }
+        },
+        "summary": "Get league by ID",
+        "tags": [
+          "HomeLeagues"
+        ]
+      }
+    },
+    "/admin/teams": {
+      "post": {
+        "operationId": "AdminTeamsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrgTeamDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminTeams"
+        ]
+      },
+      "get": {
+        "operationId": "AdminTeamsController_findAll",
+        "parameters": [
+          {
+            "name": "clubId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sportId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminTeams"
+        ]
+      }
+    },
+    "/admin/teams/{id}": {
+      "get": {
+        "operationId": "AdminTeamsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminTeams"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminTeamsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrgTeamDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminTeams"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminTeamsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminTeams"
+        ]
+      }
+    },
+    "/home/teams": {
+      "get": {
+        "operationId": "HomeTeamsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List of teams"
+          }
+        },
+        "summary": "Get all teams",
+        "tags": [
+          "HomeTeams"
+        ]
+      }
+    },
+    "/home/teams/{id}": {
+      "get": {
+        "operationId": "HomeTeamsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of a specific team"
+          }
+        },
+        "summary": "Get team by ID",
+        "tags": [
+          "HomeTeams"
+        ]
+      }
+    },
+    "/admin/plan-games": {
+      "post": {
+        "operationId": "AdminPlanGamesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanGameDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlanGames"
+        ]
+      },
+      "get": {
+        "operationId": "AdminPlanGamesController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "skip",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "take",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "leagueId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlanGames"
+        ]
+      }
+    },
+    "/admin/plan-games/{id}": {
+      "get": {
+        "operationId": "AdminPlanGamesController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlanGames"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminPlanGamesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanGameDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlanGames"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminPlanGamesController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlanGames"
+        ]
+      }
+    },
+    "/plan/games": {
+      "get": {
+        "operationId": "HomePlanGamesController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "leagueId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of games"
+          }
+        },
+        "summary": "Get all games",
+        "tags": [
+          "HomePlanGames"
+        ]
+      }
+    },
+    "/plan/games/{id}": {
+      "get": {
+        "operationId": "HomePlanGamesController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of a specific game"
+          }
+        },
+        "summary": "Get game by ID",
+        "tags": [
+          "HomePlanGames"
+        ]
+      }
+    },
+    "/admin/meetings": {
+      "post": {
+        "operationId": "AdminPlanMeetingsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanMeetingDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlanMeetings"
+        ]
+      },
+      "get": {
+        "operationId": "AdminPlanMeetingsController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "skip",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "take",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "teamId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlanMeetings"
+        ]
+      }
+    },
+    "/admin/meetings/{id}": {
+      "get": {
+        "operationId": "AdminPlanMeetingsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlanMeetings"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminPlanMeetingsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanMeetingDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlanMeetings"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminPlanMeetingsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlanMeetings"
+        ]
+      }
+    },
+    "/home/meetings": {
+      "get": {
+        "operationId": "HomePlanMeetingsController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "teamId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of meetings"
+          }
+        },
+        "summary": "Get all meetings",
+        "tags": [
+          "HomePlanMeetings"
+        ]
+      }
+    },
+    "/home/meetings/{id}": {
+      "get": {
+        "operationId": "HomePlanMeetingsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of a specific meeting"
+          }
+        },
+        "summary": "Get meeting by ID",
+        "tags": [
+          "HomePlanMeetings"
+        ]
+      }
+    },
+    "/admin/trainings": {
+      "post": {
+        "operationId": "AdminPlanTrainingsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanTrainingDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlanTrainings"
+        ]
+      },
+      "get": {
+        "operationId": "AdminPlanTrainingsController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "skip",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "take",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "teamId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlanTrainings"
+        ]
+      }
+    },
+    "/admin/trainings/{id}": {
+      "get": {
+        "operationId": "AdminPlanTrainingsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlanTrainings"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminPlanTrainingsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanTrainingDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlanTrainings"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminPlanTrainingsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlanTrainings"
+        ]
+      }
+    },
+    "/home/trainings": {
+      "get": {
+        "operationId": "HomePlanTrainingsController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "teamId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of trainings"
+          }
+        },
+        "summary": "Get all trainings",
+        "tags": [
+          "HomePlanTrainings"
+        ]
+      }
+    },
+    "/home/trainings/{id}": {
+      "get": {
+        "operationId": "HomePlanTrainingsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of a specific training"
+          }
+        },
+        "summary": "Get training by ID",
+        "tags": [
+          "HomePlanTrainings"
+        ]
+      }
+    },
+    "/admin/coach-types": {
+      "post": {
+        "operationId": "AdminCoachTypeController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SportCoachTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCoachType"
+        ]
+      },
+      "get": {
+        "operationId": "AdminCoachTypeController_findAll",
+        "parameters": [
+          {
+            "name": "active",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCoachType"
+        ]
+      }
+    },
+    "/admin/coach-types/{id}": {
+      "get": {
+        "operationId": "AdminCoachTypeController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCoachType"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminCoachTypeController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SportCoachTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCoachType"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminCoachTypeController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCoachType"
+        ]
+      }
+    },
+    "/admin/coach-types/bulk": {
+      "delete": {
+        "operationId": "AdminCoachTypeController_removeBulk",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCoachType"
+        ]
+      }
+    },
+    "/admin/coach-types/reorder": {
+      "post": {
+        "operationId": "AdminCoachTypeController_reorder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminCoachType"
+        ]
+      }
+    },
+    "/coach-types": {
+      "get": {
+        "operationId": "HomeCoachTypeController_findAll",
+        "parameters": [
+          {
+            "name": "active",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeCoachType"
+        ]
+      }
+    },
+    "/coach-types/sport/{sportId}": {
+      "get": {
+        "operationId": "HomeCoachTypeController_findAllBySportId",
+        "parameters": [
+          {
+            "name": "sportId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeCoachType"
+        ]
+      }
+    },
+    "/coach-types/{id}": {
+      "get": {
+        "operationId": "HomeCoachTypeController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeCoachType"
+        ]
+      }
+    },
+    "/admin/event-types": {
+      "post": {
+        "operationId": "AdminEventTypeController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SportEventTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminEventType"
+        ]
+      },
+      "get": {
+        "operationId": "AdminEventTypeController_findAll",
+        "parameters": [
+          {
+            "name": "sportId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "visible",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminEventType"
+        ]
+      }
+    },
+    "/admin/event-types/{id}": {
+      "get": {
+        "operationId": "AdminEventTypeController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminEventType"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminEventTypeController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SportEventTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminEventType"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminEventTypeController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminEventType"
+        ]
+      }
+    },
+    "/admin/event-types/bulk": {
+      "delete": {
+        "operationId": "AdminEventTypeController_removeBulk",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminEventType"
+        ]
+      }
+    },
+    "/admin/event-types/reorder": {
+      "post": {
+        "operationId": "AdminEventTypeController_reorder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminEventType"
+        ]
+      }
+    },
+    "/event-types": {
+      "get": {
+        "operationId": "HomeEventTypeController_findAll",
+        "parameters": [
+          {
+            "name": "sportId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "visible",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeEventType"
+        ]
+      }
+    },
+    "/event-types/{id}": {
+      "get": {
+        "operationId": "HomeEventTypeController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeEventType"
+        ]
+      }
+    },
+    "/admin/game-periods": {
+      "post": {
+        "operationId": "AdminGamePeriodController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SportGamePeriodDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminGamePeriod"
+        ]
+      },
+      "get": {
+        "operationId": "AdminGamePeriodController_findAll",
+        "parameters": [
+          {
+            "name": "sportId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminGamePeriod"
+        ]
+      }
+    },
+    "/admin/game-periods/{id}": {
+      "get": {
+        "operationId": "AdminGamePeriodController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminGamePeriod"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminGamePeriodController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SportGamePeriodDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminGamePeriod"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminGamePeriodController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminGamePeriod"
+        ]
+      }
+    },
+    "/admin/game-periods/bulk": {
+      "delete": {
+        "operationId": "AdminGamePeriodController_removeBulk",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminGamePeriod"
+        ]
+      }
+    },
+    "/admin/game-periods/reorder": {
+      "post": {
+        "operationId": "AdminGamePeriodController_reorder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminGamePeriod"
+        ]
+      }
+    },
+    "/game-periods": {
+      "get": {
+        "operationId": "HomeGamePeriodController_findAll",
+        "parameters": [
+          {
+            "name": "sportId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeGamePeriod"
+        ]
+      }
+    },
+    "/game-periods/{id}": {
+      "get": {
+        "operationId": "HomeGamePeriodController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeGamePeriod"
+        ]
+      }
+    },
+    "/admin/manager-types": {
+      "post": {
+        "operationId": "AdminManagerTypeController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SportManagerTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminManagerType"
+        ]
+      },
+      "get": {
+        "operationId": "AdminManagerTypeController_findAll",
+        "parameters": [
+          {
+            "name": "sportId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "active",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminManagerType"
+        ]
+      }
+    },
+    "/admin/manager-types/{id}": {
+      "get": {
+        "operationId": "AdminManagerTypeController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminManagerType"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminManagerTypeController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SportManagerTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminManagerType"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminManagerTypeController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminManagerType"
+        ]
+      }
+    },
+    "/admin/manager-types/bulk": {
+      "delete": {
+        "operationId": "AdminManagerTypeController_removeBulk",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminManagerType"
+        ]
+      }
+    },
+    "/admin/manager-types/reorder": {
+      "post": {
+        "operationId": "AdminManagerTypeController_reorder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminManagerType"
+        ]
+      }
+    },
+    "/manager-types": {
+      "get": {
+        "operationId": "HomeManagerTypeController_findAll",
+        "parameters": [
+          {
+            "name": "sportId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "active",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeManagerType"
+        ]
+      }
+    },
+    "/manager-types/{id}": {
+      "get": {
+        "operationId": "HomeManagerTypeController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeManagerType"
+        ]
+      }
+    },
+    "/admin/player-positions": {
+      "post": {
+        "operationId": "AdminPlayerPositionController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SportPlayerPositionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlayerPosition"
+        ]
+      },
+      "get": {
+        "operationId": "AdminPlayerPositionController_findAll",
+        "parameters": [
+          {
+            "name": "sportId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlayerPosition"
+        ]
+      }
+    },
+    "/admin/player-positions/{id}": {
+      "get": {
+        "operationId": "AdminPlayerPositionController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlayerPosition"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminPlayerPositionController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SportPlayerPositionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlayerPosition"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminPlayerPositionController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlayerPosition"
+        ]
+      }
+    },
+    "/admin/player-positions/bulk": {
+      "delete": {
+        "operationId": "AdminPlayerPositionController_removeBulk",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlayerPosition"
+        ]
+      }
+    },
+    "/admin/player-positions/reorder": {
+      "post": {
+        "operationId": "AdminPlayerPositionController_reorder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AdminPlayerPosition"
+        ]
+      }
+    },
+    "/player-positions": {
+      "get": {
+        "operationId": "HomePlayerPositionController_findAll",
+        "parameters": [
+          {
+            "name": "sportId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomePlayerPosition"
+        ]
+      }
+    },
+    "/player-positions/{id}": {
+      "get": {
+        "operationId": "HomePlayerPositionController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomePlayerPosition"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "EZSportsRP API",
+    "description": "",
+    "version": "2.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "user@example.com"
+          },
+          "firstName": {
+            "type": "string",
+            "example": "John"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Doe"
+          },
+          "password": {
+            "type": "string",
+            "example": "password123"
+          },
+          "status": {
+            "type": "string",
+            "example": "active"
+          },
+          "lastLogin": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2025-01-01"
+          }
+        },
+        "required": [
+          "email",
+          "firstName",
+          "lastName",
+          "password",
+          "status",
+          "lastLogin"
+        ]
+      },
+      "TokenResponseDto": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string"
+          },
+          "user": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "access_token",
+          "user"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "user@example.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "password123"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "BaseCompetitionDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the competition"
+          },
+          "abbr": {
+            "type": "string",
+            "description": "Abbreviation"
+          },
+          "sportId": {
+            "type": "number",
+            "description": "Sport ID"
+          },
+          "note": {
+            "type": "string",
+            "description": "Note"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the competition"
+          },
+          "startDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Start date"
+          },
+          "endDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "End date"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the competition logo"
+          }
+        },
+        "required": [
+          "name",
+          "status"
+        ]
+      },
+      "BaseSportDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the sport"
+          },
+          "abbr": {
+            "type": "string",
+            "description": "Abbreviation"
+          },
+          "note": {
+            "type": "string",
+            "description": "Note"
+          },
+          "isActive": {
+            "type": "number",
+            "description": "Is active"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "name",
+          "isActive",
+          "ord"
+        ]
+      },
+      "BaseCountryDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the country"
+          },
+          "abbr": {
+            "type": "string",
+            "description": "Abbreviation"
+          },
+          "code": {
+            "type": "string",
+            "description": "Country code"
+          },
+          "note": {
+            "type": "string",
+            "description": "Note"
+          },
+          "isActive": {
+            "type": "number",
+            "description": "Is active"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "name",
+          "isActive",
+          "ord"
+        ]
+      },
+      "BaseFieldDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the field"
+          },
+          "abbr": {
+            "type": "string",
+            "description": "Abbreviation"
+          },
+          "note": {
+            "type": "string",
+            "description": "Note"
+          },
+          "isActive": {
+            "type": "number",
+            "description": "Is active"
+          },
+          "sportIds": {
+            "description": "Sport IDs",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "countryId": {
+            "type": "number",
+            "description": "Country ID"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "name",
+          "isActive",
+          "sportIds",
+          "ord"
+        ]
+      },
+      "BaseGroupLevelDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the group level"
+          },
+          "abbr": {
+            "type": "string",
+            "description": "Abbreviation"
+          },
+          "note": {
+            "type": "string",
+            "description": "Note"
+          },
+          "minAge": {
+            "type": "number",
+            "description": "Minimum age"
+          },
+          "maxAge": {
+            "type": "number",
+            "description": "Maximum age"
+          },
+          "skillLevel": {
+            "type": "string",
+            "description": "Skill level"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "MemberPersonDto": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "description": "First name"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Last name"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone"
+          },
+          "dob": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Date of birth"
+          },
+          "gender": {
+            "type": "string",
+            "description": "Gender"
+          },
+          "address": {
+            "type": "string",
+            "description": "Address"
+          },
+          "city": {
+            "type": "string",
+            "description": "City"
+          },
+          "state": {
+            "type": "string",
+            "description": "State"
+          },
+          "zipCode": {
+            "type": "string",
+            "description": "Zip code"
+          },
+          "countryId": {
+            "type": "number",
+            "description": "Country ID"
+          },
+          "photoPath": {
+            "type": "string",
+            "description": "Photo path"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "firstName",
+          "lastName",
+          "status"
+        ]
+      },
+      "MemberClubAdminDto": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "number",
+            "description": "Person ID"
+          },
+          "clubId": {
+            "type": "number",
+            "description": "Club ID"
+          },
+          "emergencyContactName": {
+            "type": "string",
+            "description": "Emergency contact name"
+          },
+          "emergencyContactPhone": {
+            "type": "string",
+            "description": "Emergency contact phone"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the club admin"
+          },
+          "bio": {
+            "type": "string",
+            "description": "Biography"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order of the club admin"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "personId",
+          "clubId",
+          "status",
+          "ord"
+        ]
+      },
+      "MemberCoachDto": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "number",
+            "description": "Person ID"
+          },
+          "licenseNumber": {
+            "type": "string",
+            "description": "License number"
+          },
+          "certification": {
+            "type": "string",
+            "description": "Certification"
+          },
+          "specialization": {
+            "type": "string",
+            "description": "Specialization"
+          },
+          "emergencyContactName": {
+            "type": "string",
+            "description": "Emergency contact name"
+          },
+          "emergencyContactPhone": {
+            "type": "string",
+            "description": "Emergency contact phone"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the coach"
+          },
+          "bio": {
+            "type": "string",
+            "description": "Biography"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order of the coach"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "personId",
+          "status"
+        ]
+      },
+      "MemberParentDto": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "number",
+            "description": "Person ID"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the parent"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Notes"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order of the parent"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "personId",
+          "status",
+          "ord"
+        ]
+      },
+      "MemberTeamManagerDto": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "number",
+            "description": "Person ID"
+          },
+          "appointedDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Appointed date"
+          },
+          "emergencyContactName": {
+            "type": "string",
+            "description": "Emergency contact name"
+          },
+          "emergencyContactPhone": {
+            "type": "string",
+            "description": "Emergency contact phone"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the team manager"
+          },
+          "bio": {
+            "type": "string",
+            "description": "Biography"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order of the team manager"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "personId",
+          "status",
+          "ord"
+        ]
+      },
+      "MemberPlayerDto": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "number",
+            "description": "Person ID"
+          },
+          "height": {
+            "type": "number",
+            "description": "Height"
+          },
+          "weight": {
+            "type": "number",
+            "description": "Weight"
+          },
+          "preferredFoot": {
+            "type": "string",
+            "description": "Preferred foot"
+          },
+          "contractStart": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Contract start date"
+          },
+          "contractEnd": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Contract end date"
+          },
+          "emergencyContactName": {
+            "type": "string",
+            "description": "Emergency contact name"
+          },
+          "emergencyContactPhone": {
+            "type": "string",
+            "description": "Emergency contact phone"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the player"
+          },
+          "bio": {
+            "type": "string",
+            "description": "Biography"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order of the player"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "personId",
+          "status",
+          "ord"
+        ]
+      },
+      "MemberRefereeDto": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "number",
+            "description": "Person ID"
+          },
+          "licenseNumber": {
+            "type": "string",
+            "description": "License number"
+          },
+          "licenseLevel": {
+            "type": "string",
+            "description": "License level"
+          },
+          "certification": {
+            "type": "string",
+            "description": "Certification"
+          },
+          "refereeType": {
+            "type": "string",
+            "description": "Referee type"
+          },
+          "specialization": {
+            "type": "string",
+            "description": "Specialization"
+          },
+          "languages": {
+            "type": "string",
+            "description": "Languages"
+          },
+          "matchFee": {
+            "type": "number",
+            "description": "Match fee"
+          },
+          "emergencyContactName": {
+            "type": "string",
+            "description": "Emergency contact name"
+          },
+          "emergencyContactPhone": {
+            "type": "string",
+            "description": "Emergency contact phone"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the referee"
+          },
+          "bio": {
+            "type": "string",
+            "description": "Biography"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order of the referee"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "personId",
+          "licenseNumber",
+          "refereeType",
+          "status",
+          "ord"
+        ]
+      },
+      "MemberSponsorDto": {
+        "type": "object",
+        "properties": {
+          "companyName": {
+            "type": "string",
+            "description": "Company name"
+          },
+          "contactPerson": {
+            "type": "string",
+            "description": "Contact person"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone"
+          },
+          "website": {
+            "type": "string",
+            "description": "Website"
+          },
+          "sponsorLevel": {
+            "type": "string",
+            "description": "Sponsor level"
+          },
+          "sponsorshipAmount": {
+            "type": "number",
+            "description": "Sponsorship amount"
+          },
+          "contractStart": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Contract start date"
+          },
+          "contractEnd": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Contract end date"
+          },
+          "benefits": {
+            "type": "string",
+            "description": "Benefits"
+          },
+          "logoPath": {
+            "type": "string",
+            "description": "Logo path"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the sponsor"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Notes"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order of the sponsor"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "companyName",
+          "status",
+          "ord"
+        ]
+      },
+      "OrgClubDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the club"
+          },
+          "abbr": {
+            "type": "string",
+            "description": "Abbreviation of the club"
+          },
+          "note": {
+            "type": "string",
+            "description": "Note for the club"
+          },
+          "foundedDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Founded date of the club"
+          },
+          "address": {
+            "type": "string",
+            "description": "Address of the club"
+          },
+          "contactEmail": {
+            "type": "string",
+            "description": "Contact email of the club"
+          },
+          "contactPhone": {
+            "type": "string",
+            "description": "Contact phone of the club"
+          },
+          "website": {
+            "type": "string",
+            "description": "Website of the club"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the club"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order of the club"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "name",
+          "status"
+        ]
+      },
+      "OrgLeagueDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the league"
+          },
+          "abbr": {
+            "type": "string",
+            "description": "Abbreviation of the league"
+          },
+          "note": {
+            "type": "string",
+            "description": "Note for the league"
+          },
+          "gameModeId": {
+            "type": "number",
+            "description": "Game Mode ID"
+          },
+          "groupLevelId": {
+            "type": "number",
+            "description": "Group Level ID"
+          },
+          "season": {
+            "type": "string",
+            "description": "Season of the league"
+          },
+          "startDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Start date of the league"
+          },
+          "endDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "End date of the league"
+          },
+          "registrationDeadline": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Registration deadline"
+          },
+          "maxTeams": {
+            "type": "number",
+            "description": "Maximum number of teams"
+          },
+          "entryFee": {
+            "type": "number",
+            "description": "Entry fee for the league"
+          },
+          "subscribeEmail": {
+            "type": "string",
+            "description": "Subscribe email"
+          },
+          "rules": {
+            "type": "string",
+            "description": "League rules"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the league"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order of the league"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "name",
+          "status"
+        ]
+      },
+      "OrgTeamDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the team"
+          },
+          "abbr": {
+            "type": "string",
+            "description": "Abbreviation of the team"
+          },
+          "note": {
+            "type": "string",
+            "description": "Note for the team"
+          },
+          "clubId": {
+            "type": "number",
+            "description": "Club ID"
+          },
+          "sportId": {
+            "type": "number",
+            "description": "Sport ID"
+          },
+          "leagueId": {
+            "type": "number",
+            "description": "League ID"
+          },
+          "ageGroup": {
+            "type": "string",
+            "description": "Age group of the team"
+          },
+          "gender": {
+            "type": "number",
+            "description": "Gender of the team"
+          },
+          "skillLevel": {
+            "type": "string",
+            "description": "Skill level of the team"
+          },
+          "color1": {
+            "type": "string",
+            "description": "Primary team color"
+          },
+          "color2": {
+            "type": "string",
+            "description": "Secondary team color"
+          },
+          "maxPlayers": {
+            "type": "number",
+            "description": "Maximum number of players"
+          },
+          "status": {
+            "type": "number",
+            "description": "Status of the team"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order of the team"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "name",
+          "status"
+        ]
+      },
+      "PlanGameDto": {
+        "type": "object",
+        "properties": {
+          "leagueId": {
+            "type": "number",
+            "description": "League ID",
+            "example": 1
+          },
+          "gameName": {
+            "type": "string",
+            "description": "Game name",
+            "example": "Friendly Match"
+          },
+          "homeTeamId": {
+            "type": "number",
+            "description": "Home Team ID",
+            "example": 1
+          },
+          "awayTeamId": {
+            "type": "number",
+            "description": "Away Team ID",
+            "example": 2
+          },
+          "startDatetime": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Start datetime",
+            "example": "2023-01-01T15:00:00Z"
+          },
+          "endDatetime": {
+            "format": "date-time",
+            "type": "string",
+            "description": "End datetime",
+            "example": "2023-01-01T17:00:00Z"
+          },
+          "duration": {
+            "type": "number",
+            "description": "Game duration in minutes",
+            "example": 90
+          },
+          "uniform": {
+            "type": "string",
+            "description": "Uniform details",
+            "example": "Home team uniform"
+          },
+          "locationId": {
+            "type": "number",
+            "description": "Location ID",
+            "example": 1
+          },
+          "isScrimmage": {
+            "type": "number",
+            "description": "Is this a scrimmage",
+            "example": 0
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the game",
+            "example": "scheduled"
+          },
+          "createdBy": {
+            "type": "number",
+            "description": "Created by user ID",
+            "example": 1
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Created at timestamp"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Updated at timestamp"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the game logo"
+          }
+        },
+        "required": [
+          "startDatetime",
+          "endDatetime"
+        ]
+      },
+      "PlanMeetingDto": {
+        "type": "object",
+        "properties": {
+          "meetingCategory": {
+            "type": "number",
+            "description": "Meeting category"
+          },
+          "teamId": {
+            "type": "number",
+            "description": "Team ID"
+          },
+          "startDatetime": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Start datetime"
+          },
+          "endDatetime": {
+            "format": "date-time",
+            "type": "string",
+            "description": "End datetime"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title"
+          },
+          "content": {
+            "type": "string",
+            "description": "Content"
+          },
+          "locationId": {
+            "type": "number",
+            "description": "Location ID"
+          },
+          "status": {
+            "type": "number",
+            "description": "Status"
+          },
+          "createdBy": {
+            "type": "number",
+            "description": "Created by"
+          }
+        },
+        "required": [
+          "startDatetime",
+          "endDatetime"
+        ]
+      },
+      "PlanTrainingDto": {
+        "type": "object",
+        "properties": {
+          "teamId": {
+            "type": "number",
+            "description": "Team ID"
+          },
+          "startDatetime": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Start datetime"
+          },
+          "endDatetime": {
+            "format": "date-time",
+            "type": "string",
+            "description": "End datetime"
+          },
+          "trainingContent": {
+            "type": "string",
+            "description": "Training content"
+          },
+          "isAllMembers": {
+            "type": "number",
+            "description": "Is all members"
+          },
+          "locationId": {
+            "type": "number",
+            "description": "Location ID"
+          },
+          "recurringType": {
+            "type": "number",
+            "description": "Recurring type"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status"
+          },
+          "createdBy": {
+            "type": "number",
+            "description": "Created by"
+          }
+        },
+        "required": [
+          "startDatetime",
+          "endDatetime",
+          "isAllMembers",
+          "recurringType",
+          "status"
+        ]
+      },
+      "SportCoachTypeDto": {
+        "type": "object",
+        "properties": {
+          "sportId": {
+            "type": "number",
+            "description": "Sport ID of the coach type"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the coach type"
+          },
+          "abbr": {
+            "type": "string",
+            "description": "Abbreviation of the coach type"
+          },
+          "color": {
+            "type": "string",
+            "description": "Color of the coach type"
+          },
+          "note": {
+            "type": "string",
+            "description": "Note for the coach type"
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Whether the coach type is active"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order of the coach type"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "sportId",
+          "name",
+          "abbr",
+          "color",
+          "isActive",
+          "ord"
+        ]
+      },
+      "SportEventTypeDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the event type"
+          },
+          "abbr": {
+            "type": "string",
+            "description": "Abbreviation of the event type"
+          },
+          "category": {
+            "type": "number",
+            "description": "Category of the event type"
+          },
+          "evaluationMetric": {
+            "type": "number",
+            "description": "Evaluation metric"
+          },
+          "code": {
+            "type": "string",
+            "description": "Code of the event type"
+          },
+          "sportId": {
+            "type": "number",
+            "description": "Sport ID of the event type"
+          },
+          "isVisible": {
+            "type": "number",
+            "description": "Visibility of the event type"
+          },
+          "note": {
+            "type": "string",
+            "description": "Note for the event type"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order of the event type"
+          },
+          "score": {
+            "type": "number",
+            "description": "Score of the event type"
+          },
+          "slot": {
+            "type": "number",
+            "description": "Slot of the event type"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "name",
+          "isVisible",
+          "score",
+          "slot"
+        ]
+      },
+      "SportGamePeriodDto": {
+        "type": "object",
+        "properties": {
+          "sportId": {
+            "type": "number",
+            "description": "Sport ID of the game period"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the game period"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order of the game period"
+          },
+          "duration": {
+            "type": "number",
+            "description": "Duration of the game period"
+          },
+          "note": {
+            "type": "string",
+            "description": "Note for the game period"
+          }
+        },
+        "required": [
+          "sportId",
+          "name",
+          "ord"
+        ]
+      },
+      "SportManagerTypeDto": {
+        "type": "object",
+        "properties": {
+          "sportId": {
+            "type": "number",
+            "description": "Sport ID of the manager type"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the manager type"
+          },
+          "abbr": {
+            "type": "string",
+            "description": "Abbreviation of the manager type"
+          },
+          "color": {
+            "type": "string",
+            "description": "Color of the manager type"
+          },
+          "note": {
+            "type": "string",
+            "description": "Note for the manager type"
+          },
+          "isActive": {
+            "type": "number",
+            "description": "Whether the manager type is active"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order of the manager type"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "name",
+          "abbr",
+          "color",
+          "isActive",
+          "ord"
+        ]
+      },
+      "SportPlayerPositionDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Unique identifier"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the player position"
+          },
+          "abbr": {
+            "type": "string",
+            "description": "Abbreviation of the player position"
+          },
+          "note": {
+            "type": "string",
+            "description": "Note for the player position"
+          },
+          "sportId": {
+            "type": "number",
+            "description": "Sport ID of the player position"
+          },
+          "ord": {
+            "type": "number",
+            "description": "Order of the player position"
+          },
+          "base64": {
+            "type": "string",
+            "description": "Base64 of the sport logo"
+          }
+        },
+        "required": [
+          "name",
+          "abbr",
+          "sportId"
+        ]
+      }
+    }
+  }
+}

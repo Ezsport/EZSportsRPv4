@@ -1,0 +1,9 @@
+{
+  "name": "ezsportsrp",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start:dev": "cd backend && npm run start:dev:win",
+    "start:dev:win": "cd backend && npm run start:dev:win"
+  }
+}
