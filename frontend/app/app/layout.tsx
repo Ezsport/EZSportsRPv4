@@ -19,7 +19,7 @@ export default function DashboardLayout({
         <SidebarApp />
 
         {/* Page Content */}
-        <main className="flex-1 ml-64 p-6">
+        <main className="flex-1 ml-48 p-6">
           {children}
         </main>
       </div>

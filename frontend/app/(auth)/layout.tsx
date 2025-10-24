@@ -12,7 +12,8 @@ export default function MainLayout({
   return (
     <>
       <NavbarHome />
-      <main className="container mx-auto px-4 py-8 max-w-5xl">
+      
+      <main className="container mx-auto pt-32 max-w-5xl">
         <div className="absolute inset-0 z-0">
           <Image
             src="/bg.jpg"

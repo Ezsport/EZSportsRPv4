@@ -131,9 +131,11 @@ export default function FeaturesPage() {
             EZSports RP provides a comprehensive suite of tools designed to
             transform how sports teams operate, communicate, and succeed.
           </p>
-          <Button size="lg" className="shadow-xl">
-            Explore Features
-          </Button>
+          <div className="flex justify-center space-x-4">
+            <Button size="lg" className="shadow-xl" icon={<Briefcase />}>
+              Explore Features
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -153,9 +155,9 @@ export default function FeaturesPage() {
                 ${index % 2 !== 0 ? "md:order-last" : ""}
               `}
             >
-              <div className="bg-muted/5 rounded-full p-8">{category.icon}</div>
+              <div className="bg-muted/5 rounded-full p-16 border border-primary/10">{category.icon}</div>
             </div>
-            <div>
+            <div className="border border-primary/10 rounded-xl p-6">
               <h2 className="text-3xl font-bold mb-6 text-primary">
                 {category.title}
               </h2>

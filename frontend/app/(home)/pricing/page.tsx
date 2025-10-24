@@ -79,7 +79,7 @@ export default function PricingPage() {
 
   return (
     <>
-      <section className="max-w-7xl mx-auto text-center mb-16">
+      <section className="max-w-7xl mx-auto text-center my-16">
         <h1 className="text-5xl font-bold mb-6 text-primary">
           Flexible Pricing for Every Team
         </h1>

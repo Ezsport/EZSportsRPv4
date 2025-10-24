@@ -44,7 +44,7 @@ import {
   TargetIcon,
   BookIcon,
   HeartPulseIcon,
-  WrenchIcon
+  WrenchIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -56,7 +56,7 @@ const adminSidebarNavItems = [
     title: "Dashboard",
     href: "/admin/dashboard",
     icon: PresentationIcon,
-    children: []
+    children: [],
   },
   {
     title: "Base Data",
@@ -65,29 +65,29 @@ const adminSidebarNavItems = [
       {
         title: "Sports",
         href: "/admin/sports",
-        icon: TrophyIcon
+        icon: TrophyIcon,
       },
       {
         title: "Group Levels",
         href: "/admin/group-levels",
-        icon: StarIcon
+        icon: StarIcon,
       },
       {
         title: "Competitions",
         href: "/admin/competitions",
-        icon: FlagIcon
+        icon: FlagIcon,
       },
       {
         title: "Countries",
         href: "/admin/countries",
-        icon: GlobeIcon
+        icon: GlobeIcon,
       },
       {
         title: "Fields",
         href: "/admin/fields",
-        icon: MapPinIcon
-      }
-    ]
+        icon: MapPinIcon,
+      },
+    ],
   },
   {
     title: "Access Control",
@@ -96,39 +96,39 @@ const adminSidebarNavItems = [
       {
         title: "Roles",
         href: "/admin/roles",
-        icon: TagIcon
+        icon: TagIcon,
       },
       {
         title: "Permissions",
         href: "/admin/permissions",
-        icon: KeyRoundIcon
+        icon: KeyRoundIcon,
       },
       {
         title: "Users",
         href: "/admin/users",
-        icon: UsersIcon
+        icon: UsersIcon,
       },
       {
         title: "User Roles",
         href: "/admin/user-roles",
-        icon: UserCogIcon
+        icon: UserCogIcon,
       },
       {
         title: "User Permissions",
         href: "/admin/user-permissions",
-        icon: ShieldCheckIcon
+        icon: ShieldCheckIcon,
       },
       {
         title: "Access Logs",
         href: "/admin/access-logs",
-        icon: ActivityIcon
+        icon: ActivityIcon,
       },
       {
         title: "Login Logs",
         href: "/admin/login-logs",
-        icon: BookIcon
-      }
-    ]
+        icon: BookIcon,
+      },
+    ],
   },
   {
     title: "Sports Settings",
@@ -137,34 +137,34 @@ const adminSidebarNavItems = [
       {
         title: "Event Types",
         href: "/admin/event-types",
-        icon: CalendarIcon
+        icon: CalendarIcon,
       },
       {
         title: "Game Periods",
         href: "/admin/game-periods",
-        icon: TargetIcon
+        icon: TargetIcon,
       },
       {
         title: "Player Positions",
         href: "/admin/player-positions",
-        icon: AwardIcon
+        icon: AwardIcon,
       },
       {
         title: "Coach Types",
         href: "/admin/coach-types",
-        icon: BriefcaseIcon
+        icon: BriefcaseIcon,
       },
       {
         title: "Manager Types",
         href: "/admin/manager-types",
-        icon: UserCogIcon
+        icon: UserCogIcon,
       },
       {
         title: "Referee Types",
         href: "/admin/referee-types",
-        icon: HeartPulseIcon
-      }
-    ]
+        icon: HeartPulseIcon,
+      },
+    ],
   },
   {
     title: "Organizations",
@@ -173,19 +173,19 @@ const adminSidebarNavItems = [
       {
         title: "Clubs",
         href: "/admin/clubs",
-        icon: ShieldCheckIcon
+        icon: ShieldCheckIcon,
       },
       {
         title: "Leagues",
         href: "/admin/leagues",
-        icon: TrophyIcon
+        icon: TrophyIcon,
       },
       {
         title: "Teams",
         href: "/admin/teams",
-        icon: UsersRoundIcon
-      }
-    ]
+        icon: UsersRoundIcon,
+      },
+    ],
   },
   {
     title: "All Members",
@@ -194,49 +194,49 @@ const adminSidebarNavItems = [
       {
         title: "Persons",
         href: "/admin/persons",
-        icon: UserIcon
+        icon: UserIcon,
       },
       {
         title: "Players",
         href: "/admin/players",
-        icon: AwardIcon
+        icon: AwardIcon,
       },
       {
         title: "Coaches",
         href: "/admin/coaches",
-        icon: BriefcaseIcon
+        icon: BriefcaseIcon,
       },
       {
         title: "Managers",
         href: "/admin/managers",
-        icon: UserCogIcon
+        icon: UserCogIcon,
       },
       {
         title: "Referees",
         href: "/admin/referees",
-        icon: HeartPulseIcon
+        icon: HeartPulseIcon,
       },
       {
         title: "Sponsors",
         href: "/admin/sponsors",
-        icon: CreditCardIcon
+        icon: CreditCardIcon,
       },
       {
         title: "Team Managers",
         href: "/admin/team-managers",
-        icon: UserCogIcon
+        icon: UserCogIcon,
       },
       {
         title: "Parents",
         href: "/admin/parents",
-        icon: UserIcon
+        icon: UserIcon,
       },
       {
         title: "Club Admins",
         href: "/admin/club-admins",
-        icon: ShieldCheckIcon
-      }
-    ]
+        icon: ShieldCheckIcon,
+      },
+    ],
   },
   {
     title: "Schedules",
@@ -245,19 +245,19 @@ const adminSidebarNavItems = [
       {
         title: "Games",
         href: "/admin/games",
-        icon: TrophyIcon
+        icon: TrophyIcon,
       },
       {
         title: "Meetings",
         href: "/admin/meetings",
-        icon: MessageSquareIcon
+        icon: MessageSquareIcon,
       },
       {
         title: "Trainings",
         href: "/admin/trainings",
-        icon: PieChartIcon
-      }
-    ]
+        icon: PieChartIcon,
+      },
+    ],
   },
   {
     title: "Matches",
@@ -266,19 +266,19 @@ const adminSidebarNavItems = [
       {
         title: "Matches",
         href: "/admin/matches",
-        icon: TrophyIcon
+        icon: TrophyIcon,
       },
       {
         title: "Match Results",
         href: "/admin/match-results",
-        icon: PieChartIcon
+        icon: PieChartIcon,
       },
       {
         title: "Match Reports",
         href: "/admin/match-reports",
-        icon: FileTextIcon
-      }
-    ]
+        icon: FileTextIcon,
+      },
+    ],
   },
   {
     title: "Membership",
@@ -287,29 +287,29 @@ const adminSidebarNavItems = [
       {
         title: "Memberships",
         href: "/admin/memberships",
-        icon: TagIcon
+        icon: TagIcon,
       },
       {
         title: "Payments",
         href: "/admin/payments",
-        icon: CreditCardIcon
+        icon: CreditCardIcon,
       },
       {
         title: "Invoices",
         href: "/admin/invoices",
-        icon: FileTextIcon
+        icon: FileTextIcon,
       },
       {
         title: "Transactions",
         href: "/admin/transactions",
-        icon: ActivityIcon
+        icon: ActivityIcon,
       },
       {
         title: "Refunds",
         href: "/admin/refunds",
-        icon: WrenchIcon
-      }
-    ]
+        icon: WrenchIcon,
+      },
+    ],
   },
   {
     title: "Chat Messages",
@@ -318,14 +318,14 @@ const adminSidebarNavItems = [
       {
         title: "Messages",
         href: "/admin/messages",
-        icon: MessageSquareIcon
+        icon: MessageSquareIcon,
       },
       {
         title: "Notifications",
         href: "/admin/notifications",
-        icon: LightbulbIcon
-      }
-    ]
+        icon: LightbulbIcon,
+      },
+    ],
   },
   {
     title: "AI Analytics",
@@ -334,14 +334,14 @@ const adminSidebarNavItems = [
       {
         title: "Training Data",
         href: "/admin/training-data",
-        icon: BookIcon
+        icon: BookIcon,
       },
       {
         title: "Analysis History",
         href: "/admin/analysis-history",
-        icon: PieChartIcon
-      }
-    ]
+        icon: PieChartIcon,
+      },
+    ],
   },
   {
     title: "Help & Support",
@@ -350,21 +350,21 @@ const adminSidebarNavItems = [
       {
         title: "Documentation",
         href: "/admin/docs",
-        icon: BookOpenIcon
+        icon: BookOpenIcon,
       },
       {
         title: "Support Ticket",
         href: "/admin/support",
-        icon: LifeBuoyIcon
+        icon: LifeBuoyIcon,
       },
       {
         title: "API Documentation",
-        href: "/admin/docs",
-        icon: CodeIcon
-      }
-    ]
-  }
-]
+        href: "/admin/api-docs",
+        icon: CodeIcon,
+      },
+    ],
+  },
+];
 
 export function SidebarAdmin() {
   const pathname = usePathname();
@@ -387,14 +387,14 @@ export function SidebarAdmin() {
           key={item.href}
           href={item.href || "#"}
           className={cn(
-            "flex items-center p-2 rounded-lg transition-colors duration-200",
+            "flex items-center p-1.5 rounded-lg transition-colors duration-200",
             isActive(item.href)
               ? "bg-primary-foreground text-primary"
               : "hover:bg-primary-foreground/20 text-primary-foreground hover:text-primary-foreground/80"
           )}
         >
-          <item.icon className="mr-3 h-5 w-5" />
-          <span className="font-medium">{item.title}</span>
+          <item.icon className="mr-2.5 h-5 w-5" />
+          <span className="font-medium text-sm">{item.title}</span>
         </Link>
       );
     }
@@ -408,24 +408,27 @@ export function SidebarAdmin() {
 
     return (
       <div key={item.title} className="space-y-1">
-        <div 
+        <div
           onClick={() => toggleMenu(item.title)}
           className={cn(
             "flex items-center p-1.5 rounded-lg cursor-pointer transition-colors duration-200",
-            hasActiveChild 
-              ? "bg-primary-foreground/10 text-primary-foreground" 
+            hasActiveChild
+              ? "bg-primary-foreground/10 text-primary-foreground"
               : "hover:bg-primary-foreground/20 text-primary-foreground hover:text-primary-foreground/80"
           )}
         >
-          <item.icon className="mr-2.5 h-5 w-5" /> {/* Increased from h-4 w-4 to h-5 w-5 */}
-          <span className="font-medium flex-grow text-[0.9rem]">{item.title}</span>
+          <item.icon className="mr-2.5 h-5 w-5" />{" "}
+          {/* Increased from h-4 w-4 to h-5 w-5 */}
+          <span className="font-medium flex-grow text-[0.9rem]">
+            {item.title}
+          </span>
           {isOpen ? (
             <ChevronDownIcon className="h-4 w-4" />
           ) : (
             <ChevronRightIcon className="h-4 w-4" />
           )}
         </div>
-        
+
         {isOpen && (
           <div className="pl-4 space-y-1">
             {item.children.map((child) => (
@@ -433,20 +436,21 @@ export function SidebarAdmin() {
                 key={child.href}
                 href={child.href}
                 className={cn(
-                  "flex items-center p-1.5 rounded-lg text-[0.8rem] transition-colors duration-200",
+                  "flex items-center p-1.5 rounded-lg text-sm transition-colors duration-200",
                   isActive(child.href)
-                    ? "bg-primary-foreground text-primary" 
+                    ? "bg-primary-foreground text-primary"
                     : "hover:bg-primary-foreground/20 text-primary-foreground hover:text-primary-foreground/80"
                 )}
               >
-                {child.icon && <child.icon className="mr-2.5 h-4 w-4" />} {/* Increased from h-3.5 w-3.5 to h-4 w-4 */}
+                {child.icon && <child.icon className="mr-2.5 h-4 w-4" />}{" "}
+                {/* Increased from h-3.5 w-3.5 to h-4 w-4 */}
                 {child.title}
               </Link>
             ))}
           </div>
         )}
       </div>
-    )
+    );
   };
 
   return (
@@ -460,14 +464,6 @@ export function SidebarAdmin() {
           {adminSidebarNavItems.map(renderMenuItem)}
         </nav>
 
-        <div className="mt-auto pt-4 border-t border-primary-foreground/20">
-          <Button
-            variant="outline"
-            className="w-full bg-transparent text-primary-foreground border-primary-foreground/50 hover:bg-primary-foreground/10"
-          >
-            Upgrade to Pro
-          </Button>
-        </div>
       </div>
     </aside>
   );

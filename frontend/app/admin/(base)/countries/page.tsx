@@ -160,7 +160,7 @@ export default function CountriesPage() {
   const SectionIcon = getSectionIcon("countries");
 
   return (
-    <div className="p-6 space-y-6">
+    <>
       <Card
         title="Countries Management"
         note="Manage and configure countries in the system"
@@ -172,7 +172,7 @@ export default function CountriesPage() {
             <div className="flex items-center space-x-2 w-full max-w-md">
               <SearchIcon className="text-muted-foreground" />
               <Input
-                placeholder="Search countries by name, code, or description..."
+                placeholder="Search..."
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 className="flex-grow"
@@ -215,6 +215,6 @@ export default function CountriesPage() {
         country={entry || undefined}
         onSave={handleSave}
       />
-    </div>
+    </>
   );
 }

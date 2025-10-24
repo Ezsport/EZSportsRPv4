@@ -206,7 +206,7 @@ export default function FieldsPage() {
   const SectionIcon = getSectionIcon("fields");
 
   return (
-    <div className="p-6 space-y-6">
+    <>
       <Card
         title="Fields Management"
         note="Manage and configure sports fields"
@@ -217,7 +217,7 @@ export default function FieldsPage() {
             <div className="flex items-center space-x-2 w-full max-w-md">
               <SearchIcon className="text-muted-foreground" />
               <Input
-                placeholder="Search fields by name, code, or description..."
+                placeholder="Search..."
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 className="flex-grow"
@@ -260,6 +260,6 @@ export default function FieldsPage() {
         field={entry || undefined}
         onSave={handleSave}
       />
-    </div>
+    </>
   );
 }

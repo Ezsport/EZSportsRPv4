@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/controls/button";
-import { Trophy, Users, Target, Globe, Rocket, Heart } from "lucide-react";
+import { Trophy, Users, Target, Globe, Rocket } from "lucide-react";
 
 export default function AboutPage() {
   const coreValues = [
@@ -70,15 +70,17 @@ export default function AboutPage() {
       >
         <div className="max-w-7xl mx-auto px-4">
           <h1 className="text-5xl font-bold mb-6 drop-shadow-lg">
-            Revolutionizing Sports Management
+            About EZSports RP
           </h1>
           <p className="text-xl text-white/90 max-w-2xl mx-auto drop-shadow-md mb-8">
             EZSports RP was born from a simple belief: technology can transform
             how sports teams operate, communicate, and achieve success.
           </p>
-          <Button size="lg" className="shadow-xl">
-            Our Mission
-          </Button>
+          <div className="flex justify-center space-x-4">
+            <Button size="lg" className="shadow-xl" icon={<Rocket />}>
+              Read More
+            </Button>
+          </div>
         </div>
       </section>
 

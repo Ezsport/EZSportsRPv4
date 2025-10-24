@@ -11,7 +11,9 @@ export default function MainLayout({
   return (
     <>
       <NavbarHome />
-      <main className="container-fluid mx-auto py-16">{children}</main>
+      <main className="container-fluid mx-auto space-y-6 pt-16">
+        {children}
+      </main>
       <FooterHome />
     </>
   );

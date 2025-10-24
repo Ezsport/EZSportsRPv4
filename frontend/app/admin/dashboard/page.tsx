@@ -1,70 +1,66 @@
-'use client';
+"use client";
 
-import React from 'react';
-import dynamic from 'next/dynamic';
-import { Card } from '@/components/controls/card';
-import { Button } from '@/components/controls/button';
-import { 
-  Users, 
-  Trophy, 
-  Calendar, 
-  Activity, 
+import React from "react";
+import dynamic from "next/dynamic";
+import { Card } from "@/components/controls/card";
+import { Button } from "@/components/controls/button";
+import {
+  Users,
+  Trophy,
+  Calendar,
+  Activity,
   TrendingUp,
   FileText,
   Zap,
   Flag,
   UserCheck,
   CheckIcon,
-  Star
-} from 'lucide-react';
+  Star,
+} from "lucide-react";
+import Toolbar from "@/components/controls/toolbar";
 
 // Dynamically import Recharts components
-const LineChart = dynamic(() => 
-  import('recharts').then((mod) => mod.LineChart), 
+const LineChart = dynamic(
+  () => import("recharts").then((mod) => mod.LineChart),
   { ssr: false }
 );
-const Line = dynamic(() => 
-  import('recharts').then((mod) => mod.Line), 
+const Line = dynamic(() => import("recharts").then((mod) => mod.Line), {
+  ssr: false,
+});
+const XAxis = dynamic(() => import("recharts").then((mod) => mod.XAxis), {
+  ssr: false,
+});
+const YAxis = dynamic(() => import("recharts").then((mod) => mod.YAxis), {
+  ssr: false,
+});
+const CartesianGrid = dynamic(
+  () => import("recharts").then((mod) => mod.CartesianGrid),
   { ssr: false }
 );
-const XAxis = dynamic(() => 
-  import('recharts').then((mod) => mod.XAxis), 
+const Tooltip = dynamic(() => import("recharts").then((mod) => mod.Tooltip), {
+  ssr: false,
+});
+const ResponsiveContainer = dynamic(
+  () => import("recharts").then((mod) => mod.ResponsiveContainer),
   { ssr: false }
 );
-const YAxis = dynamic(() => 
-  import('recharts').then((mod) => mod.YAxis), 
+const RadarChart = dynamic(
+  () => import("recharts").then((mod) => mod.RadarChart),
   { ssr: false }
 );
-const CartesianGrid = dynamic(() => 
-  import('recharts').then((mod) => mod.CartesianGrid), 
+const Radar = dynamic(() => import("recharts").then((mod) => mod.Radar), {
+  ssr: false,
+});
+const PolarGrid = dynamic(
+  () => import("recharts").then((mod) => mod.PolarGrid),
   { ssr: false }
 );
-const Tooltip = dynamic(() => 
-  import('recharts').then((mod) => mod.Tooltip), 
+const PolarAngleAxis = dynamic(
+  () => import("recharts").then((mod) => mod.PolarAngleAxis),
   { ssr: false }
 );
-const ResponsiveContainer = dynamic(() => 
-  import('recharts').then((mod) => mod.ResponsiveContainer), 
-  { ssr: false }
-);
-const RadarChart = dynamic(() => 
-  import('recharts').then((mod) => mod.RadarChart), 
-  { ssr: false }
-);
-const Radar = dynamic(() => 
-  import('recharts').then((mod) => mod.Radar), 
-  { ssr: false }
-);
-const PolarGrid = dynamic(() => 
-  import('recharts').then((mod) => mod.PolarGrid), 
-  { ssr: false }
-);
-const PolarAngleAxis = dynamic(() => 
-  import('recharts').then((mod) => mod.PolarAngleAxis), 
-  { ssr: false }
-);
-const PolarRadiusAxis = dynamic(() => 
-  import('recharts').then((mod) => mod.PolarRadiusAxis), 
+const PolarRadiusAxis = dynamic(
+  () => import("recharts").then((mod) => mod.PolarRadiusAxis),
   { ssr: false }
 );
 
@@ -79,7 +75,7 @@ const statsData = {
   growthRate: 15.5,
   newRegistrations: 87,
   activeSubscriptions: 342,
-  
+
   // New metrics
   totalTeams: 128,
   totalClubs: 42,
@@ -87,101 +83,132 @@ const statsData = {
   totalReferees: 215,
   totalClubAdmins: 87,
   totalTeamManagers: 64,
-  totalGames: 512
+  totalGames: 512,
 };
 
 // Growth data for Bezier line chart
 const growthData = [
-  { month: 'Jan', users: 400, registrations: 240, subscriptions: 180 },
-  { month: 'Feb', users: 300, registrations: 139, subscriptions: 221 },
-  { month: 'Mar', users: 200, registrations: 980, subscriptions: 229 },
-  { month: 'Apr', users: 278, registrations: 390, subscriptions: 200 },
-  { month: 'May', users: 189, registrations: 480, subscriptions: 218 },
-  { month: 'Jun', users: 239, registrations: 380, subscriptions: 250 }
+  { month: "Jan", users: 400, registrations: 240, subscriptions: 180 },
+  { month: "Feb", users: 300, registrations: 139, subscriptions: 221 },
+  { month: "Mar", users: 200, registrations: 980, subscriptions: 229 },
+  { month: "Apr", users: 278, registrations: 390, subscriptions: 200 },
+  { month: "May", users: 189, registrations: 480, subscriptions: 218 },
+  { month: "Jun", users: 239, registrations: 380, subscriptions: 250 },
 ];
 
 // Radar chart data for Top Performing
 const topPerformingData = [
   {
-    subject: 'Soccer',
+    subject: "Soccer",
     A: 120,
     B: 110,
-    fullMark: 150
+    fullMark: 150,
   },
   {
-    subject: 'Basketball',
+    subject: "Basketball",
     A: 98,
     B: 130,
-    fullMark: 150
+    fullMark: 150,
   },
   {
-    subject: 'Tennis',
+    subject: "Tennis",
     A: 86,
     B: 130,
-    fullMark: 150
+    fullMark: 150,
   },
   {
-    subject: 'Volleyball',
+    subject: "Volleyball",
     A: 99,
     B: 100,
-    fullMark: 150
+    fullMark: 150,
   },
   {
-    subject: 'Swimming',
+    subject: "Swimming",
     A: 85,
     B: 90,
-    fullMark: 150
+    fullMark: 150,
   },
   {
-    subject: 'Athletics',
+    subject: "Athletics",
     A: 65,
     B: 85,
-    fullMark: 150
-  }
+    fullMark: 150,
+  },
 ];
 
 // Top teams
 const topTeams = [
-  { name: 'Eagles FC', sport: 'Soccer', wins: 18, points: 54, icon: Flag },
-  { name: 'Thunder Strikers', sport: 'Basketball', wins: 16, points: 48, icon: Star },
-  { name: 'Lightning Runners', sport: 'Track', wins: 15, points: 45, icon: Activity }
+  { name: "Eagles FC", sport: "Soccer", wins: 18, points: 54, icon: Flag },
+  {
+    name: "Thunder Strikers",
+    sport: "Basketball",
+    wins: 16,
+    points: 48,
+    icon: Star,
+  },
+  {
+    name: "Lightning Runners",
+    sport: "Track",
+    wins: 15,
+    points: 45,
+    icon: Activity,
+  },
 ];
 
 // Top players
 const topPlayers = [
-  { name: 'John Smith', sport: 'Soccer', goals: 22, assists: 15, icon: UserCheck },
-  { name: 'Emily Rodriguez', sport: 'Basketball', points: 28, rebounds: 12, icon: CheckIcon },
-  { name: 'Michael Chen', sport: 'Tennis', matches: 24, wins: 20, icon: Trophy }
+  {
+    name: "John Smith",
+    sport: "Soccer",
+    goals: 22,
+    assists: 15,
+    icon: UserCheck,
+  },
+  {
+    name: "Emily Rodriguez",
+    sport: "Basketball",
+    points: 28,
+    rebounds: 12,
+    icon: CheckIcon,
+  },
+  {
+    name: "Michael Chen",
+    sport: "Tennis",
+    matches: 24,
+    wins: 20,
+    icon: Trophy,
+  },
 ];
 
 // Predicted game scores (mock data)
 const predictedScores = [
-  { 
-    homeTeam: 'Eagles FC', 
-    awayTeam: 'Thunder Strikers', 
-    predictedHomeScore: 2, 
+  {
+    homeTeam: "Eagles FC",
+    awayTeam: "Thunder Strikers",
+    predictedHomeScore: 2,
     predictedAwayScore: 1,
-    sport: 'Soccer'
+    sport: "Soccer",
   },
-  { 
-    homeTeam: 'Lightning Runners', 
-    awayTeam: 'Storm Chasers', 
-    predictedHomeScore: 3, 
+  {
+    homeTeam: "Lightning Runners",
+    awayTeam: "Storm Chasers",
+    predictedHomeScore: 3,
     predictedAwayScore: 2,
-    sport: 'Basketball'
-  }
+    sport: "Basketball",
+  },
 ];
 
 export default function AdminDashboard() {
   return (
-    <div className="p-6 space-y-6 bg-gray-50">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
-        <div className="space-x-2 flex">
-          <Button variant="outline">Refresh Data</Button>
-          <Button>Create New</Button>
-        </div>
-      </div>
+    <>
+      <Toolbar
+        end={
+          <div className="space-x-2 flex">
+            <Button variant="outline">Refresh Data</Button>
+            <Button>Create New</Button>
+          </div>
+        }
+      />
 
       {/* Quick Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -236,7 +263,9 @@ export default function AdminDashboard() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-sm font-semibold">{team.wins} Wins</span>
+                  <span className="text-sm font-semibold">
+                    {team.wins} Wins
+                  </span>
                   <p className="text-xs text-gray-500">{team.points} Points</p>
                 </div>
               </div>
@@ -262,13 +291,19 @@ export default function AdminDashboard() {
                 </div>
                 <div className="text-right">
                   {player.goals !== undefined && (
-                    <span className="text-sm font-semibold">{player.goals} Goals</span>
+                    <span className="text-sm font-semibold">
+                      {player.goals} Goals
+                    </span>
                   )}
                   {player.points !== undefined && (
-                    <span className="text-sm font-semibold">{player.points} Points</span>
+                    <span className="text-sm font-semibold">
+                      {player.points} Points
+                    </span>
                   )}
                   {player.matches !== undefined && (
-                    <span className="text-sm font-semibold">{player.matches} Matches</span>
+                    <span className="text-sm font-semibold">
+                      {player.matches} Matches
+                    </span>
                   )}
                 </div>
               </div>
@@ -284,7 +319,10 @@ export default function AdminDashboard() {
           </div>
           <div className="space-y-3">
             {predictedScores.map((game, index) => (
-              <div key={index} className="flex justify-between items-center border-b pb-2 last:border-b-0">
+              <div
+                key={index}
+                className="flex justify-between items-center border-b pb-2 last:border-b-0"
+              >
                 <div>
                   <div className="flex items-center space-x-2">
                     <span className="text-sm font-medium">{game.homeTeam}</span>
@@ -294,9 +332,13 @@ export default function AdminDashboard() {
                   <p className="text-xs text-gray-500">{game.sport}</p>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <span className="text-sm font-semibold">{game.predictedHomeScore}</span>
+                  <span className="text-sm font-semibold">
+                    {game.predictedHomeScore}
+                  </span>
                   <span className="text-xs text-gray-500">-</span>
-                  <span className="text-sm font-semibold">{game.predictedAwayScore}</span>
+                  <span className="text-sm font-semibold">
+                    {game.predictedAwayScore}
+                  </span>
                 </div>
               </div>
             ))}
@@ -321,33 +363,33 @@ export default function AdminDashboard() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis dataKey="month" />
                 <YAxis />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'white', 
-                    borderColor: '#e0e0e0',
-                    borderRadius: '8px'
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "white",
+                    borderColor: "#e0e0e0",
+                    borderRadius: "8px",
                   }}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="users" 
-                  stroke="#8884d8" 
+                <Line
+                  type="monotone"
+                  dataKey="users"
+                  stroke="#8884d8"
                   strokeWidth={3}
                   dot={{ r: 6 }}
                   activeDot={{ r: 8 }}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="registrations" 
-                  stroke="#82ca9d" 
+                <Line
+                  type="monotone"
+                  dataKey="registrations"
+                  stroke="#82ca9d"
                   strokeWidth={3}
                   dot={{ r: 6 }}
                   activeDot={{ r: 8 }}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="subscriptions" 
-                  stroke="#ffc658" 
+                <Line
+                  type="monotone"
+                  dataKey="subscriptions"
+                  stroke="#ffc658"
                   strokeWidth={3}
                   dot={{ r: 6 }}
                   activeDot={{ r: 8 }}
@@ -379,32 +421,32 @@ export default function AdminDashboard() {
           </div>
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <RadarChart 
-                cx="50%" 
-                cy="50%" 
-                outerRadius="80%" 
+              <RadarChart
+                cx="50%"
+                cy="50%"
+                outerRadius="80%"
                 data={topPerformingData}
               >
                 <PolarGrid />
-                <PolarAngleAxis 
-                  dataKey="subject" 
+                <PolarAngleAxis
+                  dataKey="subject"
                   scale="point"
                   reversed={false}
                 />
                 <PolarRadiusAxis angle={30} domain={[0, 150]} />
-                <Radar 
-                  name="Team A" 
-                  dataKey="A" 
-                  stroke="#8884d8" 
-                  fill="#8884d8" 
-                  fillOpacity={0.6} 
+                <Radar
+                  name="Team A"
+                  dataKey="A"
+                  stroke="#8884d8"
+                  fill="#8884d8"
+                  fillOpacity={0.6}
                 />
-                <Radar 
-                  name="Team B" 
-                  dataKey="B" 
-                  stroke="#82ca9d" 
-                  fill="#82ca9d" 
-                  fillOpacity={0.6} 
+                <Radar
+                  name="Team B"
+                  dataKey="B"
+                  stroke="#82ca9d"
+                  fill="#82ca9d"
+                  fillOpacity={0.6}
                 />
                 <Tooltip />
               </RadarChart>
@@ -447,26 +489,34 @@ export default function AdminDashboard() {
           <li className="py-3 flex justify-between items-center">
             <div>
               <p className="text-sm font-medium">New user registered</p>
-              <span className="text-xs text-gray-500">John Doe joined the platform</span>
+              <span className="text-xs text-gray-500">
+                John Doe joined the platform
+              </span>
             </div>
             <span className="text-xs text-gray-500">2 minutes ago</span>
           </li>
           <li className="py-3 flex justify-between items-center">
             <div>
-              <p className="text-sm font-medium">Club "Soccer United" created</p>
-              <span className="text-xs text-gray-500">New sports club added</span>
+              <p className="text-sm font-medium">
+                Club "Soccer United" created
+              </p>
+              <span className="text-xs text-gray-500">
+                New sports club added
+              </span>
             </div>
             <span className="text-xs text-gray-500">1 hour ago</span>
           </li>
           <li className="py-3 flex justify-between items-center">
             <div>
               <p className="text-sm font-medium">Payment received</p>
-              <span className="text-xs text-gray-500">Subscription payment processed</span>
+              <span className="text-xs text-gray-500">
+                Subscription payment processed
+              </span>
             </div>
             <span className="text-xs text-gray-500">3 hours ago</span>
           </li>
         </ul>
       </Card>
-    </div>
+    </>
   );
 }

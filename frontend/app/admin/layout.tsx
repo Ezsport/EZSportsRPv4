@@ -26,7 +26,7 @@ export default function AdminLayout({
         <SidebarAdmin />
 
         {/* Page Content */}
-        <main className="flex-1 ml-64 p-6 pt-20">
+        <main className="flex-1 ml-64 p-6 pt-20 space-y-6">
           {/* Breadcrumb */}
           {pathSegments.length > 0 && (
             <div className="mb-4 flex items-center space-x-2 text-sm text-muted-foreground">

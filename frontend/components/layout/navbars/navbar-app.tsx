@@ -23,7 +23,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export function NavbarApp() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-primary">
       <div className="container-fluid flex w-full h-16 items-center justify-between px-4">
         {/* Logo */}
         <Link href="/dashboard" className="flex items-center">
@@ -34,7 +34,7 @@ export function NavbarApp() {
             height={50} 
             className="mr-2"
           /> 
-          <span className="font-bold text-2xl hover:text-primary/90 transition-colors duration-200">EZSportsRP</span>
+          <span className="font-bold text-2xl text-primary-foreground hover:text-primary-foreground/90 transition-colors duration-200">EZSportsRP</span>
         </Link>
 
         {/* Search Bar */}

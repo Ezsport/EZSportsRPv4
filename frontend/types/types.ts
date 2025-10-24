@@ -67,3 +67,19 @@ export interface TypeOrgPlayer {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface TypeGroupLevel {
+  id?: number;
+  name: string;
+  abbr?: string;
+  note?: string;
+  description?: string;
+  minAge?: number;
+  maxAge?: number;
+  skillLevel?: string;
+  ord?: number;
+  base64?: string;
+  isActive?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
