@@ -400,7 +400,7 @@ model MemberTeamManager {
 }
 
 model OrgClub {
-  id           Int      @id(map: "org_clubs_pkey") @default(dbgenerated("nextval('\"BaseField_id_seq\"'::regclass)")) @db.Decimal(20, 0)
+  id           Decimal   @id(map: "org_clubs_pkey") @default(dbgenerated("nextval('\"BaseField_id_seq\"'::regclass)")) @db.Decimal(20, 0)
   name         String    @db.VarChar(100)
   abbr         String?   @db.VarChar(100)
   note         String?
@@ -416,7 +416,7 @@ model OrgClub {
 }
 
 model OrgLeague {
-  id                   Int   @id(map: "org_leagues_pkey") @default(dbgenerated("nextval('\"BaseField_id_seq\"'::regclass)")) @db.Decimal(20, 0)
+  id                   Decimal   @id(map: "org_leagues_pkey") @default(dbgenerated("nextval('\"BaseField_id_seq\"'::regclass)")) @db.Decimal(20, 0)
   name                 String    @db.VarChar(100)
   abbr                 String?   @db.VarChar(100)
   note                 String?
@@ -440,7 +440,7 @@ model OrgLeague {
 }
 
 model OrgTeam {
-  id         Int   @id(map: "org_teams_pkey") @default(dbgenerated("nextval('\"BaseField_id_seq\"'::regclass)")) @db.Decimal(20, 0)
+  id         Decimal   @id(map: "org_teams_pkey") @default(dbgenerated("nextval('\"BaseField_id_seq\"'::regclass)")) @db.Decimal(20, 0)
   name       String    @db.VarChar(100)
   abbr       String?   @db.VarChar(100)
   note       String?

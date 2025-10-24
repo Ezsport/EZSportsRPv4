@@ -4,8 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner"; // Assuming you're using sonner for notifications
 import Image from "next/image";
-import { NavbarHome } from "@/components/layout/navbars/navbar-home";
-import { FooterHome } from "@/components/layout/footers/footer-home";
 import { Button } from "@/components/controls/button";
 import {
   CheckIcon,
@@ -101,7 +99,7 @@ export default function RegisterPage() {
     useState<MembershipTier>(null);
   const [termsAgreed, setTermsAgreed] = useState(false);
 
-console.log(players) 
+  console.log(players);
 
   // Step navigation handlers
   const nextStep = () => {
@@ -123,7 +121,7 @@ console.log(players)
       let nextStep: RegistrationStep;
 
       switch (currentStep) {
-        case "account-info":          
+        case "account-info":
           nextStep = "role-setup";
           break;
         case "role-setup":
@@ -216,7 +214,7 @@ console.log(players)
 
       setCurrentStep(prevStep);
       // Remove the current step from completed steps
-      setCompletedSteps(prev => prev.filter(step => step !== currentStep));
+      setCompletedSteps((prev) => prev.filter((step) => step !== currentStep));
     }
   };
 
@@ -237,15 +235,20 @@ console.log(players)
 
     // Only allow navigation to completed or current steps
     if (
-      targetStepIndex <= currentStepIndex || 
+      targetStepIndex <= currentStepIndex ||
       completedSteps.includes(targetStep)
     ) {
       // Special handling for role-specific steps
       if (targetStep === "coach-info" && selectedRole !== "coach") return;
-      if (targetStep === "team-manager-info" && selectedRole !== "team-manager") return;
+      if (targetStep === "team-manager-info" && selectedRole !== "team-manager")
+        return;
       if (targetStep === "referee-info" && selectedRole !== "referee") return;
-      if (targetStep === "team-setup" && 
-          (selectedRole !== "coach" && selectedRole !== "team-manager")) return;
+      if (
+        targetStep === "team-setup" &&
+        selectedRole !== "coach" &&
+        selectedRole !== "team-manager"
+      )
+        return;
 
       setCurrentStep(targetStep);
     }
@@ -445,25 +448,31 @@ console.log(players)
       case "team-setup":
         return (
           <PanelTeamSetup
-            sport={coachInfo.sport || { 
-              name: '', 
-              isActive: 1, 
-              ord: 0 
-            }}
-            club={coachInfo.club || { 
-              name: '', 
-              status: 'active',
-              ord: 0
-            }}
-            team={coachInfo.team || { 
-              name: '', 
-              clubId: undefined,
-              sportId: undefined,
-              leagueId: undefined,
-              ageGroup: undefined,
-              status: 1,
-              base64: undefined
-            }}
+            sport={
+              coachInfo.sport || {
+                name: "",
+                isActive: 1,
+                ord: 0,
+              }
+            }
+            club={
+              coachInfo.club || {
+                name: "",
+                status: "active",
+                ord: 0,
+              }
+            }
+            team={
+              coachInfo.team || {
+                name: "",
+                clubId: undefined,
+                sportId: undefined,
+                leagueId: undefined,
+                ageGroup: undefined,
+                status: 1,
+                base64: undefined,
+              }
+            }
             initialPlayers={players}
             onPlayersUpdate={(updatedPlayers) => {
               setPlayers(updatedPlayers);
@@ -481,7 +490,7 @@ console.log(players)
       case "review":
         return (
           <div className="space-y-6">
-            <PanelReview 
+            <PanelReview
               accountInfo={accountInfo}
               selectedRole={selectedRole}
               selectedMembership={selectedMembership}
@@ -489,11 +498,7 @@ console.log(players)
             />
 
             <div className="flex items-center justify-between mt-4 border-t pt-4">
-              <Button 
-                variant="outline"
-                onClick={prevStep}
-                className="px-6"
-              >
+              <Button variant="outline" onClick={prevStep} className="px-6">
                 Previous
               </Button>
 
@@ -505,15 +510,15 @@ console.log(players)
                   checked={termsAgreed}
                   onChange={() => setTermsAgreed(!termsAgreed)}
                 />
-                <label 
-                  htmlFor="terms-agreement" 
+                <label
+                  htmlFor="terms-agreement"
                   className="text-primary text-sm cursor-pointer select-none"
                 >
                   I agree to the Terms of Service and Privacy Policy
                 </label>
               </div>
 
-              <Button 
+              <Button
                 onClick={handleFinalSubmit}
                 disabled={!termsAgreed}
                 className="px-6"
@@ -550,10 +555,10 @@ console.log(players)
       // Use AuthService to register
       const registrationData = {
         email: accountInfo.email,
-        firstName: accountInfo.first_name || '',
-        lastName: accountInfo.last_name || '',
+        firstName: accountInfo.first_name || "",
+        lastName: accountInfo.last_name || "",
         password: accountInfo.password,
-        role: selectedRole
+        role: selectedRole,
       };
 
       const response = await AuthService.register(registrationData);
@@ -563,23 +568,23 @@ console.log(players)
 
       // Redirect to appropriate dashboard based on role
       switch (selectedRole) {
-        case 'ADMIN':
-          router.push('/admin/dashboard');
+        case "ADMIN":
+          router.push("/admin/dashboard");
           break;
-        case 'COACH':
-          router.push('/coach/dashboard');
+        case "COACH":
+          router.push("/coach/dashboard");
           break;
-        case 'TEAM_MANAGER':
-          router.push('/team-manager/dashboard');
+        case "TEAM_MANAGER":
+          router.push("/team-manager/dashboard");
           break;
-        case 'REFEREE':
-          router.push('/referee/dashboard');
+        case "REFEREE":
+          router.push("/referee/dashboard");
           break;
-        case 'PLAYER':
-          router.push('/player/dashboard');
+        case "PLAYER":
+          router.push("/player/dashboard");
           break;
         default:
-          router.push('/dashboard');
+          router.push("/dashboard");
       }
     } catch (error) {
       // Handle registration errors
@@ -599,89 +604,90 @@ console.log(players)
 
   return (
     <>
-      <NavbarHome />
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/bg.jpg"
+          alt="Register Background"
+          fill
+          className="bg-black object-cover"
+        />
+      </div>
 
-      <main className="relative min-h-screen flex items-center justify-center pb-[150px]">
-        {/* Background Image */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/bg.jpg"
-            alt="Register Background"
-            fill
-            className="bg-black object-cover"
-          />
-        </div>
+      {/* Register Container */}
+      <div className="relative z-10 bg-white/90 shadow-2xl rounded-2xl overflow-hidden max-w-5xl w-full mx-4">
+        <div className="p-12">
+          {/* Step Indicator */}
+          {renderStepIndicator()}
 
-        {/* Register Container */}
-        <div className="relative z-10 bg-white/90 shadow-2xl rounded-2xl overflow-hidden max-w-5xl w-full mx-4">
-          <div className="p-12">
-            {/* Step Indicator */}
-            {renderStepIndicator()}
+          {/* Current Step Content */}
+          {renderCurrentStep()}
 
-            {/* Current Step Content */}
-            {renderCurrentStep()}
+          {/* Navigation Buttons */}
+          {(currentStep as string) !== "review" && (
+            <div className="flex items-center justify-between mt-4 border-t pt-4">
+              <Button
+                variant="outline"
+                onClick={prevStep}
+                disabled={currentStep === "account-info"}
+                className="px-6"
+              >
+                <ArrowLeftIcon className="w-5 h-5" />
+                Back
+              </Button>
 
-            {/* Navigation Buttons */}
-            {(currentStep as string) !== "review" && (
-              <div className="flex items-center justify-between mt-4 border-t pt-4">
-                <Button 
-                  variant="outline"
-                  onClick={prevStep}
-                  disabled={currentStep === "account-info"}
-                  className="px-6"
-                >
-                  <ArrowLeftIcon className="w-5 h-5" />
-                  Back
-                </Button>
+              {/* Message area for Role Setup */}
+              {currentStep === "role-setup" && selectedRole === "later" && (
+                <div className="text-sm text-primary text-center flex-grow mx-4 bg-blue-50 p-2 rounded-lg flex items-center justify-center">
+                  <InfoIcon className="w-5 h-5 mr-2" />
+                  You can complete your role setup in your profile settings
+                  after registration.
+                </div>
+              )}
 
-                {/* Message area for Role Setup */}
-                {currentStep === "role-setup" && selectedRole === "later" && (
-                  <div className="text-sm text-primary text-center flex-grow mx-4 bg-blue-50 p-2 rounded-lg flex items-center justify-center">
-                    <InfoIcon className="w-5 h-5 mr-2" />
-                    You can complete your role setup in your profile settings
-                    after registration.
-                  </div>
-                )}
+              {/* Annual Discount Message for Membership */}
+              {currentStep === "membership" && (
+                <div className="text-sm text-green-600 text-center flex-grow mx-4 bg-green-50 p-2 rounded-lg flex items-center justify-center">
+                  <TrendingUpIcon className="w-5 h-5 mr-2" />
+                  Pro plan offers 20% discount when billed annually
+                </div>
+              )}
 
-                {/* Annual Discount Message for Membership */}
-                {currentStep === "membership" && (
-                  <div className="text-sm text-green-600 text-center flex-grow mx-4 bg-green-50 p-2 rounded-lg flex items-center justify-center">
-                    <TrendingUpIcon className="w-5 h-5 mr-2" />
-                    Pro plan offers 20% discount when billed annually
-                  </div>
-                )}
-
-                <Button
-                  onClick={() => {
-                    if (currentStep === "account-info" || currentStep === "coach-info") {
-                      // Trigger form validation
-                      const form = document.querySelector('form') as HTMLFormElement;
-                      if (form) {
-                        const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-                        if (submitButton) {
-                          submitButton.click();
-                        }
+              <Button
+                onClick={() => {
+                  if (
+                    currentStep === "account-info" ||
+                    currentStep === "coach-info"
+                  ) {
+                    // Trigger form validation
+                    const form = document.querySelector(
+                      "form"
+                    ) as HTMLFormElement;
+                    if (form) {
+                      const submitButton = form.querySelector(
+                        'button[type="submit"]'
+                      ) as HTMLButtonElement;
+                      if (submitButton) {
+                        submitButton.click();
                       }
-                    } else {
-                      // For other steps, use existing nextStep logic
-                      nextStep();
                     }
-                  }}
-                  className={`
+                  } else {
+                    // For other steps, use existing nextStep logic
+                    nextStep();
+                  }
+                }}
+                className={`
                     px-6 
                     ${currentStep === "account-info" ? "ml-auto" : ""}
                   `}
-                >
-                  Forward
-                  <ArrowRightIcon className="w-5 h-5" />
-                </Button>
-              </div>
-            )}
-          </div>
+              >
+                Forward
+                <ArrowRightIcon className="w-5 h-5" />
+              </Button>
+            </div>
+          )}
         </div>
-      </main>
-
-      <FooterHome />
+      </div>
     </>
   );
 }
