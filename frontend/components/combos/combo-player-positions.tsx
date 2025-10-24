@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { usePlayerPositions } from "@/hooks/usePlayerPositions";
+import usePlayerPositions from "@/hooks/usePlayerPositions";
 import { Select, BaseItem } from "../ui/select";
 
 type PlayerPositionComboProps = {

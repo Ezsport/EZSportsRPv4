@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ServiceLeague, League, LeagueQueryParams } from '@/lib/services/service-league';
 
-export function useLeagues(initialParams?: LeagueQueryParams) {
+export default function useLeagues(initialParams?: LeagueQueryParams) {
   const [leagues, setLeagues] = useState<League[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

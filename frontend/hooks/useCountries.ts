@@ -62,7 +62,7 @@ class CountriesCache {
   }
 }
 
-export function useCountries() {
+export default function useCountries() {
   const [state, setState] = useState(() => {
     const cache = CountriesCache.getInstance();
     return cache.getCountries();

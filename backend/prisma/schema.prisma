@@ -765,7 +765,7 @@ model SportCoachType {
   abbr      String    @db.VarChar(100)
   color     String    @db.VarChar(20)
   note      String?
-  isActive  Boolean   @db.SmallInt
+  isActive  Boolean  @default(true)
   ord       Int
   createdAt DateTime? @db.Timestamp(6)
   updatedAt DateTime? @db.Timestamp(6)
@@ -816,7 +816,7 @@ model SportManagerType {
   abbr      String    @db.VarChar(100)
   color     String    @db.VarChar(20)
   note      String?
-  isActive  Int       @db.SmallInt
+  isActive  Boolean  @default(true)
   ord       Int
   createdAt DateTime? @db.Timestamp(6)
   updatedAt DateTime? @db.Timestamp(6)
@@ -846,7 +846,7 @@ model SportRefereeType {
   abbr      String    @db.VarChar(100)
   color     String    @db.VarChar(20)
   note      String?
-  isActive  Int       @db.SmallInt
+  isActive  Boolean  @default(true)
   ord       Int
   createdAt DateTime? @db.Timestamp(6)
   updatedAt DateTime? @db.Timestamp(6)
@@ -862,7 +862,7 @@ model SubFeature {
   note        String?
   category    String?   @db.VarChar(100)
   icon        String?   @db.VarChar(100)
-  isActive    Int       @db.SmallInt
+  isActive    Boolean  @default(true)
   ord         Int
   createdAt   DateTime? @db.Timestamp(6)
   updatedAt   DateTime? @db.Timestamp(6)
@@ -955,22 +955,46 @@ model SubPlanFeature {
 }
 
 model SysUser {
-  id        String   @id @default(cuid())
-  email     String   @unique
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
   password  String
-  firstName String?
-  lastName  String?
-  role      SysUserRole
-  isActive  Boolean  @default(true)
-  lastLogin DateTime?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  name      String?
+  roles     SysUserRole[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
-enum SysUserRole {
-  ADMIN
-  COACH
-  TEAM_MANAGER
-  REFEREE
-  PLAYER
+model SysRole {
+  id          Int              @id @default(autoincrement())
+  name        String           @unique
+  description String?
+  permissions SysRolePermission[]
+  users       SysUserRole[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model SysPermission {
+  id          Int              @id @default(autoincrement())
+  action      String           @unique
+  description String?
+  roles       SysRolePermission[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model SysUserRole {
+  userId Int
+  roleId Int
+  user   SysUser @relation(fields: [userId], references: [id])
+  role   SysRole @relation(fields: [roleId], references: [id])
+  @@id([userId, roleId])
+}
+
+model SysRolePermission {
+  roleId       Int
+  permissionId Int
+  role         SysRole       @relation(fields: [roleId], references: [id])
+  permission   SysPermission @relation(fields: [permissionId], references: [id])
+  @@id([roleId, permissionId])
 }

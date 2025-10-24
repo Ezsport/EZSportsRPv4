@@ -3,8 +3,8 @@
 import React from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { useSports } from "@/hooks/useSports";
-import { TypeSport } from "@/lib/types";
+import useSports from "@/hooks/useSports";
+import { components } from "@/types/api-types";
 
 type SportCheckerProps = {
   value?: string[] | string | number[] | number;
@@ -26,9 +26,7 @@ export function CheckerSports({
   // Normalize value to always be an array of strings
   const selectedSports = React.useMemo(() => {
     if (!value) return [];
-    return Array.isArray(value)
-      ? value.map(String)
-      : [String(value)];
+    return Array.isArray(value) ? value.map(String) : [String(value)];
   }, [value]);
 
   // Normalize default checked to always be an array of strings
@@ -57,26 +55,20 @@ export function CheckerSports({
   return (
     <div className={`space-x-4 ${className}`}>
       <div className="flex items-center space-x-4">
-        {sports.map((sport: TypeSport) => {
+        {sports.map((sport: components["schemas"]["BaseSportDto"]) => {
           const sportId = String(sport.id);
           const isSelected = selectedSports.includes(sportId);
           const isDefaultChecked = defaultSelectedSports.includes(sportId);
 
           return (
-            <div 
-              key={sportId} 
-              className="flex items-center space-x-2"
-            >
+            <div key={sportId} className="flex items-center space-x-2">
               <Checkbox
                 id={`sport-${sportId}`}
                 checked={isSelected || isDefaultChecked}
                 onCheckedChange={() => handleValueChange(sportId)}
                 disabled={disabled}
               />
-              <Label 
-                htmlFor={`sport-${sportId}`} 
-                className="cursor-pointer"
-              >
+              <Label htmlFor={`sport-${sportId}`} className="cursor-pointer">
                 {sport.name}
               </Label>
             </div>

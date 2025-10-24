@@ -1,15 +1,9 @@
-"use client"
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from "@/components/ui/select";
-import { useCountries } from "@/hooks/useCountries";
-import { TypeCountry } from "@/lib/types";
+import React, { useEffect, useState } from "react";
+import { Select } from "@/components/ui/select";
+import useCountries from "@/hooks/useCountries";
+import { components } from "@/types/api-types";
 
 type CountryComboProps = {
   value?: string | number | null;
@@ -27,7 +21,9 @@ export function ComboCountries({
   className,
 }: CountryComboProps) {
   const { countries, loading, error } = useCountries();
-  const [selectedValue, setSelectedValue] = useState<string>(value !== null ? String(value) : "");
+  const [selectedValue, setSelectedValue] = useState<string>(
+    value !== null ? String(value) : ""
+  );
 
   // Sync prop value with internal state
   useEffect(() => {
@@ -41,7 +37,7 @@ export function ComboCountries({
 
   return (
     <Select
-      value={selectedValue} 
+      value={selectedValue}
       onValueChange={handleValueChange}
       disabled={disabled || loading}
     >
@@ -64,14 +60,13 @@ export function ComboCountries({
           </SelectItem>
         )}
 
-        {!loading && !error && countries.map((country: TypeCountry) => (
-          <SelectItem 
-            key={country.id} 
-            value={String(country.id)}
-          >
-            {country.name}
-          </SelectItem>
-        ))}
+        {!loading &&
+          !error &&
+          countries.map((country: components["schemas"]["BaseCountryDto"]) => (
+            <SelectItem key={country.id} value={String(country.id)}>
+              {country.name}
+            </SelectItem>
+          ))}
       </SelectContent>
     </Select>
   );

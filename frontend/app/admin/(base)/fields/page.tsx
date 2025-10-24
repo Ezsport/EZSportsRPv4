@@ -16,8 +16,8 @@ import { ServiceField } from "@/lib/services/service-field";
 import { TypeField, TypeReorder, TypeSport } from "@/types/types";
 import FieldEditModal from "@/components/modals/modal-field-edit";
 import { getSectionIcon } from "@/lib/utils";
-import { useSports } from "@/hooks/useSports";
-import { useCountries } from "@/hooks/useCountries";
+import useSports from "@/hooks/useSports";
+import useCountries from "@/hooks/useCountries";
 
 export default function FieldsPage() {
   const { sports } = useSports();

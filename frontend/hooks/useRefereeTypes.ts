@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ServiceRefereeType, RefereeType, RefereeTypeQueryParams } from '@/lib/services/service-referee-type';
 
-export function useRefereeTypes(initialParams?: RefereeTypeQueryParams) {
+export default function useRefereeTypes(initialParams?: RefereeTypeQueryParams) {
   const [refereeTypes, setRefereeTypes] = useState<RefereeType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

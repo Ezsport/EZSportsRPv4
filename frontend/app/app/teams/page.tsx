@@ -1,26 +1,26 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Button } from '@/components/controls/button';
-import Table from '@/components/controls/table';
-import { Card } from '@/components/controls/card';
-import { Modal } from '@/components/controls/modal';
-import { Form } from '@/components/controls/form';
-import { useTeams } from '@/hooks/useTeams';
-import { useClubs } from '@/hooks/useClubs';
-import { useSports } from '@/hooks/useSports';
-import { Toaster, toast } from 'sonner';
-import { Team } from '@/lib/services/service-team';
+import React, { useState } from "react";
+import { Button } from "@/components/controls/button";
+import Table from "@/components/controls/table";
+import { Card } from "@/components/controls/card";
+import { Modal } from "@/components/controls/modal";
+import { Form } from "@/components/controls/form";
+import useTeams from "@/hooks/useTeams";
+import useClubs from "@/hooks/useClubs";
+import useSports from "@/hooks/useSports";
+import { Toaster, toast } from "sonner";
+import { Team } from "@/lib/services/service-team";
 
 export default function TeamsPage() {
-  const { 
-    teams, 
-    createTeam, 
-    updateTeam, 
+  const {
+    teams,
+    createTeam,
+    updateTeam,
     deleteTeam,
     isLoading,
     error,
-    updateParams
+    updateParams,
   } = useTeams();
   const { clubs } = useClubs();
   const { sports } = useSports();
@@ -32,15 +32,15 @@ export default function TeamsPage() {
     try {
       if (currentTeam) {
         await updateTeam(currentTeam.id!, formData);
-        toast.success('Team updated successfully');
+        toast.success("Team updated successfully");
       } else {
         await createTeam(formData);
-        toast.success('Team created successfully');
+        toast.success("Team created successfully");
       }
       setIsModalOpen(false);
       setCurrentTeam(null);
     } catch (error) {
-      toast.error('Failed to save team');
+      toast.error("Failed to save team");
       console.error(error);
     }
   };
@@ -48,33 +48,33 @@ export default function TeamsPage() {
   const handleDeleteTeam = async (teamId: string) => {
     try {
       await deleteTeam(teamId);
-      toast.success('Team deleted successfully');
+      toast.success("Team deleted successfully");
     } catch (error) {
-      toast.error('Failed to delete team');
+      toast.error("Failed to delete team");
       console.error(error);
     }
   };
 
   const teamColumns = [
-    { 
-      header: 'Name', 
-      accessorKey: 'name' 
-    },
-    { 
-      header: 'Club', 
-      accessorKey: 'club.name' 
-    },
-    { 
-      header: 'Sport', 
-      accessorKey: 'sport.name' 
+    {
+      header: "Name",
+      accessorKey: "name",
     },
     {
-      header: 'Actions',
+      header: "Club",
+      accessorKey: "club.name",
+    },
+    {
+      header: "Sport",
+      accessorKey: "sport.name",
+    },
+    {
+      header: "Actions",
       cell: (info: any) => (
         <div className="flex space-x-2">
-          <Button 
-            variant="outline" 
-            size="sm" 
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() => {
               setCurrentTeam(info.row.original);
               setIsModalOpen(true);
@@ -82,23 +82,23 @@ export default function TeamsPage() {
           >
             Edit
           </Button>
-          <Button 
-            variant="destructive" 
-            size="sm" 
+          <Button
+            variant="destructive"
+            size="sm"
             onClick={() => handleDeleteTeam(info.row.original.id)}
           >
             Delete
           </Button>
         </div>
-      )
-    }
+      ),
+    },
   ];
 
   // Filtering and pagination controls
   const handleFilterChange = (filterType: string, value: string) => {
-    updateParams({ 
+    updateParams({
       [filterType]: value,
-      page: 1  // Reset to first page when filter changes
+      page: 1, // Reset to first page when filter changes
     });
   };
 
@@ -107,31 +107,29 @@ export default function TeamsPage() {
       <Card>
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold">Team Management</h1>
-          <Button onClick={() => setIsModalOpen(true)}>
-            Create New Team
-          </Button>
+          <Button onClick={() => setIsModalOpen(true)}>Create New Team</Button>
         </div>
 
         {/* Optional: Add filter controls */}
         <div className="flex space-x-4 mb-4">
-          <select 
-            onChange={(e) => handleFilterChange('clubId', e.target.value)}
+          <select
+            onChange={(e) => handleFilterChange("clubId", e.target.value)}
             className="border rounded p-2"
           >
             <option value="">All Clubs</option>
-            {clubs?.map(club => (
+            {clubs?.map((club) => (
               <option key={club.id} value={club.id}>
                 {club.name}
               </option>
             ))}
           </select>
 
-          <select 
-            onChange={(e) => handleFilterChange('sportId', e.target.value)}
+          <select
+            onChange={(e) => handleFilterChange("sportId", e.target.value)}
             className="border rounded p-2"
           >
             <option value="">All Sports</option>
-            {sports?.map(sport => (
+            {sports?.map((sport) => (
               <option key={sport.id} value={sport.id}>
                 {sport.name}
               </option>
@@ -144,59 +142,58 @@ export default function TeamsPage() {
         ) : error ? (
           <p className="text-red-500">{error}</p>
         ) : (
-          <Table 
-            columns={teamColumns} 
-            data={teams || []} 
-          />
+          <Table columns={teamColumns} data={teams || []} />
         )}
       </Card>
 
       {isModalOpen && (
-        <Modal 
-          isOpen={isModalOpen} 
+        <Modal
+          isOpen={isModalOpen}
           onClose={() => {
             setIsModalOpen(false);
             setCurrentTeam(null);
           }}
-          title={currentTeam ? 'Edit Team' : 'Create New Team'}
+          title={currentTeam ? "Edit Team" : "Create New Team"}
         >
           <Form
             fields={[
               {
-                name: 'name',
-                label: 'Team Name',
-                type: 'text',
+                name: "name",
+                label: "Team Name",
+                type: "text",
                 required: true,
-                defaultValue: currentTeam?.name || ''
+                defaultValue: currentTeam?.name || "",
               },
               {
-                name: 'clubId',
-                label: 'Club',
-                type: 'select',
-                options: clubs?.map(club => ({
-                  value: club.id,
-                  label: club.name
-                })) || [],
+                name: "clubId",
+                label: "Club",
+                type: "select",
+                options:
+                  clubs?.map((club) => ({
+                    value: club.id,
+                    label: club.name,
+                  })) || [],
                 required: true,
-                defaultValue: currentTeam?.clubId || ''
+                defaultValue: currentTeam?.clubId || "",
               },
               {
-                name: 'sportId',
-                label: 'Sport',
-                type: 'select',
-                options: sports?.map(sport => ({
-                  value: sport.id,
-                  label: sport.name
-                })) || [],
+                name: "sportId",
+                label: "Sport",
+                type: "select",
+                options:
+                  sports?.map((sport) => ({
+                    value: sport.id,
+                    label: sport.name,
+                  })) || [],
                 required: true,
-                defaultValue: currentTeam?.sportId || ''
-              }
+                defaultValue: currentTeam?.sportId || "",
+              },
             ]}
             onSubmit={handleCreateOrUpdateTeam}
           />
         </Modal>
       )}
-      
+
       <Toaster richColors position="top-right" />
     </div>
   );

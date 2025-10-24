@@ -1,15 +1,27 @@
 "use client";
 
 import React from "react";
-import { useSports } from "@/hooks/useSports";
-import { Select } from "../ui/select";
+import useSports from "@/hooks/useSports";
+import { Select } from "@/components/ui/select";
+import { components } from "@/types/api-types";
 
 type SportComboProps = {
   valueType?: "id" | "item";
   returnType?: "id" | "item";
-  value?: string[] | string | number[] | number | Option[] | Option | null;
-  onChange?: (value: string[] | null | undefined) => void;
-  onValueChange?: (value: string[]) => void;
+  value?:
+    | string[]
+    | string
+    | number[]
+    | number
+    | components["schemas"]["BaseSportDto"][]
+    | components["schemas"]["BaseSportDto"]
+    | null;
+  onChange?: (
+    value: string[] | components["schemas"]["BaseSportDto"][] | null | undefined
+  ) => void;
+  onValueChange?: (
+    value: components["schemas"]["BaseSportDto"][] | null | undefined
+  ) => void;
   placeholder?: string;
   disabled?: boolean;
   className?: string;
@@ -29,15 +41,19 @@ export default function ComboSports({
 }: SportComboProps) {
   const { sports, loading, error } = useSports();
 
-  const handleChange = (value: string[]) => {
+  const handleChange = (
+    value: string[] | components["schemas"]["BaseSportDto"][] | null | undefined
+  ) => {
     onChange?.(value);
-    onValueChange?.(value);
+    onValueChange?.(
+      value as components["schemas"]["BaseSportDto"][] | null | undefined
+    );
   };
 
   return (
     <Select
       data={sports}
-      value={value}
+      value={value as string[] | number[] | null | undefined}
       valueType={valueType}
       returnType={returnType}
       onChange={handleChange}

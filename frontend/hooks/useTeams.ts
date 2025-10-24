@@ -9,7 +9,7 @@ const teamCache = new Map<string, {
 
 const CACHE_EXPIRATION_TIME = 5 * 60 * 1000; // 5 minutes
 
-export function useTeams(clubId?: string, sportId?: string) {
+export default function useTeams(clubId?: string, sportId?: string) {
   const [teams, setTeams] = useState<Team[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

@@ -35,7 +35,9 @@ export default function AvatarPicker({
 
   const [isLocalImageUploaded, setIsLocalImageUploaded] = useState(false);
 
-  const currentImage = isLocalImageUploaded ? localImage : (sourceProp || localImage);
+  const currentImage = isLocalImageUploaded
+    ? localImage
+    : sourceProp || localImage;
 
   const generateEditedImage = useCallback(() => {
     if (editorRef.current) {
@@ -82,11 +84,11 @@ export default function AvatarPicker({
       setScale(1);
       setRotate(0);
       setPosition({ x: 0.5, y: 0.5 });
-      
+
       setTimeout(() => {
         onChange?.(img);
       }, 100);
-      
+
       e.target.value = "";
     };
 

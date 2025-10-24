@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
-import { AuthModule } from './sys/auth/module';
+// import { AuthModule } from './sys/auth/module';
 import { BaseCompetitionsModule } from './base/competitions/module';
 import { BaseCountriesModule } from './base/countries/module';
 import { BaseSportsModule } from './base/sports/module';
@@ -36,7 +36,7 @@ import { SportCoachTypeModule } from './sport/coach-types/module';
       envFilePath: ['.env.local', '.env']
     }),
     PrismaModule,
-    AuthModule,
+    // AuthModule,
     BaseCompetitionsModule,
     BaseSportsModule,
     BaseCountriesModule,

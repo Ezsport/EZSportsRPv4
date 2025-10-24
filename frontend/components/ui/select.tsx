@@ -24,13 +24,13 @@ export interface BaseItem {
 export interface SelectProps<Option extends BaseItem = BaseItem>
   extends Omit<ReactSelectProps<Option, boolean>, "onChange" | "value"> {
   value?: string[] | string | number[] | number | Option[] | Option | null;
-  onChange?: (value: string[] | Option[] | null | undefined) => void | any;
+  onChange?: (value: any) => void | undefined;
   placeholder?: string;
   disabled?: boolean;
   multiple?: boolean;
   data: Option[];
   loading?: boolean;
-  error?: string;
+  error?: string | null;
   allowClear?: boolean;
   allowFilter?: boolean;
   avatarField?: string;
@@ -184,7 +184,8 @@ export function Select<Option extends BaseItem = BaseItem>({
           cn(
             "!min-h-[36px] min-w-[80px] !cursor-pointer !border-primary/40 !hover:border-primary/80",
             "!border !rounded-md !bg-background !shadow-sm",
-            state.isDisabled && "!cursor-not-allowed !opacity-50 !bg-background",
+            state.isDisabled &&
+              "!cursor-not-allowed !opacity-50 !bg-background",
             error && "!border-destructive",
             "focus-within:!ring-2",
             "focus-within:!ring-ring",
@@ -236,29 +237,4 @@ export function Select<Option extends BaseItem = BaseItem>({
       menuPortalTarget={document.body}
     />
   );
-}
-
-// Placeholder components for compatibility
-export function SelectTrigger() {
-  return null;
-}
-
-export function SelectValue() {
-  return null;
-}
-
-export function SelectContent() {
-  return null;
-}
-
-export function SelectItem() {
-  return null;
-}
-
-export function SelectGroup() {
-  return null;
-}
-
-export function SelectLabel() {
-  return null;
 }

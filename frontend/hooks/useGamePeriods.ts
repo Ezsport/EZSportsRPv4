@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ServiceGamePeriod, GamePeriod, GamePeriodQueryParams } from '@/lib/services/service-game-period';
 
-export function useGamePeriods(initialParams?: GamePeriodQueryParams) {
+export default function useGamePeriods(initialParams?: GamePeriodQueryParams) {
   const [gamePeriods, setGamePeriods] = useState<GamePeriod[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

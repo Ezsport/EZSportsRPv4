@@ -1,7 +1,6 @@
 "use client";
 
 import { NavbarHome } from "@/components/layout/navbars/navbar-home";
-import { FooterHome } from "@/components/layout/footers/footer-home";
 import Image from "next/image";
 
 export default function MainLayout({
@@ -12,7 +11,7 @@ export default function MainLayout({
   return (
     <>
       <NavbarHome />
-      
+
       <main className="container mx-auto pt-32 max-w-5xl">
         <div className="absolute inset-0 z-0">
           <Image

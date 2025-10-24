@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ServiceEventType, EventType, EventTypeQueryParams } from '@/lib/services/service-event-type';
 
-export function useEventTypes(initialParams?: EventTypeQueryParams) {
+export default function useEventTypes(initialParams?: EventTypeQueryParams) {
   const [eventTypes, setEventTypes] = useState<EventType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

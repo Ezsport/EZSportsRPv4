@@ -1,28 +1,31 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { 
-  NavigationMenu, 
-  NavigationMenuItem, 
-  NavigationMenuList
-} from "@/components/ui/navigation-menu"
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/controls/button";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuList,
+} from "@/components/ui/navigation-menu";
+import { ArrowRight, CircleArrowRight, Key, LogIn, UserPlus, Wand, Wand2 } from "lucide-react";
 
 export function NavbarHome() {
   return (
-    <header className="fixed top-0 z-50 w-full border-b-2 border-primary/10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 justify-center flex">
+    <header className="fixed top-0 z-50 w-full shadow-xl bg-white justify-center flex">
       <div className="container max-w-7xl flex h-16 items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center ">
-          <Image 
-            src="/logo-180.png" 
-            alt="EZSportsRP Logo" 
-            width={80} 
-            height={80} 
+          <Image
+            src="/logo-180.png"
+            alt="EZSportsRP Logo"
+            width={80}
+            height={80}
             className="w-12 h-12"
-          /> 
-          <span className="font-bold text-2xl hover:text-primary/90 transition-colors duration-200">EZSportsRP</span>
+          />
+          <span className="font-bold text-2xl hover:text-primary/90 transition-colors duration-200">
+            EZSportsRP
+          </span>
         </Link>
 
         {/* Navigation Menu */}
@@ -30,8 +33,8 @@ export function NavbarHome() {
           <NavigationMenuList className="flex items-center space-x-6">
             {/* Features */}
             <NavigationMenuItem>
-              <Link 
-                href="/features" 
+              <Link
+                href="/features"
                 className="text-lg hover:text-primary transition-colors duration-200"
               >
                 Features
@@ -40,8 +43,8 @@ export function NavbarHome() {
 
             {/* Pricing */}
             <NavigationMenuItem>
-              <Link 
-                href="/pricing" 
+              <Link
+                href="/pricing"
                 className="text-lg hover:text-primary transition-colors duration-200"
               >
                 Pricing
@@ -50,8 +53,8 @@ export function NavbarHome() {
 
             {/* About */}
             <NavigationMenuItem>
-              <Link 
-                href="/about" 
+              <Link
+                href="/about"
                 className="text-lg hover:text-primary transition-colors duration-200"
               >
                 About
@@ -60,8 +63,8 @@ export function NavbarHome() {
 
             {/* Contact */}
             <NavigationMenuItem>
-              <Link 
-                href="/contact" 
+              <Link
+                href="/contact"
                 className="text-lg hover:text-primary transition-colors duration-200"
               >
                 Contact
@@ -70,8 +73,8 @@ export function NavbarHome() {
 
             {/* App Demo */}
             <NavigationMenuItem>
-              <Link 
-                href="/app/dashboard" 
+              <Link
+                href="/app/dashboard"
                 className="text-lg font-medium hover:text-primary transition-colors duration-200"
               >
                 App Demo
@@ -82,14 +85,19 @@ export function NavbarHome() {
 
         {/* User Actions */}
         <div className="flex items-center space-x-2">
-          <Button variant="outline" size="lg" asChild>
+          <Button
+            variant="outline"
+            size="lg"
+            className="hover:bg-background hover:border-primary hover:text-primary"
+            icon={<Key />}
+          >
             <Link href="/login">Log In</Link>
           </Button>
-          <Button size="lg" asChild>
+          <Button size="lg" icon={<Wand2 />}>
             <Link href="/register">Get Started</Link>
           </Button>
         </div>
       </div>
     </header>
-  )
+  );
 }

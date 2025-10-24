@@ -2,26 +2,21 @@ import { Injectable, OnModuleInit, OnModuleDestroy, Logger } from '@nestjs/commo
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()
-export class PrismaService extends PrismaClient {
+export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(PrismaService.name);
 
   constructor() {
     super({
-       
+
     });
- 
+
   }
 
   async onModuleInit() {
-    
+    await this.$connect();
   }
 
   async onModuleDestroy() {
-   
-  }
-
-  // Optional: Add a method to test database connection explicitly
-  async testConnection() {
-  
+    await this.$disconnect();
   }
 }

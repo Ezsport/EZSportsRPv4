@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useCoachTypes } from "@/hooks/useCoachTypes";
+import useCoachTypes from "@/hooks/useCoachTypes";
 import { Select } from "../ui/select";
 
 type CoachTypeComboProps = {

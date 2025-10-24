@@ -8,8 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/controls/button";
 import { Form, FormItem } from "@/components/controls/form";
 import { CheckIcon } from "lucide-react";
+import { PanelSocialButtons } from "./panel-social-buttons";
+import { Password } from "../controls/password";
 
-// Define schema for account info validation
 const accountInfoSchema = z
   .object({
     email: z.string().email("Invalid email address"),
@@ -23,38 +24,14 @@ const accountInfoSchema = z
     path: ["confirm_password"],
   });
 
-// Social login buttons
-const socialLogins = [
-  {
-    name: "Google",
-    icon: <CheckIcon className="w-5 h-5" />,
-    color: "bg-red-500",
-  },
-  {
-    name: "Facebook",
-    icon: <CheckIcon className="w-5 h-5" />,
-    color: "bg-blue-600",
-  },
-  {
-    name: "LinkedIn",
-    icon: <CheckIcon className="w-5 h-5" />,
-    color: "bg-blue-700",
-  },
-  {
-    name: "GitHub",
-    icon: <CheckIcon className="w-5 h-5" />,
-    color: "bg-gray-800",
-  },
-];
-
 interface AccountInfoPanelProps {
   onSubmit: (data: z.infer<typeof accountInfoSchema>) => void;
 }
 
-export default function PanelAccountInfo({ 
+export default function PanelAccountInfo({
   onSubmit,
-  initialData = {} 
-}: { 
+  initialData = {},
+}: {
   onSubmit: (data: z.infer<typeof accountInfoSchema>) => void;
   initialData?: Partial<z.infer<typeof accountInfoSchema>>;
 }) {
@@ -63,11 +40,11 @@ export default function PanelAccountInfo({
   const handleSubmit = (data: any) => {
     // Validate form data
     const validationResult = accountInfoSchema.safeParse(data);
-    
+
     if (validationResult.success) {
       // Clear any previous errors
       setFormErrors([]);
-      
+
       // Call onSubmit with validated data
       onSubmit(validationResult.data);
     } else {
@@ -100,13 +77,13 @@ export default function PanelAccountInfo({
     password: {
       label: "Password",
       schema: z.string().min(6, "Input at least 6 characters"),
-      control: <Input type="password" />,
+      control: <Password showToggle={true} />,
       required: true,
     },
     confirm_password: {
       label: "Confirm Password",
       schema: z.string().min(6, "Input at least 6 characters"),
-      control: <Input type="password" />,
+      control: <Password showToggle={true} />,
       required: true,
     },
   };
@@ -118,14 +95,17 @@ export default function PanelAccountInfo({
           Create Your Account
         </h3>
         <p className="text-muted-foreground max-w-xl mx-auto">
-          Enter your personal details to get started. Your information is 
-          secure and will only be used to personalize your experience.
+          Enter your personal details to get started. Your information is secure
+          and will only be used to personalize your experience.
         </p>
       </div>
 
       {/* Display form-level errors */}
       {formErrors.length > 0 && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <div
+          className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative"
+          role="alert"
+        >
           <ul className="list-disc list-inside">
             {formErrors.map((error, index) => (
               <li key={index}>{error}</li>
@@ -137,8 +117,8 @@ export default function PanelAccountInfo({
       <div className="grid md:grid-cols-2 gap-8 relative">
         {/* Left Column - Account Details */}
         <div className="space-y-6">
-          <Form 
-            config={formConfig} 
+          <Form
+            config={formConfig}
             onSubmit={handleSubmit}
             className="space-y-4"
             initialValues={initialData}
@@ -157,9 +137,9 @@ export default function PanelAccountInfo({
         </div>
 
         {/* Vertical Separator */}
-        <div 
+        <div
           className="absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2 
-          hidden md:block w-px bg-gray-200"
+          hidden md:block w-[0.5px] bg-primary/30"
         />
 
         {/* Right Column - Social Registration */}
@@ -167,23 +147,8 @@ export default function PanelAccountInfo({
           <p className="text-muted-foreground mb-6 text-center">
             Continue with your preferred social account
           </p>
-          
-          <div className="grid grid-cols-2 gap-4">
-            {socialLogins.map((social) => (
-              <Button
-                key={social.name}
-                variant="outline"
-                className={`
-                  flex items-center justify-center 
-                  text-white ${social.color} 
-                  hover:opacity-90 border-none
-                `}
-              >
-                {social.icon}
-                <span className="ml-2">{social.name}</span>
-              </Button>
-            ))}
-          </div>
+
+          <PanelSocialButtons />
 
           <div className="text-center mt-6">
             <p className="text-muted-foreground text-sm">

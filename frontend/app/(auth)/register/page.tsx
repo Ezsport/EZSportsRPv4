@@ -552,7 +552,6 @@ export default function RegisterPage() {
     }
 
     try {
-      // Use AuthService to register
       const registrationData = {
         email: accountInfo.email,
         firstName: accountInfo.first_name || "",

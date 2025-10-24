@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ServiceCoachType, CoachType, CoachTypeQueryParams } from '@/lib/services/service-coach-type';
 
-export function useCoachTypes(sportId?: string | null) {
+export default function useCoachTypes(sportId?: string | null) {
   const [coachTypes, setCoachTypes] = useState<CoachType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

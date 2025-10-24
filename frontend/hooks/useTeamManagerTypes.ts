@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ServiceTeamManagerType, TeamManagerType, TeamManagerTypeQueryParams } from '@/lib/services/service-team-manager-type';
 
-export function useTeamManagerTypes(initialParams?: TeamManagerTypeQueryParams) {
+export default function useTeamManagerTypes(initialParams?: TeamManagerTypeQueryParams) {
   const [teamManagerTypes, setTeamManagerTypes] = useState<TeamManagerType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

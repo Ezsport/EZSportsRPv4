@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ServicePlayerPosition, PlayerPosition } from '@/lib/services/service-player-position';
 
-export function usePlayerPositions(sportId?: string) {
+export default function usePlayerPositions(sportId?: string) {
   const [playerPositions, setPlayerPositions] = useState<PlayerPosition[]>([]);
   const [loading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

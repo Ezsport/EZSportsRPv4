@@ -1,9 +1,8 @@
 "use client";
 
 import React from "react";
-import { useTeams } from "@/hooks/useTeams";
+import useTeams from "@/hooks/useTeams";
 import { Select } from "../ui/select";
-import { BaseItem } from "@/types/types";
 import { components } from "@/types/api-types";
 
 type TeamComboProps = {
@@ -45,19 +44,24 @@ export default function ComboTeams({
   club,
   sport,
 }: TeamComboProps) {
-  const { teams, isLoading, error } = useTeams(club?.id, sport?.id);
+  const { teams, isLoading, error } = useTeams(
+    club?.id?.toString(),
+    sport?.id?.toString()
+  );
 
   const handleChange = (
     value: string[] | components["schemas"]["OrgTeamDto"][] | null | undefined
   ) => {
     onChange?.(value);
-    onValueChange?.(value);
+    onValueChange?.(
+      value as components["schemas"]["OrgTeamDto"][] | null | undefined
+    );
   };
 
   return (
     <Select
       data={teams}
-      value={value === null || value === undefined ? [] : value}
+      value={value as string[] | number[] | null | undefined}
       valueType={valueType}
       returnType={returnType}
       onChange={handleChange}

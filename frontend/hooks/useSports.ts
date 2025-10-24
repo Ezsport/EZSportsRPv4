@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { TypeSport } from "@/types/types";
 import SportService from "@/lib/services/service-sport";
 
-export function useSports() {
+export default function useSports() {
   const [sports, setSports] = useState<TypeSport[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

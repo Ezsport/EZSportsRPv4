@@ -2,6 +2,7 @@
 
 import { LiveChat } from '@/components/chat/live-chat';
 import PageTransition from '@/components/layout/page-transition';
+import { Toaster } from 'sonner';
 
 export default function ClientLayout({
   children,
@@ -14,6 +15,11 @@ export default function ClientLayout({
         {children}
       </PageTransition>
       <LiveChat />
+      <Toaster 
+        position="top-right" 
+        richColors 
+        closeButton 
+      />
     </>
   );
 }
