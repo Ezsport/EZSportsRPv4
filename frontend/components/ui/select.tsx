@@ -5,9 +5,11 @@ import ReactSelect, {
   Props as ReactSelectProps,
   MultiValue,
   SingleValue,
+  components,
 } from "react-select";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { X } from "lucide-react";
 
 type ValueType = "id" | "item";
 type ReturnType = "id" | "item";
@@ -35,6 +37,14 @@ export interface SelectProps<Option extends BaseItem = BaseItem>
   returnType?: ReturnType;
   renderItem?: (item: Option) => React.ReactNode;
 }
+
+const CustomClearIndicator = (props: any) => {
+  return (
+    <components.ClearIndicator {...props}>
+      <X size={16} />
+    </components.ClearIndicator>
+  );
+};
 
 export function Select<Option extends BaseItem = BaseItem>({
   value,
@@ -143,10 +153,10 @@ export function Select<Option extends BaseItem = BaseItem>({
 
     return (
       <div className="flex items-center space-x-2">
-        {option[avatarField] && (
+        {option[avatarField as keyof Option] && (
           <Avatar className="h-6 w-6 shrink-0">
             <AvatarImage
-              src={option[avatarField]}
+              src={option[avatarField as keyof Option] as string}
               alt={option.name}
               className="object-cover size-6"
             />
@@ -173,6 +183,7 @@ export function Select<Option extends BaseItem = BaseItem>({
       isLoading={loading}
       isSearchable={allowFilter}
       isClearable={allowClear}
+      components={{ ClearIndicator: CustomClearIndicator }}
       closeMenuOnSelect={!multiple}
       noOptionsMessage={() => error || "No options available"}
       className={cn(props.className, "w-full")}
@@ -190,7 +201,7 @@ export function Select<Option extends BaseItem = BaseItem>({
           ),
         valueContainer: () => "!pt-0",
         input: () => "!m-0 !p-0",
-        placeholder: () => "!text-muted-foreground !text-sm",
+        placeholder: () => "!text-muted-foreground/50 !text-sm italic",
         singleValue: () => "!ml-1 !text-sm",
         multiValue: () =>
           "!text-accent-foreground !rounded-sm  !ml-1 !bg-primary/10",
@@ -198,6 +209,7 @@ export function Select<Option extends BaseItem = BaseItem>({
         multiValueRemove: () =>
           "!px-1 !hover:bg-destructive !hover:text-destructive-foreground",
         menu: () => "!z-500 !rounded-md !border !shadow-md !text-sm !font-base",
+        clearIndicator: () => "!p-1 !text-red-500/80 !hover:text-red-500",
         option: (state) =>
           cn(
             "!px-2 !py-1.5",

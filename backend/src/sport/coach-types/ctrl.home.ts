@@ -7,8 +7,8 @@ export class HomeCoachTypeController {
 
 
   @Get()
-  findAll(@Query('active') active?: boolean) {
-    return this.coachTypeService.findAll(active);
+  findAll() {
+    return this.coachTypeService.findAll();
   }
 
   @Get('sport/:sportId')

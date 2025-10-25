@@ -26,24 +26,31 @@ export class CoachTypeService {
     return coachType;
   }
 
-  async findAll(active?: boolean) {
+  async findAll() {
     const coachTypes = await (this.prisma as any).sportCoachType.findMany({
-      where: active !== undefined
-        ? { isActive: active }
-        : undefined,
-      orderBy: { name: 'asc' }
+        // include: {
+        //   sport: true // Now we can use the direct relation
+        // },
+      orderBy: { ord: 'asc' }
     });
 
     // Attach avatars
     return Promise.all(coachTypes.map(async coachType => ({
       ...coachType,
-      base64: await AvatarUtils.getBase64('coach-types', coachType.id) || undefined
+      base64: await AvatarUtils.getBase64('coach-types', coachType.id) || undefined,
+      // sport: {
+      //   ...coachType.sport,
+      //   base64: await AvatarUtils.getBase64('sports', coachType.sport.id) || undefined
+      // }
     })));
   }
 
   async findOne(id: string) {
     const coachType = await (this.prisma as any).sportCoachType.findUnique({
-      where: { id }
+      where: { id },
+      include: {
+        sport: true // Include sport relation
+      }
     });
 
     if (!coachType) {
@@ -53,7 +60,11 @@ export class CoachTypeService {
     // Attach avatar
     return {
       ...coachType,
-      base64: await AvatarUtils.getBase64('coach-types', coachType.id) || undefined
+      base64: await AvatarUtils.getBase64('coach-types', coachType.id) || undefined,
+      sport: {
+        ...coachType.sport,
+        base64: await AvatarUtils.getBase64('sports', coachType.sport.id) || undefined
+      }
     };
   }
 
@@ -131,12 +142,19 @@ export class CoachTypeService {
 
   async findAllBySportId(sportId: string) {
     const rows = await (this.prisma as any).sportCoachType.findMany({
-      where: { sportId }
+      where: { sportId },
+      include: {
+        sport: true // Include sport relation
+      }
     });
 
     return Promise.all(rows.map(async row => ({
       ...row,
-      base64: AvatarUtils.getBase64('coach-types', row.id) || undefined
+      base64: await AvatarUtils.getBase64('coach-types', row.id) || undefined,
+      sport: {
+        ...row.sport,
+        base64: await AvatarUtils.getBase64('sports', row.sport.id) || undefined
+      }
     })));
   }
 }

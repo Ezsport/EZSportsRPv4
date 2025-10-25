@@ -83,7 +83,7 @@ export default function PanelCoachInfo({
         .string()
         .max(200, "Certification cannot exceed 200 characters")
         .optional(),
-      control: <Input placeholder="Enter certification (optional)" />,
+      control: <Input placeholder="Enter certification" />,
       required: false,
     },
     specialization: {
@@ -92,7 +92,7 @@ export default function PanelCoachInfo({
         .string()
         .max(200, "Specialization cannot exceed 200 characters")
         .optional(),
-      control: <Input placeholder="Enter specialization (optional)" />,
+      control: <Input placeholder="Enter specialization" />,
       required: false,
     },
     club: {

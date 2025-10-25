@@ -13,8 +13,8 @@ export class AdminCoachTypeController {
   }
 
   @Get()
-  findAll(@Query('active') active?: boolean) {
-    return this.coachTypeService.findAll(active);
+  findAll() {
+    return this.coachTypeService.findAll();
   }
 
   @Get(':id')

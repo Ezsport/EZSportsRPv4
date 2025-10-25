@@ -129,7 +129,7 @@ export default function PanelTeamManagerInfo({
         .string()
         .max(50, "Contact Name cannot exceed 50 characters")
         .nonempty("Contact Name is required"),
-      control: <Input placeholder="Enter contact name (optional)" />,
+      control: <Input placeholder="Enter contact name" />,
       required: true,
     },
     contactPhone: {
@@ -139,7 +139,7 @@ export default function PanelTeamManagerInfo({
         .max(20, "Contact Phone cannot exceed 20 characters")
         .nonempty("Contact Phone is required"),
       control: (
-        <Input type="tel" placeholder="Enter contact phone (optional)" />
+        <Input type="tel" placeholder="Enter contact phone" />
       ),
       required: true,
     },
@@ -148,7 +148,7 @@ export default function PanelTeamManagerInfo({
       schema: z.string().optional(),
       control: (
         <Textarea
-          placeholder="Share a brief professional bio (optional)"
+          placeholder="Share a brief professional bio"
           rows={5}
         />
       ),

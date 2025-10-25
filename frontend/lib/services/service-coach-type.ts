@@ -8,9 +8,11 @@ export interface CoachType {
   sport?: {
     id: string;
     name: string;
+    base64?: string;
   };
   level?: string;
   responsibilities?: string[];
+  base64?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -28,19 +30,9 @@ export interface CoachTypeQueryParams {
 export class ServiceCoachType {
   private static baseUrl = '/coach-types';
 
-  static async getAll(params?: CoachTypeQueryParams): Promise<CoachType[]> {
+  static async getAll(): Promise<CoachType[]> {
     try {
-      const queryParams = {
-        page: params?.page || 1,
-        limit: params?.limit || 10,
-        ...(params?.sportId && { sportId: params.sportId }),
-        ...(params?.search && { search: params.search }),
-        ...(params?.level && { level: params.level }),
-        ...(params?.sortBy && { sortBy: params.sortBy }),
-        ...(params?.sortOrder && { sortOrder: params.sortOrder }),
-      };
-
-      return await api.get(this.baseUrl, { params: queryParams });
+      return await api.get(this.baseUrl);
     } catch (error) {
       console.error('Error fetching coach types:', error);
       throw error;
@@ -88,16 +80,6 @@ export class ServiceCoachType {
       await api.delete(`${this.baseUrl}/${id}`);
     } catch (error) {
       console.error(`Error deleting coach type with id ${id}:`, error);
-      throw error;
-    }
-  }
-
-  // Additional utility methods
-  static async getCoachTypesBySport(sportId: string): Promise<CoachType[]> {
-    try {
-      return await this.getAll({ sportId });
-    } catch (error) {
-      console.error(`Error fetching coach types for sport ${sportId}:`, error);
       throw error;
     }
   }

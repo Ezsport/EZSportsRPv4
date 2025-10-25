@@ -59,31 +59,31 @@ export default function PanelAccountInfo({
     email: {
       label: "Email",
       schema: z.string().email("Invalid email address"),
-      control: <Input type="email" />,
+      control: <Input type="email" placeholder="Enter email" />,
       required: true,
     },
     first_name: {
       label: "First Name",
       schema: z.string().min(1, "First name is required"),
-      control: <Input type="text" />,
+      control: <Input type="text" placeholder="Enter first name" />,
       required: true,
     },
     last_name: {
       label: "Last Name",
       schema: z.string().min(1, "Last name is required"),
-      control: <Input type="text" />,
+      control: <Input type="text" placeholder="Enter last name" />,
       // required: true
     },
     password: {
       label: "Password",
       schema: z.string().min(6, "Input at least 6 characters"),
-      control: <Password showToggle={true} />,
+      control: <Password showToggle={true} placeholder="Enter password" />,
       required: true,
     },
     confirm_password: {
       label: "Confirm Password",
       schema: z.string().min(6, "Input at least 6 characters"),
-      control: <Password showToggle={true} />,
+      control: <Password showToggle={true} placeholder="Confirm password" />,
       required: true,
     },
   };

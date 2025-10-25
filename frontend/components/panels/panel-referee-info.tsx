@@ -74,13 +74,13 @@ export default function PanelRefereeInfo({
     certification: {
       label: "Certification",
       schema: z.string().optional(),
-      control: <Input placeholder="Enter certification (optional)" />,
+      control: <Input placeholder="Enter certification" />,
       required: false,
     },
     level: {
       label: "Referee Level",
       schema: z.string().optional(),
-      control: <Input placeholder="Enter referee level (optional)" />,
+      control: <Input placeholder="Enter referee level" />,
       required: false,
     },
     bio: {
@@ -88,7 +88,7 @@ export default function PanelRefereeInfo({
       schema: z.string().optional(),
       control: (
         <Textarea
-          placeholder="Share a brief professional bio (optional)"
+          placeholder="Share a brief professional bio"
           rows={5}
         />
       ),

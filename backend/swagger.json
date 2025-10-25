@@ -4108,16 +4108,7 @@
       },
       "get": {
         "operationId": "AdminCoachTypeController_findAll",
-        "parameters": [
-          {
-            "name": "active",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": ""
@@ -4260,16 +4251,7 @@
     "/coach-types": {
       "get": {
         "operationId": "HomeCoachTypeController_findAll",
-        "parameters": [
-          {
-            "name": "active",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": ""

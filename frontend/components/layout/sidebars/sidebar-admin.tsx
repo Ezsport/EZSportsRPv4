@@ -436,7 +436,7 @@ export function SidebarAdmin() {
                 key={child.href}
                 href={child.href}
                 className={cn(
-                  "flex items-center p-1.5 rounded-lg text-sm transition-colors duration-200",
+                  "flex items-center p-1.5 pl-2 rounded-lg text-sm transition-colors duration-200",
                   isActive(child.href)
                     ? "bg-primary-foreground text-primary"
                     : "hover:bg-primary-foreground/20 text-primary-foreground hover:text-primary-foreground/80"
