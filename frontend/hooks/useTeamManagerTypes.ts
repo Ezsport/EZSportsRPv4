@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
-import { ServiceTeamManagerType, TeamManagerType, TeamManagerTypeQueryParams } from '@/lib/services/service-team-manager-type';
+import { ServiceTeamManagerType } from '@/lib/services/service-team-manager-type';
+import { components } from "@/types/api-types";
 
-export default function useTeamManagerTypes(initialParams?: TeamManagerTypeQueryParams) {
-  const [teamManagerTypes, setTeamManagerTypes] = useState<TeamManagerType[]>([]);
+export default function useTeamManagerTypes(sportId?: string | null) {
+  const [teamManagerTypes, setTeamManagerTypes] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [params, setParams] = useState<TeamManagerTypeQueryParams>(initialParams || {});
 
   const fetchTeamManagerTypes = async () => {
     try {
       setIsLoading(true);
-      const data = await ServiceTeamManagerType.getAll(params);
+      const data = await ServiceTeamManagerType.getBySportId(sportId);
       setTeamManagerTypes(data);
       setError(null);
     } catch (err: any) {
@@ -21,7 +21,7 @@ export default function useTeamManagerTypes(initialParams?: TeamManagerTypeQuery
     }
   };
 
-  const createTeamManagerType = async (teamManagerTypeData: Omit<TeamManagerType, 'id'>) => {
+  const createTeamManagerType = async (teamManagerTypeData: any) => {
     try {
       const newTeamManagerType = await ServiceTeamManagerType.create(teamManagerTypeData);
       setTeamManagerTypes(prevTeamManagerTypes => [...prevTeamManagerTypes, newTeamManagerType]);
@@ -33,11 +33,11 @@ export default function useTeamManagerTypes(initialParams?: TeamManagerTypeQuery
     }
   };
 
-  const updateTeamManagerType = async (teamManagerTypeId: string, teamManagerTypeData: Partial<TeamManagerType>) => {
+  const updateTeamManagerType = async (teamManagerTypeId: string, teamManagerTypeData: any) => {
     try {
       const updatedTeamManagerType = await ServiceTeamManagerType.update(teamManagerTypeId, teamManagerTypeData);
-      setTeamManagerTypes(prevTeamManagerTypes => 
-        prevTeamManagerTypes.map(teamManagerType => 
+      setTeamManagerTypes(prevTeamManagerTypes =>
+        prevTeamManagerTypes.map(teamManagerType =>
           teamManagerType.id === teamManagerTypeId ? { ...teamManagerType, ...updatedTeamManagerType } : teamManagerType
         )
       );
@@ -60,13 +60,15 @@ export default function useTeamManagerTypes(initialParams?: TeamManagerTypeQuery
     }
   };
 
-  const updateParams = (newParams: TeamManagerTypeQueryParams) => {
-    setParams(prevParams => ({ ...prevParams, ...newParams }));
-  };
-
   useEffect(() => {
-    fetchTeamManagerTypes();
-  }, [JSON.stringify(params)]);
+    if (sportId) {
+      fetchTeamManagerTypes();
+    } else {
+      setTeamManagerTypes([]);
+      setError('Sport ID is required');
+      setIsLoading(false);
+    }
+  }, [sportId]);
 
   return {
     teamManagerTypes,
@@ -76,6 +78,5 @@ export default function useTeamManagerTypes(initialParams?: TeamManagerTypeQuery
     createTeamManagerType,
     updateTeamManagerType,
     deleteTeamManagerType,
-    updateParams
   };
 }

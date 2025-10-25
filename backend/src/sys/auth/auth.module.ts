@@ -3,7 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -16,7 +16,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule],
       useFactory: async (cs: ConfigService) => ({
         secret: cs.get<string>('JWT_ACCESS_TOKEN_SECRET'),
-        signOptions: { expiresIn: cs.get<string>('JWT_ACCESS_TOKEN_EXPIRATION') || '900s' },
+        signOptions: { expiresIn: parseInt(cs.get<string>('JWT_ACCESS_TOKEN_EXPIRATION') || '900') },
       }),
       inject: [ConfigService],
     }),

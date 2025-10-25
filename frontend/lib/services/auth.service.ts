@@ -2,7 +2,7 @@ import axios from 'axios';
 import { components } from '@/types/api-types';
 
 // Define the base URL for the API
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // Create an axios instance with base configuration
 const api = axios.create({
@@ -23,7 +23,7 @@ export const AuthService = {
     role: components['schemas']['SysUserRole'];
   }) {
     try {
-      const response = await api.post('/sys/auth/register', registerData);
+      const response = await api.post('/auth/register', registerData);
       
       // Store token and user info
       if (response.data.access_token) {
@@ -41,7 +41,7 @@ export const AuthService = {
   // User login
   async login(email: string, password: string) {
     try {
-      const response = await api.post('/sys/auth/login', { email, password });
+      const response = await api.post('/auth/login', { email, password });
       
       // Store token and user info
       if (response.data.access_token) {
@@ -63,7 +63,7 @@ export const AuthService = {
       const token = localStorage.getItem('token');
       if (token) {
         // Attempt to invalidate token on the server (if your backend supports this)
-        api.post('/sys/auth/logout', {}, {
+        api.post('/auth/logout', {}, {
           headers: { 'Authorization': `Bearer ${token}` }
         }).catch(error => {
           console.warn('Backend logout failed:', error);
@@ -119,7 +119,7 @@ export const AuthService = {
   // Refresh token method (if your backend supports it)
   async refreshToken() {
     try {
-      const response = await api.post('/sys/auth/refresh-token', {
+      const response = await api.post('/auth/refresh-token', {
         token: localStorage.getItem('token')
       });
 

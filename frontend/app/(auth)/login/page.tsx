@@ -5,26 +5,13 @@ import { Button } from "@/components/controls/button";
 import { Form, FormItem } from "@/components/controls/form";
 import { Input } from "@/components/ui/input";
 import { Password } from "@/components/controls/password";
-import {
-  Facebook,
-  Github,
-  Globe,
-  Grid2x2,
-  Linkedin,
-  Twitter,
-} from "lucide-react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { AuthService } from "@/lib/services/auth.service";
-import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
 import { z } from "zod";
 import { PanelSocialButtons } from "@/components/panels/panel-social-buttons";
 
 export default function LoginPage() {
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const { login, socialLogin, isLoading } = useAuth();
 
-  // Zod schema for form validation
   const loginSchema = {
     email: {
       label: "Email Address",
@@ -40,38 +27,12 @@ export default function LoginPage() {
     },
   };
 
-  // Handle form submission
   const handleSubmit = async (data: { email: string; password: string }) => {
-    setIsLoading(true);
-
-    try {
-      await AuthService.login(data.email, data.password);
-      toast.success("Login successful", {
-        description: "Redirecting to dashboard...",
-      });
-      router.push("/dashboard");
-    } catch (error: unknown) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Login failed. Please try again.";
-      toast.error("Login failed", {
-        description: errorMessage,
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Social login handlers
-  const handleSocialLogin = (provider: string) => {
-    toast.info(`${provider} login simulated`, {
-      description: "Social login feature is coming soon!",
-    });
+    await login(data.email, data.password);
   };
 
   return (
-    <div className="relative z-10 bg-white/90 shadow-2xl rounded-2xl overflow-hidden max-w-5xl w-full mx-4">
+    <div className="relative z-10 bg-white/90 shadow-2xl rounded-2xl overflow-hidden max-w-5xl mx-4">
       <div className="grid md:grid-cols-2">
         {/* Left Column - Text Section */}
         <div
@@ -138,10 +99,10 @@ export default function LoginPage() {
 
           {/* Social Login Buttons */}
           <PanelSocialButtons
-            onGoogleClick={() => handleSocialLogin("Google")}
-            onFacebookClick={() => handleSocialLogin("Facebook")}
-            onLinkedinClick={() => handleSocialLogin("LinkedIn")}
-            onGithubClick={() => handleSocialLogin("GitHub")}
+            onGoogleClick={() => socialLogin("Google")}
+            onFacebookClick={() => socialLogin("Facebook")}
+            onLinkedinClick={() => socialLogin("LinkedIn")}
+            onGithubClick={() => socialLogin("GitHub")}
             isLoading={isLoading}
           />
 

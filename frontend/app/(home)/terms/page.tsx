@@ -2,7 +2,7 @@ import React from "react";
 
 export default function TermsOfServicePage() {
   return (
-    <section className="max-w-7xl mx-auto">
+    <section className="max-w-7xl mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6">Terms of Service</h1>
 
       <div className="mb-6">

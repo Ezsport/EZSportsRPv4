@@ -99,8 +99,6 @@ export default function RegisterPage() {
     useState<MembershipTier>(null);
   const [termsAgreed, setTermsAgreed] = useState(false);
 
-  console.log(players);
-
   // Step navigation handlers
   const nextStep = () => {
     const stepOrder: RegistrationStep[] = [
@@ -420,7 +418,6 @@ export default function RegisterPage() {
           <PanelCoachInfo
             initialData={coachInfo}
             onSubmit={(data) => {
-              // Store coach info and move to team setup
               setCoachInfo(data);
               setCurrentStep("team-setup");
               setCompletedSteps((prev) => [...prev, "coach-info"]);
@@ -430,6 +427,7 @@ export default function RegisterPage() {
       case "team-manager-info":
         return (
           <PanelTeamManagerInfo
+            initialData={teamManagerInfo}
             onSubmit={(data) => {
               setTeamManagerInfo(data);
               nextStep();
@@ -439,6 +437,7 @@ export default function RegisterPage() {
       case "referee-info":
         return (
           <PanelRefereeInfo
+            initialData={refereeInfo}
             onSubmit={(data) => {
               setRefereeInfo(data);
               nextStep();
@@ -449,29 +448,25 @@ export default function RegisterPage() {
         return (
           <PanelTeamSetup
             sport={
-              coachInfo.sport || {
-                name: "",
-                isActive: 1,
-                ord: 0,
-              }
+              selectedRole === "coach"
+                ? coachInfo?.sport
+                : selectedRole === "team-manager"
+                ? (teamManagerInfo as any)?.sport
+                : null
             }
             club={
-              coachInfo.club || {
-                name: "",
-                status: "active",
-                ord: 0,
-              }
+              selectedRole === "coach"
+                ? coachInfo?.club
+                : selectedRole === "team-manager"
+                ? (teamManagerInfo as any)?.club
+                : null
             }
             team={
-              coachInfo.team || {
-                name: "",
-                clubId: undefined,
-                sportId: undefined,
-                leagueId: undefined,
-                ageGroup: undefined,
-                status: 1,
-                base64: undefined,
-              }
+              selectedRole === "coach"
+                ? coachInfo?.team
+                : selectedRole === "team-manager"
+                ? (teamManagerInfo as any)?.team
+                : null
             }
             initialPlayers={players}
             onPlayersUpdate={(updatedPlayers) => {
@@ -541,7 +536,9 @@ export default function RegisterPage() {
   // Modify handleFinalSubmit to use AuthService
   const handleFinalSubmit = async () => {
     if (!termsAgreed) {
-      toast.error("Please agree to the Terms of Service and Privacy Policy.");
+      toast.error("Register", {
+        description: "Please agree to the Terms of Service and Privacy Policy.",
+      });
       return;
     }
 
@@ -565,31 +562,14 @@ export default function RegisterPage() {
       // Show success toast
       toast.success("Registration successful!");
 
-      // Redirect to appropriate dashboard based on role
-      switch (selectedRole) {
-        case "ADMIN":
-          router.push("/admin/dashboard");
-          break;
-        case "COACH":
-          router.push("/coach/dashboard");
-          break;
-        case "TEAM_MANAGER":
-          router.push("/team-manager/dashboard");
-          break;
-        case "REFEREE":
-          router.push("/referee/dashboard");
-          break;
-        case "PLAYER":
-          router.push("/player/dashboard");
-          break;
-        default:
-          router.push("/dashboard");
-      }
-    } catch (error) {
+      router.push("/app/dashboard");
+    } catch (error: any) {
       // Handle registration errors
       if (error.response) {
         // Server responded with an error
-        toast.error(error.response.data.message || "Registration failed");
+        toast.error("Register", {
+          description: error.response.data.message || "Registration failed",
+        });
       } else if (error.request) {
         // Request made but no response received
         toast.error("No response from server. Please try again.");
@@ -602,91 +582,85 @@ export default function RegisterPage() {
   };
 
   return (
-    <>
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/bg.jpg"
-          alt="Register Background"
-          fill
-          className="bg-black object-cover"
-        />
-      </div>
+    <div className="relative z-10 bg-white/90 shadow-2xl rounded-2xl overflow-hidden max-w-5xl mx-4">
+      <div className="p-12">
+        {/* Step Indicator */}
+        {renderStepIndicator()}
 
-      {/* Register Container */}
-      <div className="relative z-10 bg-white/90 shadow-2xl rounded-2xl overflow-hidden max-w-5xl w-full mx-4">
-        <div className="p-12">
-          {/* Step Indicator */}
-          {renderStepIndicator()}
+        {/* Current Step Content */}
+        {renderCurrentStep()}
 
-          {/* Current Step Content */}
-          {renderCurrentStep()}
+        {/* Navigation Buttons */}
+        {(currentStep as string) !== "review" && (
+          <div className="flex items-center justify-between mt-4 border-t pt-4">
+            <Button
+              variant="outline"
+              onClick={prevStep}
+              disabled={currentStep === "account-info"}
+              className="px-6"
+            >
+              <ArrowLeftIcon className="w-5 h-5" />
+              Back
+            </Button>
 
-          {/* Navigation Buttons */}
-          {(currentStep as string) !== "review" && (
-            <div className="flex items-center justify-between mt-4 border-t pt-4">
-              <Button
-                variant="outline"
-                onClick={prevStep}
-                disabled={currentStep === "account-info"}
-                className="px-6"
-              >
-                <ArrowLeftIcon className="w-5 h-5" />
-                Back
-              </Button>
+            {/* Message area for Role Setup */}
+            {currentStep === "role-setup" && selectedRole === "later" && (
+              <div className="text-sm text-primary text-center flex-grow mx-4 bg-blue-50 p-2 rounded-lg flex items-center justify-center">
+                <InfoIcon className="w-5 h-5 mr-2" />
+                You can complete your role setup in your profile settings after
+                registration.
+              </div>
+            )}
 
-              {/* Message area for Role Setup */}
-              {currentStep === "role-setup" && selectedRole === "later" && (
-                <div className="text-sm text-primary text-center flex-grow mx-4 bg-blue-50 p-2 rounded-lg flex items-center justify-center">
-                  <InfoIcon className="w-5 h-5 mr-2" />
-                  You can complete your role setup in your profile settings
-                  after registration.
-                </div>
-              )}
+            {/* Message area for Role Setup */}
+            {currentStep === "role-setup" && !selectedRole && (
+              <div className="text-sm text-red-600 text-center flex-grow mx-4 bg-red-50 p-2 rounded-lg flex items-center justify-center">
+                <InfoIcon className="w-5 h-5 mr-2" />
+                Please select a role or check "I'll set up my role later".
+              </div>
+            )}
 
-              {/* Annual Discount Message for Membership */}
-              {currentStep === "membership" && (
-                <div className="text-sm text-green-600 text-center flex-grow mx-4 bg-green-50 p-2 rounded-lg flex items-center justify-center">
-                  <TrendingUpIcon className="w-5 h-5 mr-2" />
-                  Pro plan offers 20% discount when billed annually
-                </div>
-              )}
+            {/* Annual Discount Message for Membership */}
+            {currentStep === "membership" && (
+              <div className="text-sm text-green-600 text-center flex-grow mx-4 bg-green-50 p-2 rounded-lg flex items-center justify-center">
+                <TrendingUpIcon className="w-5 h-5 mr-2" />
+                Pro plan offers 20% discount when billed annually
+              </div>
+            )}
 
-              <Button
-                onClick={() => {
-                  if (
-                    currentStep === "account-info" ||
-                    currentStep === "coach-info"
-                  ) {
-                    // Trigger form validation
-                    const form = document.querySelector(
-                      "form"
-                    ) as HTMLFormElement;
-                    if (form) {
-                      const submitButton = form.querySelector(
-                        'button[type="submit"]'
-                      ) as HTMLButtonElement;
-                      if (submitButton) {
-                        submitButton.click();
-                      }
+            <Button
+              onClick={() => {
+                if (
+                  currentStep === "account-info" ||
+                  currentStep === "coach-info" ||
+                  currentStep === "team-manager-info" ||
+                  currentStep === "referee-info"
+                ) {
+                  const form = document.querySelector(
+                    "form"
+                  ) as HTMLFormElement;
+                  if (form) {
+                    const submitButton = form.querySelector(
+                      'button[type="submit"]'
+                    ) as HTMLButtonElement;
+                    if (submitButton) {
+                      submitButton.click();
                     }
-                  } else {
-                    // For other steps, use existing nextStep logic
-                    nextStep();
                   }
-                }}
-                className={`
-                    px-6 
-                    ${currentStep === "account-info" ? "ml-auto" : ""}
-                  `}
-              >
-                Forward
-                <ArrowRightIcon className="w-5 h-5" />
-              </Button>
-            </div>
-          )}
-        </div>
+                } else {
+                  nextStep();
+                }
+              }}
+              className={`px-6 ${
+                currentStep === "account-info" ? "ml-auto" : ""
+              }`}
+            >
+              Forward
+              <ArrowRightIcon className="w-5 h-5" />
+            </Button>
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 }

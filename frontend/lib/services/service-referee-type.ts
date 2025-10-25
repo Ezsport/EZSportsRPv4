@@ -1,4 +1,4 @@
-import { fetchData, createData, updateData, deleteData } from './api';
+import { api } from './api';
 
 export interface RefereeType {
   id?: string;
@@ -40,7 +40,7 @@ export class ServiceRefereeType {
         ...(params?.sortOrder && { sortOrder: params.sortOrder }),
       };
 
-      return await fetchData(this.baseUrl, queryParams);
+      return await api.get(this.baseUrl, { params: queryParams });
     } catch (error) {
       console.error('Error fetching referee types:', error);
       throw error;
@@ -49,7 +49,7 @@ export class ServiceRefereeType {
 
   static async getById(id: string): Promise<RefereeType> {
     try {
-      return await fetchData(`${this.baseUrl}/${id}`);
+      return await api.get(`${this.baseUrl}/${id}`);
     } catch (error) {
       console.error(`Error fetching referee type with id ${id}:`, error);
       throw error;
@@ -58,7 +58,7 @@ export class ServiceRefereeType {
 
   static async create(refereeTypeData: Omit<RefereeType, 'id'>): Promise<RefereeType> {
     try {
-      return await createData(this.baseUrl, refereeTypeData);
+      return await api.post(this.baseUrl, refereeTypeData);
     } catch (error) {
       console.error('Error creating referee type:', error);
       throw error;
@@ -67,7 +67,7 @@ export class ServiceRefereeType {
 
   static async update(id: string, refereeTypeData: Partial<RefereeType>): Promise<RefereeType> {
     try {
-      return await updateData(`${this.baseUrl}/${id}`, refereeTypeData);
+      return await api.patch(`${this.baseUrl}/${id}`, refereeTypeData);
     } catch (error) {
       console.error(`Error updating referee type with id ${id}:`, error);
       throw error;
@@ -76,7 +76,7 @@ export class ServiceRefereeType {
 
   static async delete(id: string): Promise<void> {
     try {
-      await deleteData(`${this.baseUrl}/${id}`);
+      await api.delete(`${this.baseUrl}/${id}`);
     } catch (error) {
       console.error(`Error deleting referee type with id ${id}:`, error);
       throw error;
@@ -84,9 +84,9 @@ export class ServiceRefereeType {
   }
 
   // Additional utility methods
-  static async getRefereeTypesBySport(sportId: string): Promise<RefereeType[]> {
+  static async getBySportId(sportId: string | null | undefined): Promise<RefereeType[]> {
     try {
-      return await this.getAll({ sportId });
+      return await api.get(`${this.baseUrl}/sport/${sportId}`);
     } catch (error) {
       console.error(`Error fetching referee types for sport ${sportId}:`, error);
       throw error;

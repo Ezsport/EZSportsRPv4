@@ -13,6 +13,11 @@ export class HomeManagerTypeController {
     return this.managerTypeService.findAll(sportId, active);
   }
 
+  @Get('sport/:sportId')
+  findAllBySportId(@Param('sportId') sportId: string) {
+    return this.managerTypeService.findAllBySportId(sportId);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.managerTypeService.findOne(id);

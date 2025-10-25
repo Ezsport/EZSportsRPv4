@@ -113,7 +113,7 @@ export const PanelSocialButtons = ({
   };
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-3 gap-2">
       {socialLogins.map((social) => (
         <Button
           key={social.name}
@@ -123,7 +123,7 @@ export const PanelSocialButtons = ({
             text-white ${social.color}
             hover:primary border-none 
             hover:text-white 
-            relative
+            relative shadow-md
           `}
           onClick={() => handleClick(social)}
           disabled={isLoading || loadingButton !== null}
@@ -133,7 +133,7 @@ export const PanelSocialButtons = ({
           ) : (
             social.icon
           )}
-          <span className="ml-2">{social.name}</span>
+          <span>{social.name}</span>
         </Button>
       ))}
     </div>

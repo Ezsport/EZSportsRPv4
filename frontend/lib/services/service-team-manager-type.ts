@@ -1,4 +1,4 @@
-import { fetchData, createData, updateData, deleteData } from './api';
+import { api } from './api';
 
 export interface TeamManagerType {
   id?: string;
@@ -26,7 +26,7 @@ export interface TeamManagerTypeQueryParams {
 }
 
 export class ServiceTeamManagerType {
-  private static baseUrl = '/team-manager-types';
+  private static baseUrl = '/manager-types';
 
   static async getAll(params?: TeamManagerTypeQueryParams): Promise<TeamManagerType[]> {
     try {
@@ -40,7 +40,7 @@ export class ServiceTeamManagerType {
         ...(params?.sortOrder && { sortOrder: params.sortOrder }),
       };
 
-      return await fetchData(this.baseUrl, queryParams);
+      return await api.get(this.baseUrl, { params: queryParams });
     } catch (error) {
       console.error('Error fetching team manager types:', error);
       throw error;
@@ -49,7 +49,7 @@ export class ServiceTeamManagerType {
 
   static async getById(id: string): Promise<TeamManagerType> {
     try {
-      return await fetchData(`${this.baseUrl}/${id}`);
+      return await api.get(`${this.baseUrl}/${id}`);
     } catch (error) {
       console.error(`Error fetching team manager type with id ${id}:`, error);
       throw error;
@@ -58,7 +58,7 @@ export class ServiceTeamManagerType {
 
   static async create(teamManagerTypeData: Omit<TeamManagerType, 'id'>): Promise<TeamManagerType> {
     try {
-      return await createData(this.baseUrl, teamManagerTypeData);
+      return await api.post(this.baseUrl, teamManagerTypeData);
     } catch (error) {
       console.error('Error creating team manager type:', error);
       throw error;
@@ -67,7 +67,7 @@ export class ServiceTeamManagerType {
 
   static async update(id: string, teamManagerTypeData: Partial<TeamManagerType>): Promise<TeamManagerType> {
     try {
-      return await updateData(`${this.baseUrl}/${id}`, teamManagerTypeData);
+      return await api.patch(`${this.baseUrl}/${id}`, teamManagerTypeData);
     } catch (error) {
       console.error(`Error updating team manager type with id ${id}:`, error);
       throw error;
@@ -76,7 +76,7 @@ export class ServiceTeamManagerType {
 
   static async delete(id: string): Promise<void> {
     try {
-      await deleteData(`${this.baseUrl}/${id}`);
+      await api.delete(`${this.baseUrl}/${id}`);
     } catch (error) {
       console.error(`Error deleting team manager type with id ${id}:`, error);
       throw error;
@@ -84,9 +84,9 @@ export class ServiceTeamManagerType {
   }
 
   // Additional utility methods
-  static async getTeamManagerTypesBySport(sportId: string): Promise<TeamManagerType[]> {
+  static async getBySportId(sportId: string | null | undefined): Promise<TeamManagerType[]> {
     try {
-      return await this.getAll({ sportId });
+      return await api.get(`${this.baseUrl}/sport/${sportId}`);
     } catch (error) {
       console.error(`Error fetching team manager types for sport ${sportId}:`, error);
       throw error;

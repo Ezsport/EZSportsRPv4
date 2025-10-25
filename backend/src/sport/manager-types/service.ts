@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { SportManagerTypeDto } from './dto';
 import { PrismaService } from '../../prisma/prisma.service';
+import { AvatarUtils } from 'src/utils/avatar.utils';
 
 @Injectable()
 export class ManagerTypeService {
@@ -97,5 +98,16 @@ export class ManagerTypeService {
     });
 
     return Promise.all(updatePromises);
+  }
+
+  async findAllBySportId(sportId: string) {
+    const rows = await (this.prisma as any).sportManagerType.findMany({
+      where: { sportId }
+    });
+
+    return Promise.all(rows.map(async row => ({
+      ...row,
+      base64: AvatarUtils.getBase64('manager-types', row.id) || undefined
+    })));
   }
 }

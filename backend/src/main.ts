@@ -20,8 +20,13 @@ async function bootstrap() {
   // Swagger configuration
   const config = new DocumentBuilder()
     .setTitle('EZSportsRP API')
+    .setDescription('API documentation')
     .setVersion('2.0')
-    .addBearerAuth()
+    // .addBearerAuth()
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'JWT-auth', // must match @ApiBearerAuth('JWT-auth')
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);

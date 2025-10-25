@@ -5,7 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../../../prisma/prisma.service';
 
 @Injectable()
-export class SysJwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private cfg: ConfigService, private prisma: PrismaService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -19,7 +19,7 @@ export class SysJwtStrategy extends PassportStrategy(Strategy) {
       include: { roles: { include: { role: { include: { permissions: { include: { permission: true } } } } } } },
     });
 
-    const perms = user.roles.flatMap(r => r.role.permissions.map(p => p.permission.action));
-    return { id: user.id, email: user.email, roles: user.roles.map(r => r.role.name), permissions: Array.from(new Set(perms)) };
+    const perms = user?.roles.flatMap(r => r.role.permissions.map(p => p.permission.action)) || [];
+    return { id: user?.id, email: user?.email, roles: user?.roles.map(r => r.role.name), permissions: Array.from(new Set(perms)) };
   }
 }

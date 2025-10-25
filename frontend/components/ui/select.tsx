@@ -5,8 +5,6 @@ import ReactSelect, {
   Props as ReactSelectProps,
   MultiValue,
   SingleValue,
-  StylesConfig,
-  GroupBase,
 } from "react-select";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -18,7 +16,6 @@ export interface BaseItem {
   id: string | number;
   name: string;
   base64?: string | null;
-  [key: string]: any;
 }
 
 export interface SelectProps<Option extends BaseItem = BaseItem>
@@ -187,9 +184,9 @@ export function Select<Option extends BaseItem = BaseItem>({
             state.isDisabled &&
               "!cursor-not-allowed !opacity-50 !bg-background",
             error && "!border-destructive",
-            "focus-within:!ring-2",
-            "focus-within:!ring-ring",
-            "focus-within:!border-ring/80"
+            "focus-within:!ring-3",
+            "focus-within:!ring-ring/50",
+            "focus-within:!border-ring"
           ),
         valueContainer: () => "!pt-0",
         input: () => "!m-0 !p-0",

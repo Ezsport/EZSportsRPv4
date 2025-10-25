@@ -8,11 +8,14 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
-import { ArrowRight, CircleArrowRight, Key, LogIn, UserPlus, Wand, Wand2 } from "lucide-react";
+import { Key, Wand } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function NavbarHome() {
+  const router = useRouter();
+
   return (
-    <header className="fixed top-0 z-50 w-full shadow-xl bg-white justify-center flex">
+    <header className="fixed top-0 z-50 w-full shadow-xl bg-white justify-center flex px-4">
       <div className="container max-w-7xl flex h-16 items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center ">
@@ -85,17 +88,20 @@ export function NavbarHome() {
 
         {/* User Actions */}
         <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            size="lg"
-            className="hover:bg-background hover:border-primary hover:text-primary"
-            icon={<Key />}
+          <Link
+            href="/login"
+            className="flex items-center gap-2 border-primary bg-primary/10 hover:bg-primary/20 !hover:border-primary/10 rounded-md px-4 py-2 text-primary transition-colors duration-200"
           >
-            <Link href="/login">Log In</Link>
-          </Button>
-          <Button size="lg" icon={<Wand2 />}>
-            <Link href="/register">Get Started</Link>
-          </Button>
+            <Key className="w-4 h-4" />
+            Log In
+          </Link>
+          <Link
+            href="/register"
+            className="flex items-center gap-2 border-primary bg-primary hover:bg-primary/90 text-white rounded-md px-3 py-2 duration-200"
+          >
+            <Wand className="w-4 h-4" />
+            Get Started
+          </Link>
         </div>
       </div>
     </header>

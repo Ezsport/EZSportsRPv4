@@ -3,44 +3,50 @@
 import React, { useEffect, useState } from "react";
 import z from "zod";
 import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
 import { Form, FormItem } from "@/components/controls/form";
-import ComboSports from "@/components/combos/combo-sports";
-import ComboCoachTypes from "../combos/combo-coach-types";
-import ComboClubs from "../combos/combo-clubs";
-import ComboTeams from "../combos/combo-teams";
+import useCoachTypes from "@/hooks/useCoachTypes";
+import useSports from "@/hooks/useSports";
+import useTeams from "@/hooks/useTeams";
+import useClubs from "@/hooks/useClubs";
+
+import { components } from "@/types/api-types";
 
 interface CoachInfoPanelProps {
   onSubmit: (data: any) => void;
   initialData?: any;
+  onChange?: (data: any) => void;
 }
 
 export default function PanelCoachInfo({
   onSubmit,
   initialData = {},
+  onChange,
 }: CoachInfoPanelProps) {
+  const [formErrors, setFormErrors] = useState<string[]>([]);
   const [sport, setSport] = useState<any | null>();
   const [club, setClub] = useState<any | null>();
-  const [formErrors, setFormErrors] = useState<string[]>([]);
+  const { sports } = useSports();
+  const { clubs } = useClubs();
+  const { teams } = useTeams(club?.id, sport?.id);
+  const { coachTypes } = useCoachTypes(sport?.id);
 
   const coachFormConfig = {
     sport: {
       label: "Sport",
-      schema: z.object({
-        id: z.number(),
-        name: z.string(),
-        abbr: z.string().optional(),
-        note: z.string().optional(),
-        isActive: z.boolean().optional(),
-        ord: z.number().optional(),
-        base64: z.string().optional(),
+      schema: z.any().refine((v) => v && v.id != null && v.id !== "", {
+        message: "Sport is required",
       }),
       control: (
-        <ComboSports
+        <Select
+          data={sports || []}
+          value={sport}
+          placeholder="Select Sport"
+          disabled={!sports || sports.length === 0}
           valueType="item"
           returnType="item"
-          value={sport}
-          onValueChange={(v) => {
-            setSport(v);
+          onChange={(selectedValue) => {
+            setSport(selectedValue);
           }}
         />
       ),
@@ -48,26 +54,26 @@ export default function PanelCoachInfo({
     },
     coachType: {
       label: "Coach Type",
-      schema: z.string().min(1, "Coach type is required"),
+      schema: z.any().refine((v) => v && v.id != null && v.id !== "", {
+        message: "Coach type is required",
+      }),
       control: (
-        <ComboCoachTypes
-          sportId={sport?.id}
+        <Select
+          data={coachTypes as any[]}
+          onChange={(v) => {
+            onChange?.(v);
+          }}
+          placeholder="Select Coach Type"
           disabled={!sport}
-          placeholder={!sport ? "Select Sport first" : "Select Coach Type"}
+          valueType="item"
+          returnType="item"
         />
       ),
       required: true,
     },
     yearsOfExperience: {
       label: "Years of Experience",
-      schema: z
-        .string()
-        .refine(
-          (val) => !isNaN(Number(val)) && Number(val) >= 0 && Number(val) <= 70,
-          {
-            message: "Non-negative number (0-70 years)",
-          }
-        ),
+      schema: z.string().nonempty("Years of experience is required"),
       control: <Input type="number" placeholder="Enter years of experience" />,
       required: true,
     },
@@ -91,21 +97,18 @@ export default function PanelCoachInfo({
     },
     club: {
       label: "Club",
-      schema: z.object({
-        id: z.string(), 
-        name: z.string(),
-        abbr: z.string().optional(),
-        note: z.string().optional(),
-        isActive: z.boolean().optional(),
-        ord: z.number().optional(),
-        base64: z.string().optional(),
+      schema: z.any().refine((v) => v && v.id != null && v.id !== "", {
+        message: "Club is required",
       }),
       control: (
-        <ComboClubs
+        <Select
+          data={clubs || []}
+          value={club}
+          placeholder="Select Club"
+          disabled={!clubs || clubs.length === 0}
           valueType="item"
           returnType="item"
-          value={club}
-          onValueChange={(v) => {
+          onChange={(v) => {
             setClub(v);
           }}
         />
@@ -114,25 +117,18 @@ export default function PanelCoachInfo({
     },
     team: {
       label: "Team",
-      schema: z.object({
-        id: z.string(),
-        name: z.string(),
-        abbr: z.string().optional(),
-        note: z.string().optional(),
-        isActive: z.boolean().optional(),
-        ord: z.number().optional(),
-        base64: z.string().optional(),
+      schema: z.any().refine((v) => v && v.id != null && v.id !== "", {
+        message: "Team is required",
       }),
       control: (
-        <ComboTeams
-          valueType="item"
-          returnType="item"
-          club={club}
-          sport={sport}
-          disabled={!club || !sport}
+        <Select
+          data={teams || []}
           placeholder={
             !sport ? "Select Sport" : !club ? "Select Club" : "Select Team"
           }
+          disabled={!club || !sport}
+          valueType="item"
+          returnType="item"
         />
       ),
       required: true,
@@ -147,30 +143,18 @@ export default function PanelCoachInfo({
     }
   }, [initialData]);
 
+  // useEffect(() => {
+  //   if (sport) {
+  //     console.log("coachTypes::", coachTypes)
+  //     setData({ ...data, coachType: null });
+  //   }
+  // }, [sport]);
+
   const handleSubmit = (data: any) => {
     try {
-      console.log("data", data);
-
-      const validatedData = {
-        sport: coachFormConfig.sport.schema.parse(data.sport),
-        coachType: coachFormConfig.coachType.schema.parse(data.coachType),
-        yearsOfExperience: coachFormConfig.yearsOfExperience.schema.parse(
-          data.yearsOfExperience
-        ),
-        certification: coachFormConfig.certification.schema.parse(
-          data.certification
-        ),
-        specialization: coachFormConfig.specialization.schema.parse(
-          data.specialization
-        ),
-        club: coachFormConfig.club.schema.parse(data.club),
-        team: coachFormConfig.team.schema.parse(data.team),
-      };
-
-      setFormErrors([]);
-
-      onSubmit(validatedData);
+      onSubmit(data);
     } catch (error) {
+      console.log("error::", error);
       if (error instanceof z.ZodError) {
         const errorMessages = error.issues.map((issue) => issue.message);
         setFormErrors(errorMessages);
@@ -207,22 +191,29 @@ export default function PanelCoachInfo({
 
       <div>
         <Form
+          initialValues={initialData}
           config={coachFormConfig}
           onSubmit={handleSubmit}
           className="space-y-4"
-          initialValues={initialData}
+          onBeforeValidate={(v) => {
+            console.log("onBeforeValidate::", v);
+            return {
+              ...v,
+              coachType: null,
+            };
+          }}
         >
           <div className="grid md:grid-cols-4 gap-4 mb-4">
             <FormItem key="sport" />
             <FormItem key="coachType" />
-            <FormItem key="yearsOfExperience" />
-            <FormItem key="certification" />
+            <FormItem key="club" />
+            <FormItem key="team" />
           </div>
 
           <div className="grid md:grid-cols-4 gap-4 mb-4">
+            <FormItem key="yearsOfExperience" />
+            <FormItem key="certification" />
             <FormItem key="specialization" />
-            <FormItem key="club" />
-            <FormItem key="team" />
           </div>
           <button type="submit" className="hidden" />
         </Form>

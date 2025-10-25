@@ -1,6 +1,129 @@
 {
   "openapi": "3.0.0",
   "paths": {
+    "/auth/me": {
+      "get": {
+        "operationId": "AuthController_me",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get current user",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Register a new user",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Login a user",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Logout a user",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/google": {
+      "get": {
+        "operationId": "AuthController_googleAuth",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Google OAuth",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
     "/admin/base/competitions": {
       "post": {
         "operationId": "BaseCompetitionsAdminController_create",
@@ -4872,6 +4995,29 @@
         ]
       }
     },
+    "/manager-types/sport/{sportId}": {
+      "get": {
+        "operationId": "HomeManagerTypeController_findAllBySportId",
+        "parameters": [
+          {
+            "name": "sportId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HomeManagerType"
+        ]
+      }
+    },
     "/manager-types/{id}": {
       "get": {
         "operationId": "HomeManagerTypeController_findOne",
@@ -5114,11 +5260,174 @@
           "HomePlayerPosition"
         ]
       }
+    },
+    "/referee-types": {
+      "get": {
+        "operationId": "RefereeTypeHomeController_findAll",
+        "parameters": [
+          {
+            "name": "skip",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "take",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "name",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RefereeTypeHome"
+        ]
+      }
+    },
+    "/referee-types/{id}": {
+      "get": {
+        "operationId": "RefereeTypeHomeController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RefereeTypeHome"
+        ]
+      }
+    },
+    "/referee-types/sport/{sportId}": {
+      "get": {
+        "operationId": "RefereeTypeHomeController_findAllBySportId",
+        "parameters": [
+          {
+            "name": "sportId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RefereeTypeHome"
+        ]
+      }
+    },
+    "/admin/referee-types": {
+      "post": {
+        "operationId": "RefereeTypeAdminController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SportRefereeTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RefereeTypeAdmin"
+        ]
+      }
+    },
+    "/admin/referee-types/{id}": {
+      "patch": {
+        "operationId": "RefereeTypeAdminController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SportRefereeTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RefereeTypeAdmin"
+        ]
+      },
+      "delete": {
+        "operationId": "RefereeTypeAdminController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RefereeTypeAdmin"
+        ]
+      }
     }
   },
   "info": {
     "title": "EZSportsRP API",
-    "description": "",
+    "description": "API documentation",
     "version": "2.0",
     "contact": {}
   },
@@ -5126,13 +5435,42 @@
   "servers": [],
   "components": {
     "securitySchemes": {
-      "bearer": {
+      "JWT-auth": {
         "scheme": "bearer",
         "bearerFormat": "JWT",
         "type": "http"
       }
     },
     "schemas": {
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "test@example.com",
+            "description": "The email of the user"
+          },
+          "password": {
+            "type": "string",
+            "example": "PASSword",
+            "description": "The password of the user"
+          },
+          "name": {
+            "type": "string",
+            "example": "John Doe",
+            "description": "The name of the user"
+          }
+        },
+        "required": [
+          "email",
+          "password",
+          "name"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {}
+      },
       "BaseCompetitionDto": {
         "type": "object",
         "properties": {
@@ -6366,6 +6704,10 @@
           "abbr",
           "sportId"
         ]
+      },
+      "SportRefereeTypeDto": {
+        "type": "object",
+        "properties": {}
       }
     }
   }

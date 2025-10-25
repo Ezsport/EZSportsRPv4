@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { ServiceCoachType, CoachType, CoachTypeQueryParams } from '@/lib/services/service-coach-type';
+import { components } from "@/types/api-types";
 
 export default function useCoachTypes(sportId?: string | null) {
-  const [coachTypes, setCoachTypes] = useState<CoachType[]>([]);
+  const [coachTypes, setCoachTypes] = useState<components["schemas"]["SportCoachTypeDto"][]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -20,7 +21,7 @@ export default function useCoachTypes(sportId?: string | null) {
     }
   };
 
-  const createCoachType = async (coachTypeData: Omit<CoachType, 'id'>) => {
+  const createCoachType = async (coachTypeData: Omit<components["schemas"]["SportCoachTypeDto"], 'id'>) => {
     try {
       const newCoachType = await ServiceCoachType.create(coachTypeData);
       setCoachTypes(prevCoachTypes => [...prevCoachTypes, newCoachType]);
@@ -32,11 +33,11 @@ export default function useCoachTypes(sportId?: string | null) {
     }
   };
 
-  const updateCoachType = async (coachTypeId: string, coachTypeData: Partial<CoachType>) => {
+  const updateCoachType = async (coachTypeId: string, coachTypeData: Partial<components["schemas"]["SportCoachTypeDto"]>) => {
     try {
       const updatedCoachType = await ServiceCoachType.update(coachTypeId, coachTypeData);
-      setCoachTypes(prevCoachTypes => 
-        prevCoachTypes.map(coachType => 
+      setCoachTypes(prevCoachTypes =>
+        prevCoachTypes.map(coachType =>
           coachType.id === coachTypeId ? { ...coachType, ...updatedCoachType } : coachType
         )
       );
@@ -48,7 +49,7 @@ export default function useCoachTypes(sportId?: string | null) {
     }
   };
 
-  const deleteCoachType = async (coachTypeId: string) => {
+  const deleteCoachType = async (coachTypeId: number) => {
     try {
       await ServiceCoachType.delete(coachTypeId);
       setCoachTypes(prevCoachTypes => prevCoachTypes.filter(coachType => coachType.id !== coachTypeId));

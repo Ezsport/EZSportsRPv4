@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
-// import { AuthModule } from './sys/auth/module';
+import { AuthModule } from './sys/auth/auth.module';
 import { BaseCompetitionsModule } from './base/competitions/module';
 import { BaseCountriesModule } from './base/countries/module';
 import { BaseSportsModule } from './base/sports/module';
@@ -28,6 +28,7 @@ import { PlanGamesModule } from './plan/games/module';
 import { PlanMeetingsModule } from './plan/meetings/module';
 import { PlanTrainingsModule } from './plan/trainings/module';
 import { SportCoachTypeModule } from './sport/coach-types/module';
+import { SportRefereeTypeModule } from './sport/referee-types/module';
 
 @Module({
   imports: [
@@ -36,7 +37,7 @@ import { SportCoachTypeModule } from './sport/coach-types/module';
       envFilePath: ['.env.local', '.env']
     }),
     PrismaModule,
-    // AuthModule,
+    AuthModule,
     BaseCompetitionsModule,
     BaseSportsModule,
     BaseCountriesModule,
@@ -61,6 +62,7 @@ import { SportCoachTypeModule } from './sport/coach-types/module';
     SportGamePeriodModule,
     SportManagerTypeModule,
     SportPlayerPositionModule,
+    SportRefereeTypeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

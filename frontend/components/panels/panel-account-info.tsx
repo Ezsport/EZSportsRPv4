@@ -144,7 +144,7 @@ export default function PanelAccountInfo({
 
         {/* Right Column - Social Registration */}
         <div className="flex flex-col justify-center">
-          <p className="text-muted-foreground mb-6 text-center">
+          <p className="text-muted-foreground mb-6 text-center text-sm">
             Continue with your preferred social account
           </p>
 

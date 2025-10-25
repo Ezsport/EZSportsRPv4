@@ -1,16 +1,21 @@
 import { useState, useEffect } from 'react';
 import { ServiceRefereeType, RefereeType, RefereeTypeQueryParams } from '@/lib/services/service-referee-type';
 
-export default function useRefereeTypes(initialParams?: RefereeTypeQueryParams) {
+export default function useRefereeTypes(sportId?: string | null) {
   const [refereeTypes, setRefereeTypes] = useState<RefereeType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [params, setParams] = useState<RefereeTypeQueryParams>(initialParams || {});
 
   const fetchRefereeTypes = async () => {
     try {
       setIsLoading(true);
-      const data = await ServiceRefereeType.getAll(params);
+      if (!sportId) {
+        setRefereeTypes([]);
+        setError('Sport ID is required');
+        setIsLoading(false);
+        return;
+      }
+      const data = await ServiceRefereeType.getBySportId(sportId);
       setRefereeTypes(data);
       setError(null);
     } catch (err: any) {
@@ -60,13 +65,9 @@ export default function useRefereeTypes(initialParams?: RefereeTypeQueryParams) 
     }
   };
 
-  const updateParams = (newParams: RefereeTypeQueryParams) => {
-    setParams(prevParams => ({ ...prevParams, ...newParams }));
-  };
-
   useEffect(() => {
     fetchRefereeTypes();
-  }, [JSON.stringify(params)]);
+  }, [sportId]);
 
   return {
     refereeTypes,
@@ -75,7 +76,6 @@ export default function useRefereeTypes(initialParams?: RefereeTypeQueryParams) 
     fetchRefereeTypes,
     createRefereeType,
     updateRefereeType,
-    deleteRefereeType,
-    updateParams
+    deleteRefereeType
   };
 }

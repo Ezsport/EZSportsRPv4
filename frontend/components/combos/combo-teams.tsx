@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import useTeams from "@/hooks/useTeams";
 import { Select } from "../ui/select";
 import { components } from "@/types/api-types";
@@ -57,6 +57,12 @@ export default function ComboTeams({
       value as components["schemas"]["OrgTeamDto"][] | null | undefined
     );
   };
+
+  // useEffect(() => {
+  //   if (club && teams.find((t) => t.id === value?.id) === undefined) {
+  //     handleChange(null);
+  //   }
+  // }, [teams, value]);
 
   return (
     <Select

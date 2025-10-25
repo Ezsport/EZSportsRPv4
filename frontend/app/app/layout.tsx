@@ -1,13 +1,17 @@
-"use client"
+"use client";
 
-import { NavbarApp } from "@/components/layout/navbars/navbar-app"
-import { SidebarApp } from "@/components/layout/sidebars/sidebar-app"
+import { NavbarApp } from "@/components/layout/navbars/navbar-app";
+import { SidebarApp } from "@/components/layout/sidebars/sidebar-app";
+import { useAuth } from "@/hooks/useAuth";
 
-export default function DashboardLayout({ 
-  children 
-}: { 
-  children: React.ReactNode 
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
 }) {
+  const token = localStorage.getItem("token");
+  useAuth(token ?? "");
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Navbar */}
@@ -19,10 +23,8 @@ export default function DashboardLayout({
         <SidebarApp />
 
         {/* Page Content */}
-        <main className="flex-1 ml-48 p-6">
-          {children}
-        </main>
+        <main className="flex-1 ml-48 p-6">{children}</main>
       </div>
     </div>
-  )
+  );
 }

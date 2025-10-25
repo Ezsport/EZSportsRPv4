@@ -22,6 +22,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
 import PickerAvatar from "@/components/pickers/picker-avatar";
+import { Select } from "@/components/ui/select";
 
 // Type for form item configuration
 type FormItemConfig = {
@@ -43,7 +44,8 @@ type FormConfig = {
 type FormProps = {
   config: FormConfig;
   onSubmit: (data: any) => void;
-  onValidation?: (errors: any) => void;
+  onBeforeValidate?: (data: any) => any;
+  onValidate?: (errors: any) => void;
   children: React.ReactNode;
   className?: string;
   initialValues?: Record<string, any>; // Add this line
@@ -54,7 +56,8 @@ export const Form = forwardRef<HTMLFormElement, FormProps>(
     {
       config,
       onSubmit,
-      onValidation,
+      onBeforeValidate,
+      onValidate,
       children,
       className,
       initialValues = {}, // Add default empty object
@@ -97,17 +100,44 @@ export const Form = forwardRef<HTMLFormElement, FormProps>(
           return [key, initialValues?.[key] ?? ""];
         })
       ),
+      // Add a custom validation trigger
+      ...(onBeforeValidate
+        ? {
+            trigger: (name?: string | string[]) => {
+              // Get current form values
+              const currentValues = form.getValues();
+
+              // Apply onBeforeValidate if provided
+              const processedValues = onBeforeValidate(currentValues);
+
+              // Update form values with processed values
+              Object.entries(processedValues).forEach(([key, value]) => {
+                form.setValue(key, value, {
+                  shouldValidate: false,
+                  shouldDirty: false,
+                });
+              });
+
+              // Call original validate method
+              return form.trigger(name);
+            },
+          }
+        : {}),
     });
 
     // Handle form submission
     const handleSubmit = React.useCallback(
       (data?: any) => {
-        // Use form's handleSubmit method
-        form.handleSubmit((validData) => {
-          onSubmit(validData);
-        })();
+        form.handleSubmit(
+          (validData) => {
+            onSubmit(validData);
+          },
+          (errors) => {
+            onValidate?.(errors);
+          }
+        )();
       },
-      [onSubmit, form]
+      [onSubmit, onValidate, form]
     );
 
     // Transform children to inject form context
@@ -125,65 +155,97 @@ export const Form = forwardRef<HTMLFormElement, FormProps>(
               <FormField
                 control={form.control}
                 name={key.replace(/^\./, "")}
-                render={({ field }) => (
-                  <UIFormItem
-                    className={cn(
-                      itemConfig.className,
-                      isValidElement(child)
-                        ? (child.props as any)?.className
-                        : undefined
-                    )}
-                  >
-                    {itemConfig.label && (
-                      <FormLabel className="gap-1">
-                        {itemConfig.label}
-                        {itemConfig.required && (
-                          <span className="text-red-700">*</span>
-                        )}
-                      </FormLabel>
-                    )}
-                    <FormControl>
-                      {React.cloneElement(itemConfig.control, {
-                        ...field,
-                        ...(itemConfig.control.type === Switch
-                          ? { 
-                              checked: field.value,
-                              onCheckedChange: field.onChange 
+                render={({ field, fieldState }) => {
+                  // Determine if there's an error
+                  const hasError = !!fieldState.error;
+
+                  return (
+                    <UIFormItem
+                      className={cn(
+                        itemConfig.className,
+                        isValidElement(child)
+                          ? (child.props as any)?.className
+                          : undefined,
+                        // Add error styling
+                        hasError && "border-destructive"
+                      )}
+                    >
+                      {itemConfig.label && (
+                        <FormLabel
+                          className={cn(
+                            "gap-1",
+                            hasError && "text-destructive"
+                          )}
+                        >
+                          {itemConfig.label}
+                          {itemConfig.required && (
+                            <span className="text-red-700">*</span>
+                          )}
+                        </FormLabel>
+                      )}
+                      <FormControl>
+                        {React.cloneElement(itemConfig.control, {
+                          ...field,
+                          // Add a custom onChange wrapper
+                          onChange: (event: any) => {
+                            // Call the original field.onChange
+                            field.onChange(event);
+
+                            // Check if the original control has its own onChange
+                            const originalOnChange = (
+                              itemConfig.control.props as any
+                            )?.onChange;
+                            if (typeof originalOnChange === "function") {
+                              // Call the original component's onChange
+                              originalOnChange(event);
                             }
-                          : {}),
-                        ...(itemConfig.placeholder
-                          ? { placeholder: itemConfig.placeholder }
-                          : {}),
-                      })}
-                    </FormControl>
-                    {itemConfig.description && (
-                      <FormDescription className="text-xs text-muted-foreground italic">
-                        {itemConfig.description}
-                      </FormDescription>
-                    )}
-                    <FormMessage className="text-xs text-red-700 italic" />
-                  </UIFormItem>
-                )}
+                          },
+                          // Add error styling for Select and other components
+                          className: cn(
+                            field.className,
+                            hasError && "border-destructive ring-destructive"
+                          ),
+                          ...(itemConfig.control.type === Switch
+                            ? {
+                                checked: field.value,
+                                onCheckedChange: field.onChange,
+                              }
+                            : {}),
+                          ...(itemConfig.placeholder
+                            ? { placeholder: itemConfig.placeholder }
+                            : {}),
+                        })}
+                      </FormControl>
+                      {itemConfig.description && (
+                        <FormDescription className="text-xs text-muted-foreground italic">
+                          {itemConfig.description}
+                        </FormDescription>
+                      )}
+                      <FormMessage
+                        className={cn(
+                          "text-xs text-red-700 italic",
+                          !hasError && "hidden"
+                        )}
+                      />
+                    </UIFormItem>
+                  );
+                }}
               />
             );
           }
         }
 
         // Recursively transform children
-        const childProps = (child.props as Record<string, unknown>) || {};
-        const transformedProps: Record<string, unknown> = {};
-
-        for (const key in childProps) {
-          if (key === "children" && childProps.children) {
-            transformedProps[key] = renderChildren(
-              childProps.children as ReactNode
-            );
-          } else {
-            transformedProps[key] = childProps[key];
-          }
+        const childProps = child.props as Record<string, unknown>;
+        if (childProps && "children" in childProps) {
+          const transformedProps = {
+            ...childProps,
+            children: renderChildren(childProps.children as React.ReactNode),
+          };
+          return cloneElement(child, transformedProps);
         }
 
-        return cloneElement(child, transformedProps);
+        return child;
       });
     };
 
@@ -194,16 +256,7 @@ export const Form = forwardRef<HTMLFormElement, FormProps>(
           className={className}
           onSubmit={(e) => {
             e.preventDefault();
-            
-            // Use form's built-in validation and submission
-            form.handleSubmit(
-              (validData) => {
-                onSubmit(validData);
-              },
-              (errors) => {
-                onValidation?.(errors);
-              }
-            )();
+            handleSubmit();
           }}
         >
           {renderChildren(children)}
